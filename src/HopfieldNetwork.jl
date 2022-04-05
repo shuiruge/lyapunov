@@ -1,115 +1,144 @@
-using DifferentialEquations
 using Statistics: mean
 
+Data{T} = AbstractMatrix{T}
 
-function splitvh!(x::AbstractMatrix, vdim::Int)
-    v = @view x[1:vdim, :]
-    h = @view x[(vdim+1):end, :]
-    (v, h)
+
+function splitvh!(x::Data, vdim::Int)
+	v = @view x[1:vdim, :]
+	h = @view x[(vdim+1):end, :]
+	(v, h)
 end
 
 
-function combinevh(v::AbstractMatrix{T}, h::AbstractMatrix{T}) where T
-    cat(v, h; dims=1)
+function combinevh(v::Data{T}, h::Data{T}) where T
+	cat(v, h; dims=1)
 end
 
 
-abstract type HopfieldNetwork{T} end
+"""
+Implements the langevin dynamics algorithm.
+"""
+function langevin(f!, g!, x, t, dt)
+    μ = zero.(x)
+    f!(μ, x, t)
+
+    Σ = zero.(x)
+    g!(Σ, x, t)
+    W = sqrt.(Σ) .* randn(size(x)...)
+
+    μ .* dt .+ W .* sqrt(dt)
+end
 
 
-function relaxh(
-        v::AbstractMatrix{T},
-        h₀::AbstractMatrix{T},
-        t::T;
-        m::HopfieldNetwork{T},
-        ) where {T<:Real}
+function relaxh!(
+	h::Data{A};
+	U::AbstractMatrix{A},
+	v::Data{A},
+	t::A,
+	dt::A,
+	T::A,
+) where {A<:Real}
 
-    function f!(dh, h, _, t)
-        dh .= m.U' * m.fv.(v) .- h
-    end
+	function f!(μ, h, t)
+		μ .= U' * tanh.(v) .- h
+	end
 
-    function g!(dh, h, _, t)
-        dh .= (m.Kh.(h)).^0.5
-    end
+	function g!(Σ, h, t)
+		# Notice d^2 L_h = tanh'(h) = 1 - tanh(h)^2
+		Σ .= @. 2T / (1 - (tanh(h))^2)
 
-    problem = SDEProblem(f!, g!, h₀, (0.0, t))
-    solution = solve(problem)
-    if solution.retcode != :Success
-        error("SDE solver failed")
-    end
-    solution.u[end]
+        # TODO: Caution that there's numerical instability here.
+        #       It comes from large h, where tanh(h) is close to 1,
+        #       leading to large Σ.
+
+	end
+
+	h .= langevin(f!, g!, h, t, dt)
 end
 
 
 function updateU!(
-        m::HopfieldNetwork{T},
-        v::AbstractMatrix{T},
-        h::AbstractMatrix{T},
-        η::T;
-        λ::T,
-        ) where {T<:Real}
-    v_act = m.fv.(v)
-    h_act = m.fh.(h)
+	U::AbstractMatrix{T};
+	v::Data{T},
+	h::Data{T},
+	η::T,
+	λ::T,
+) where {T<:Real}
 
-    for i = 1:size(v, 1)
-        for j = 1:size(h, 1)
-            m.U[i, j] += η * (mean(v_act[i, :] .* h_act[j, :]) - λ * m.U[i, j])
-        end
-    end
+	actv = tanh.(v)
+	acth = tanh.(h)
+
+	for i = 1:size(v, 1)
+		for j = 1:size(h, 1)
+			grad_U = mean(actv[i, :] .* acth[j, :])
+			U[i, j] += η * (grad_U - λ * U[i, j])
+		end
+	end
 end
 
 
+"""
+Implements the minimize free energy process.
+
+- `h` is the hidden state.
+- `U` is the weight matrix.
+- `v` is the visible state.
+- `warmup` is a boolean flag indicating whether to warm up the process.
+- `t` is the integration time.
+- `dt` is the integration time step.
+- `T` is the "temperature".
+- `η` is the learning rate.
+- `λ` is the weight decay.
+"""
 function minfe!(
-        m::HopfieldNetwork{T},
-        v::AbstractMatrix{T},
-        h₀::AbstractMatrix{T},
-        t::T,
-        η::T;
-        λ::T,
-        ) where {T<:Real}
-    h = relaxh(v, h₀, t; m)
-    updateU!(m, v, h, η; λ)
-end
-
-
-function updateI!(
-        m::HopfieldNetwork{T},
-        v::AbstractMatrix{T},
-        ) where {T<:Real}
-    m.I .= mean(m.fv.(v); dims=2)[:, 1]
+    h::Data{A},
+    U::AbstractMatrix{A};
+    v::Data{A},
+    warmup::Bool,
+    t::A,
+    dt::A,
+    T::A,
+    η::A,
+    λ::A,
+) where {A<:Real}
+    relaxh!(h; U, v, t, dt, T)
+    if warmup == false
+        updateU!(U; v, h, η, λ)
+    end
 end
 
 
 function relaxvh(
-        v₀::AbstractMatrix{A},
-        h₀::AbstractMatrix{A},
-        t::A;
-        m::HopfieldNetwork{A},
-        T::A,
-        ) where {A<:Real}
-    vdim = size(v₀, 1)
-    
-    function f!(dx, x, _, t)
-        (v, h) = splitvh!(x, vdim)
-        (dv, dh) = splitvh!(dx, vdim)
+	v::Data{A},
+	h::Data{A},
+	t::A,
+	dt::A;
+	U::AbstractMatrix{A},
+	I::AbstractVector{A},
+	T::A,
+) where {A<:Real}
+	vdim = size(v, 1)
 
-        dv .= m.U * m.fh.(h) .- v .+ m.I
-        dh .= m.U' * m.fv.(v) .- h
-    end
+	function f!(μ, x, t)
+		(μv, μh) = splitvh!(μ, vdim)
+		(v, h) = splitvh!(x, vdim)
 
-    function g!(dx, x, _, t)
-        (v, h) = splitvh!(x, vdim)
-        (dv, dh) = splitvh!(dx, vdim)
+		μv .= U * tanh.(h) .- v .+ I
+		μh .= U' * tanh.(v) .- h
+	end
 
-        dv .= (2T .* m.Kv.(v)).^0.5
-        dh .= (2T .* m.Kh.(h)).^0.5
-    end
+	function g!(Σ, x, t)
+		# Notice d^2 L_v = tanh'(v) = 1-tanh(v)^2.
+		# And the same for v. Thus the whole x.
+		Σ .= @. 2T / (1 - (tanh(x))^2)
+	end
 
-    x₀ = combinevh(v₀, h₀)
-    problem = SDEProblem(f!, g!, x₀, (0.0, t))
-    solution = solve(problem)
-    if solution.retcode != :Success
-        error("SDE solver failed")
-    end
-    splitvh!(solution.u[end], vdim)
+	x = combinevh(v, h)
+	x = langevin(f!, g!, x, t, dt)
+	splitvh!(x, vdim)
+end
+
+
+function getI(v::Data{T}) where {T<:Real}
+	mean(tanh.(v); dims=2)[:, 1]
 end
