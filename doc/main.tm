@@ -24,14 +24,18 @@
 
       <\equation*>
         <around*|\<langle\>|f|\<rangle\>><rsub|p>=<around*|\<langle\>|f|\<rangle\>><rsub|X>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-        p<around*|(|x|)> f<around*|(|x|)>.
+        p<around*|(|x|)> f<around*|(|x|)>;
       </equation*>
 
       <item>if <math|D> is a set of samples, then
 
       <\equation*>
-        <around*|\<langle\>|f|\<rangle\>><rsub|D>\<assign\><frac|1|<around*|\||D|\|>><big|sum><rsub|x\<in\>D>f<around*|(|x|)>.
+        <around*|\<langle\>|f|\<rangle\>><rsub|D>\<assign\><frac|1|<around*|\||D|\|>><big|sum><rsub|x\<in\>D>f<around*|(|x|)>;
       </equation*>
+
+      <item>let <math|<with|font|cal|N><around*|(|\<mu\>,\<sigma\>|)>>
+      denotes normal distribution with mean <math|\<mu\>> and standard
+      derivative <math|\<sigma\>>;
 
       <item>given function <math|g>, let <math|f<around*|{|g|}>>, or
       <math|f<rsub|<around*|{|g|}>>>, denote a function constructed out of
@@ -42,69 +46,6 @@
       </equation*>
     </itemize>
   </notation>
-
-  <subsection|Maximize Entropy Principle>
-
-  First we propose a generic form of stationary distribution that extends the
-  Boltzmann distribution by minimizing prior knowledge. Or, say, by
-  maximizing information.
-
-  <\theorem>
-    <label|theorem: Jaynes's MaxEnt Principle>[Jaynes's MaxEnt Principle]
-
-    Given <math|<around*|{|g<rsub|i><around*|(|x|)>\|i=1,\<ldots\>,N|}>>,
-    maximizing entropy with constraints <math|<around*|{|<around*|\<langle\>|g<rsub|i>|\<rangle\>><rsub|X>=0\|i=1,\<ldots\>,N|}>>
-    implies
-
-    <\equation*>
-      p<around*|(|x;\<lambda\>|)>=<frac|exp<around*|(|<big|sum><rsub|i><rsup|N>\<lambda\><rsub|i>
-      g<rsub|i><around*|(|x|)>|)>|Z<around*|(|\<lambda\>|)>>,
-    </equation*>
-
-    where
-
-    <\equation*>
-      Z<around*|(|\<lambda\>|)>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      exp<around*|(|<big|sum><rsub|i><rsup|N>\<lambda\><rsub|i>
-      g<rsub|i><around*|(|x|)>|)>,
-    </equation*>
-
-    and <math|\<lambda\>> solved from
-
-    <\equation*>
-      \<nabla\><rsub|a> ln Z<around*|(|\<lambda\>|)>=0.
-    </equation*>
-  </theorem>
-
-  <small|<\proof>
-    The form of <math|p<rsub|\<lambda\>>> can be directly derived from
-    variational of the functional
-
-    <\equation*>
-      L<around*|[|p|]>\<assign\>-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      p<around*|(|x|)> ln p<around*|(|x|)>+<big|sum><rsub|i><rsup|N>\<lambda\><rsub|i>
-      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      p<around*|(|x|)> g<rsub|i><around*|(|x|)>+\<mu\><around*|(|<big|int><rsub|<with|font|cal|M>>\<mathd\>x
-      p<around*|(|x|)>-1|)>
-    </equation*>
-
-    Next, we solve <math|\<lambda\>>. It can be solved from constraints
-    <math|<around*|\<langle\>|g<rsub|i>|\<rangle\>><rsub|X>=0> for
-    <math|i=1,\<ldots\>,N>. Notice the relation
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<partial\>ln
-      Z|\<partial\>\<lambda\><rsub|i>><around*|(|\<lambda\>|)>=>|<cell|<frac|1|Z<around*|(|\<lambda\>|)>><frac|\<partial\>Z|\<partial\>\<lambda\><rsub|i>><around*|(|\<lambda\>|)>>>|<row|<cell|<around*|{|Z<around*|(|\<lambda\>|)>\<assign\>\<cdots\>|}>=>|<cell|<frac|1|Z<around*|(|\<lambda\>|)>><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      <frac|\<partial\>|\<partial\>\<lambda\><rsub|i>>exp<around*|(|<big|sum><rsub|j><rsup|N>\<lambda\><rsub|j>
-      g<rsub|j><around*|(|x|)>|)>>>|<row|<cell|<around*|{|Calculus|}>=>|<cell|<frac|1|Z<around*|(|\<lambda\>|)>><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      exp<around*|(|<big|sum><rsub|j><rsup|N>\<lambda\><rsub|j>
-      g<rsub|j><around*|(|x|)>|)> g<rsub|i><around*|(|x|)>>>|<row|<cell|<around*|{|p<around*|(|x;\<lambda\>|)>\<assign\>\<cdots\>|}>=>|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      p<around*|(|x;\<lambda\>|)> g<rsub|i><around*|(|x|)>>>|<row|<cell|<around*|{|Definition|}>=>|<cell|<around*|\<langle\>|g<rsub|i>|\<rangle\>><rsub|X>>>|<row|<cell|<around*|{|Constraint|}>=>|<cell|0.>>>>
-    </align>
-
-    It shows that the solution of <math|\<lambda\>> stablizes <math|ln
-    Z<around*|(|\<lambda\>|)>>.
-  </proof>>
 
   <subsection|Relaxation>
 
@@ -410,61 +351,12 @@
     <math|p<around*|(|h|)>>
 
     <\align>
-      <tformat|<table|<row|<cell|F<rsub|E><around*|[|p|]>\<assign\>>|<cell|T
+      <tformat|<table|<row|<cell|F<rsub|E><around*|[|p\|v|]>\<assign\>>|<cell|T
       D<rsub|KL><around*|(|p\<\|\|\>q<rsub|E><around*|(|\<cdummy\>\|v|)>|)>-T
       ln Z<around*|(|v|)>>>|<row|<cell|=>|<cell|<around*|\<langle\>|E<around*|(|v,\<cdummy\>|)>|\<rangle\>><rsub|p>-T
       H<around*|[|p|]>.>>>>
     </align>
   </lemma>
-
-  <small|<\proof>
-    By definition,
-
-    <\equation*>
-      q<rsub|E><around*|(|v,h|)>=<frac|exp<around*|(|-E<around*|(|v,h|)>/T|)>|<big|int><rsub|<with|font|cal|<with|font|cal|V>>>\<mathd\>v<rprime|'>
-      <big|int><rsub|<with|font|cal|H>>\<mathd\>h<rprime|'>
-      exp<around*|(|-E<around*|(|v<rprime|'>,h<rprime|'>|)>/T|)>>.
-    </equation*>
-
-    Interestingly, by integrating over the latent <math|h>
-
-    <\equation*>
-      q<rsub|E><around*|(|v|)>=<frac|<big|int><rsub|<with|font|cal|H>>\<mathd\>h
-      exp<around*|(|-E<around*|(|v,h|)>/T|)>|<big|int><rsub|<with|font|cal|<with|font|cal|V>>>\<mathd\>v<rprime|'>
-      <big|int><rsub|<with|font|cal|H>>\<mathd\>h<rprime|'>
-      exp<around*|(|-E<around*|(|v<rprime|'>,h<rprime|'>|)>/T|)>>,
-    </equation*>
-
-    we find
-
-    <\equation*>
-      q<rsub|E><around*|(|h\|v|)>=<frac|exp<around*|(|-E<around*|(|v,h|)>/T|)>|<big|int><rsub|<with|font|cal|H>>\<mathd\>h<rprime|'>
-      exp<around*|(|-E<around*|(|v,h<rprime|'>|)>/T|)>>.
-    </equation*>
-
-    So, given <math|v>,
-
-    <\align>
-      <tformat|<table|<row|<cell|F<rsub|E><around*|[|p|]>\<assign\>>|<cell|T
-      D<rsub|KL><around*|(|p\<\|\|\>q<rsub|E><around*|(|\<cdummy\>\|v|)>|)>-T
-      ln Z<around*|(|v|)>>>|<row|<cell|<around*|{|D<rsub|KL>\<assign\>\<cdots\>|}>=>|<cell|T
-      <big|int><rsub|<with|font|cal|H>>\<mathd\>h p<around*|(|h|)> ln
-      p<around*|(|h|)>-T <big|int><rsub|<with|font|cal|H>>\<mathd\>h
-      p<around*|(|h|)> ln q<rsub|E><around*|(|h\|v|)>-T ln
-      Z<around*|(|v|)>>>|<row|<cell|<around*|[|H<around*|[|p|]>=\<cdots\>|]>=>|<cell|-T
-      H<around*|[|p|]>>>|<row|<cell|<around*|[|q<rsub|E><around*|(|h\|v|)>=\<cdots\>|]>+>|<cell|
-      <big|int><rsub|<with|font|cal|H>>\<mathd\>h p<around*|(|h|)>
-      E<around*|(|v,h|)>+<big|int><rsub|<with|font|cal|H>>\<mathd\>h
-      p<around*|(|h|)><big|int><rsub|<with|font|cal|H>>\<mathd\>h<rprime|'>
-      exp<around*|(|-E<around*|(|v,h<rprime|'>|)>/T|)>>>|<row|<cell|->|<cell|T
-      ln Z<around*|(|v|)>>>|<row|<cell|<around*|{|<big|int><rsub|<with|font|cal|H>>\<mathd\>h
-      p<around*|(|h|)>=1|}>=>|<cell|-T H<around*|[|p|]>+<big|int><rsub|<with|font|cal|H>>\<mathd\>h
-      p<around*|(|h|)> E<around*|(|v,h|)>>>|<row|<cell|<around*|{|<around*|\<langle\>|E<around*|(|v,\<cdummy\>|)>|\<rangle\>><rsub|p>=\<cdots\>|}>=>|<cell|<around*|\<langle\>|E<around*|(|v,\<cdummy\>|)>|\<rangle\>><rsub|p>-T
-      H<around*|[|p|]>.>>>>
-    </align>
-
-    Thus, proof ends.
-  </proof>>
 
   <\axiom>
     [Minimize Free Energy Principle]
@@ -495,7 +387,7 @@
   <\theorem>
     [Recall-and-Learn]
 
-    To minimize free energy <math|F<rsub|E><around*|[|p|]>>, we have two
+    To minimize free energy <math|F<rsub|E><around*|[|p\|v|]>>, we have two
     steps:
 
     <\enumerate-numeric>
@@ -534,8 +426,8 @@
   <\equation*>
     E<around*|(|v,h|)>=<around*|[|<around*|(|v<rsup|\<alpha\>>-I<rsup|\<alpha\>>|)>
     g<rsub|\<alpha\>><around*|(|v|)>-L<rsub|v><around*|(|v|)>|]>+<around*|[|h<rsup|\<alpha\>>
-    f<rsub|\<alpha\>><around*|(|h|)>-L<rsub|h><around*|(|h|)>|]>-U<rsup|\<alpha\>\<beta\>>
-    g<rsub|\<alpha\>><around*|(|v|)> f<rsub|\<beta\>><around*|(|h|)>,
+    f<rsub|\<alpha\>><around*|(|h|)>-L<rsub|h><around*|(|h|)>|]>-U<rsub|\<alpha\>\<beta\>>
+    g<rsup|\<alpha\>><around*|(|v|)> f<rsup|\<beta\>><around*|(|h|)>,
   </equation*>
 
   which implies
@@ -568,8 +460,8 @@
   the difference is
 
   <\equation*>
-    \<Delta\>U<rsup|\<alpha\>\<beta\>>\<propto\><around*|\<langle\>|-<frac|\<partial\>E|\<partial\>U<rsup|\<alpha\>\<beta\>>><around*|(|v,h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>=<around*|\<langle\>|g<rsub|\<alpha\>><around*|(|v|)>
-    f<rsub|\<beta\>><around*|(|h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>.
+    \<Delta\>U<rsup|\<alpha\>\<beta\>>\<propto\><around*|\<langle\>|-<frac|\<partial\>E|\<partial\>U<rsub|\<alpha\>\<beta\>>><around*|(|v,h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>=<around*|\<langle\>|g<rsup|\<alpha\>><around*|(|v|)>
+    f<rsup|\<alpha\>><around*|(|h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>.
   </equation*>
 
   Since <math|f> and <math|g> are activation functions, we recover the
@@ -680,6 +572,40 @@
     </equation*>
   </small>
 
+  <appendix|Stochastic Dynamics>
+
+  <subsection|Random Walk>
+
+  The first step is omitting the deterministic part, considering the
+  stochastic only. Given <math|\<forall\>x\<in\><with|font|cal|M>> and any
+  time <math|t>, during a tiny time interval <math|\<Delta\>t>, consider a
+  list of i.i.d. random variables,
+
+  <\equation*>
+    <around*|{|\<varepsilon\><rsub|i>:i=1\<ldots\>n|}>,
+  </equation*>
+
+  where, for <math|\<forall\>i>, <math|\<varepsilon\><rsub|i>\<sim\>P> for
+  some distribution <math|P>, with the mean <math|0> and standard derivative
+  <math|\<sigma\><around*|(|x,t|)>>. This series of random walks leads to a
+  difference <math|\<Delta\>x\<assign\><big|sum><rsub|i=1><rsup|n>\<varepsilon\><rsub|i>>.
+  Notice that <math|\<Delta\>t\<propto\>n>, that is, longer time interval
+  implies longer chain of random walk. With this, we can define
+
+  <\equation*>
+    <sqrt|\<Delta\>t> g<around*|(|x,t|)>\<assign\>lim<rsub|n\<rightarrow\>+\<infty\>>
+    <sqrt|n> \<sigma\><around*|(|x,t|)>.
+  </equation*>
+
+  If <math|g> exists, then by central limit theorem
+  <math|\<Delta\>x\<sim\><with|font|cal|N><around*|(|0,<sqrt|\<Delta\>t>
+  g<around*|(|x,t|)>|)>>. If define <math|\<Delta\>W\<sim\><with|font|cal|N><around*|(|0,<sqrt|\<Delta\>t>|)>>,
+  then <math|\<Delta\>x=g<around*|(|x,t|)> \<Delta\>W>.
+
+  TODO
+
+  \;
+
   \;
 </body>
 
@@ -698,12 +624,12 @@
     <associate|auto-2|<tuple|1.1|1>>
     <associate|auto-3|<tuple|1.2|3>>
     <associate|auto-4|<tuple|1.3|4>>
-    <associate|auto-5|<tuple|1.4|?>>
-    <associate|auto-6|<tuple|A|?>>
-    <associate|footnote-1|<tuple|1|3>>
-    <associate|footnr-1|<tuple|1|3>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|14|4>>
-    <associate|theorem: Jaynes's MaxEnt Principle|<tuple|2|1>>
+    <associate|auto-5|<tuple|A|4>>
+    <associate|auto-6|<tuple|B|5>>
+    <associate|auto-7|<tuple|B.1|?>>
+    <associate|footnote-1|<tuple|1|2>>
+    <associate|footnr-1|<tuple|1|2>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|13|4>>
   </collection>
 </references>
 
@@ -718,13 +644,21 @@
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-2>>
 
-      <with|par-left|<quote|1tab>|1.2<space|2spc>In the Real World
-      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <with|par-left|<quote|1tab>|1.2<space|2spc>Minimize Free Energy
+      Principle <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-3>>
+
+      <with|par-left|<quote|1tab>|1.3<space|2spc>Example: Continuous Hopfield
+      Network <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-4>>
 
       <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|Appendix
       A<space|2spc>Useful Lemmas> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-4><vspace|0.5fn>
+      <no-break><pageref|auto-5><vspace|0.5fn>
+
+      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|Appendix
+      B<space|2spc>Stochastic Dynamics> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-6><vspace|0.5fn>
     </associate>
   </collection>
 </auxiliary>
