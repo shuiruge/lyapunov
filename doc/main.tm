@@ -1,6 +1,6 @@
 <TeXmacs|2.1.1>
 
-<style|<tuple|article|pagella-font|padded-paragraphs>>
+<style|<tuple|article|padded-paragraphs>>
 
 <\body>
   <\hide-preamble>
@@ -707,7 +707,6 @@
 <\initial>
   <\collection>
     <associate|font-base-size|8>
-    <associate|math-font|math-pagella>
     <associate|page-medium|paper>
     <associate|page-screen-margin|false>
   </collection>
@@ -719,13 +718,13 @@
     <associate|auto-2|<tuple|1.1|1>>
     <associate|auto-3|<tuple|1.2|3>>
     <associate|auto-4|<tuple|1.3|4>>
-    <associate|auto-5|<tuple|A|4>>
+    <associate|auto-5|<tuple|A|5>>
     <associate|auto-6|<tuple|B|5>>
     <associate|auto-7|<tuple|B.1|5>>
-    <associate|auto-8|<tuple|B.2|?>>
+    <associate|auto-8|<tuple|B.2|6>>
     <associate|footnote-1|<tuple|1|2>>
     <associate|footnr-1|<tuple|1|2>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|13|4>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|13|5>>
   </collection>
 </references>
 
@@ -759,6 +758,10 @@
       <with|par-left|<quote|1tab>|B.1<space|2spc>Random Walk
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-7>>
+
+      <with|par-left|<quote|1tab>|B.2<space|2spc>Stochastic Dynamics
+      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-8>>
     </associate>
   </collection>
 </auxiliary>
