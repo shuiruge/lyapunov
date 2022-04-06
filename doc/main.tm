@@ -33,9 +33,9 @@
         <around*|\<langle\>|f|\<rangle\>><rsub|D>\<assign\><frac|1|<around*|\||D|\|>><big|sum><rsub|x\<in\>D>f<around*|(|x|)>;
       </equation*>
 
-      <item>let <math|<with|font|cal|N><around*|(|\<mu\>,\<sigma\>|)>>
-      denotes normal distribution with mean <math|\<mu\>> and standard
-      derivative <math|\<sigma\>>;
+      <item>let <math|<with|font|cal|N><around*|(|\<mu\>,\<Sigma\>|)>>
+      denotes normal distribution with mean <math|\<mu\>> and covariance
+      <math|\<Sigma\>>;
 
       <item>given function <math|g>, let <math|f<around*|{|g|}>>, or
       <math|f<rsub|<around*|{|g|}>>>, denote a function constructed out of
@@ -111,7 +111,7 @@
   first provide a way of peeping the underlying dynamics, that is, the
   \Pflux\Q.
 
-  <\theorem>
+  <\lemma>
     [Conservation of \PMass\Q]
 
     \ For any time-dependent distribution <math|p<around*|(|x,t|)>>, there
@@ -121,7 +121,7 @@
       <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>+\<nabla\><rsub|a><around*|(|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
       p<around*|(|x,t|)>|)>=0.
     </equation*>
-  </theorem>
+  </lemma>
 
   What is the dynamics of <math|p> by which any initial <math|p> will finally
   relax to <math|q<rsub|E>>? That is, what is the sufficient (and essential)
@@ -293,24 +293,85 @@
   follow.
 
   <\theorem>
-    [Langevin Equation]
+    [Stochastic Dynamics]
 
-    If <math|K<rsup|a b>> is symmetric, then TODO
+    If <math|K<rsup|a b>> is symmetric and independent of <math|p>, then the
+    stochastic dynamics
 
     <\equation*>
-      \<mathd\>x<rsup|a>=K<rsup|a b><around*|(|x,t|)>
-      \<nabla\><rsub|b>E<around*|(|x|)> \<mathd\>t+<sqrt|2 T>
+      \<mathd\>x<rsup|a>=<around*|[|T \<nabla\><rsub|b>K<rsup|a
+      b><around*|(|x,t|)>-K<rsup|a b><around*|(|x,t|)>
+      \<nabla\><rsub|b>E<around*|(|x|)>|]> \<mathd\>t+<sqrt|2 T>
       \<mathd\>W<rsup|a><around*|(|x,t|)>,
     </equation*>
 
     \ where
 
     <\equation*>
-      <around*|\<langle\>|\<mathd\>W<rsup|a><around*|(|x,t|)>
-      \<mathd\>W<rsup|b><around*|(|x,t|)>|\<rangle\>><rsub|\<mathd\>W>=K<rsup|a
-      b><around*|(|x,t|)>.
+      \<mathd\>W\<sim\><with|font|cal|N><around*|(|0,K<around*|(|x,t|)>
+      \<mathd\>t|)>,
     </equation*>
+
+    is equivalent to Fokker-Planck equation.
   </theorem>
+
+  <small|<\proof>
+    From the difference of the stochastic dynamics,
+
+    <\equation*>
+      \<Delta\>x<rsup|a>=<around*|[|T \<nabla\><rsub|b>K<rsup|a
+      b><around*|(|x,t|)>-K<rsup|a b><around*|(|x,t|)>
+      \<nabla\><rsub|b>E<around*|(|x|)>|]> \<Delta\>t+<sqrt|2 T>
+      \<Delta\>W<rsup|a><around*|(|x,t|)>,
+    </equation*>
+
+    by Kramers\UMoyal expansion <reference|lemma: Kramers\UMoyal Expansion>,
+    we have
+
+    <\equation*>
+      p<around*|(|x,t+\<Delta\>t|)>-p<around*|(|x,t|)>=<big|sum><rsub|n=1><rsup|+\<infty\>><frac|<around*|(|-1|)><rsup|n>|n!>\<nabla\><rsub|a<rsub|1>>\<cdots\>\<nabla\><rsub|a<rsub|n>><around*|[|p<around*|(|x,t|)><around*|\<langle\>|\<Delta\>x<rsup|a<rsub|1>>\<cdots\>\<Delta\>x<rsup|a<rsub|n>>|\<rangle\>><rsub|\<Delta\>x>|]>.
+    </equation*>
+
+    For <math|n=1>, since <math|<around*|\<langle\>|\<mathd\>W<rsup|a><around*|(|x,t|)>|\<rangle\>><rsub|\<mathd\>W>=0>,
+    the term is <math|-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)><around*|\<langle\>|\<Delta\>x<rsup|a>|\<rangle\>><rsub|\<Delta\>x>|]>=\<nabla\><rsub|a><around*|{|p<around*|(|x,t|)>
+    <around*|[|K<rsup|a b><around*|(|x,t|)>
+    \<nabla\><rsub|b>E<around*|(|x|)>-T \<nabla\><rsub|b>K<rsup|a
+    b><around*|(|x,t|)>|]>|}>\<Delta\>t>. And for <math|n=2>, up to
+    <math|o<around*|(|\<Delta\>t|)>>, only <math|T
+    \<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>K<rsup|a
+    b><around*|(|x,t|)>|]> \<Delta\>t> left. For <math|n\<geqslant\>3>, all
+    are <math|o<around*|(|\<Delta\>t|)>>. So, we have
+
+    <\equation*>
+      <frac|p<around*|(|x,t+\<Delta\>t|)>-p<around*|(|x,t|)>|\<Delta\>t>=\<nabla\><rsub|a><around*|{|p<around*|(|x,t|)>
+      <around*|[|K<rsup|a b><around*|(|x,t|)>
+      \<nabla\><rsub|b>E<around*|(|x|)>-T \<nabla\><rsub|b>K<rsup|a
+      b><around*|(|x,t|)>|]>|}>+T \<nabla\><rsub|a>\<nabla\><rsub|b><around*|{|p<around*|(|x,t|)>K<rsup|a
+      b><around*|(|x,t|)>|}>+o<around*|(|\<Delta\>t|)>.
+    </equation*>
+
+    Letting <math|\<Delta\>t\<rightarrow\>0>, we find
+
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=>|<cell|\<nabla\><rsub|a><around*|{|p<around*|(|x,t|)>
+      <around*|[|K<rsup|a b><around*|(|x,t|)>
+      \<nabla\><rsub|b>E<around*|(|x|)>-T \<nabla\><rsub|b>K<rsup|a
+      b><around*|(|x,t|)>|]>|}>+T \<nabla\><rsub|a>\<nabla\><rsub|b><around*|(|p<around*|(|x,t|)>K<rsup|a
+      b><around*|(|x,t|)>|)>>>|<row|<cell|=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
+      b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
+      p<around*|(|x,t|)>|}>- \<nabla\><rsub|a><around*|{|T
+      \<nabla\><rsub|b>K<rsup|a b><around*|(|x,t|)>
+      p<around*|(|x,t|)>|}>>>|<row|<cell|+>|<cell|
+      \<nabla\><rsub|a><around*|{|T K<rsup|a
+      b><around*|(|x,t|)>\<nabla\><rsub|b>p<around*|(|x,t|)>|}>+\<nabla\><rsub|a><around*|{|T
+      \<nabla\><rsub|b>K<rsup|a b><around*|(|x,t|)>p<around*|(|x,t|)>|}>>>|<row|<cell|=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
+      b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
+      p<around*|(|x,t|)>|}>+\<nabla\><rsub|a><around*|{|T K<rsup|a
+      b><around*|(|x,t|)>\<nabla\><rsub|b>p<around*|(|x,t|)>|}>,>>>>
+    </align>
+
+    which is just the Fokker-Planck equation.
+  </proof>>
 
   <\question>
     Given a Langevin-like equaiton, how can we determine if there exists the
@@ -441,7 +502,8 @@
   Then we find the stochastic version, as
 
   <\align>
-    <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
+    <tformat|<cwith|1|-1|1|-1|color|<pattern|C:\\Program Files
+    (x86)\\TeXmacs\\misc\\patterns\\vintage\\metal-brushed-dark.png||>>|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
     f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>+<sqrt|2
     T> \<mathd\>W<rsub|v><rsup|\<alpha\>><around*|(|v|)>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|<around*|(|U<rsup|T>|)><rsup|\<alpha\>\<beta\>>
     g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>+<sqrt|2 T>
@@ -576,37 +638,70 @@
 
   <subsection|Random Walk>
 
-  The first step is omitting the deterministic part, considering the
-  stochastic only. Given <math|\<forall\>x\<in\><with|font|cal|M>> and any
-  time <math|t>, during a tiny time interval <math|\<Delta\>t>, consider a
-  list of i.i.d. random variables,
+  Given <math|\<forall\>x\<in\><with|font|cal|M>> and any time <math|t>,
+  consider a series of i.i.d. random variables (random walks),
 
   <\equation*>
-    <around*|{|\<varepsilon\><rsub|i>:i=1\<ldots\>n|}>,
+    <around*|{|\<varepsilon\><rsub|i><rsup|a>:i=1\<ldots\>n<around*|(|t|)>|}>,
   </equation*>
 
-  where, for <math|\<forall\>i>, <math|\<varepsilon\><rsub|i>\<sim\>P> for
-  some distribution <math|P>, with the mean <math|0> and standard derivative
-  <math|\<sigma\><around*|(|x,t|)>>. This series of random walks leads to a
-  difference <math|\<Delta\>x\<assign\><big|sum><rsub|i=1><rsup|n>\<varepsilon\><rsub|i>>.
-  Notice that <math|\<Delta\>t\<propto\>n>, that is, longer time interval
-  implies longer chain of random walk. With this, we can define
+  where, for <math|\<forall\>i>, <math|\<varepsilon\><rsup|a><rsub|i>\<sim\>P>
+  for some distribution <math|P>, with the mean <math|0> and covariance
+  <math|\<Sigma\><around*|(|x,t|)>>, and the walk steps
 
   <\equation*>
-    <sqrt|\<Delta\>t> g<around*|(|x,t|)>\<assign\>lim<rsub|n\<rightarrow\>+\<infty\>>
-    <sqrt|n> \<sigma\><around*|(|x,t|)>.
+    n<around*|(|t|)>=<big|int><rsub|0><rsup|t>\<mathd\>\<tau\>
+    <frac|\<mathd\>n|\<mathd\>t><around*|(|x<around*|(|\<tau\>|)>,\<tau\>|)>.
   </equation*>
 
-  If <math|g> exists, then by central limit theorem
-  <math|\<Delta\>x\<sim\><with|font|cal|N><around*|(|0,<sqrt|\<Delta\>t>
-  g<around*|(|x,t|)>|)>>. If define <math|\<Delta\>W\<sim\><with|font|cal|N><around*|(|0,<sqrt|\<Delta\>t>|)>>,
-  then <math|\<Delta\>x=g<around*|(|x,t|)> \<Delta\>W>.
+  For any time interval <math|\<Delta\>t>, his series of random walks leads
+  to a difference
+
+  <\equation*>
+    \<Delta\>x<rsup|a>\<assign\><big|sum><rsub|i=n<around*|(|t|)>><rsup|n<around*|(|t+\<Delta\>t|)>>\<varepsilon\><rsup|a><rsub|i>.
+  </equation*>
+
+  Let
+
+  <\equation*>
+    <wide|W|~><rsup|a><around*|(|x,t|)>\<assign\><frac|1|<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>><big|sum><rsub|i=n<around*|(|t|)>><rsup|n<around*|(|t+\<Delta\>t|)>>\<varepsilon\><rsup|a><rsub|i>,
+  </equation*>
+
+  we have <math|\<Delta\>x<rsup|a>=<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>
+  <wide|W|~><rsup|a><around*|(|x,t|)>>. Since
+  <math|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>=<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>
+  \<Delta\>t+o<around*|(|\<Delta\>t|)>>, we have
+
+  <\equation*>
+    \<Delta\>x<rsup|a>=<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>
+    <wide|W|~><rsup|a><around*|(|x,t|)>=<sqrt|<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>
+    \<Delta\>t> <wide|W|~><rsup|a><around*|(|x,t|)>+\<omicron\><around*|(|\<Delta\>t|)>.
+  </equation*>
+
+  If
+
+  <\equation*>
+    <frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)> \<Sigma\><rsup|a
+    b><around*|(|x,t|)>=<with|font|cal|O><around*|(|1|)>
+  </equation*>
+
+  as <math|\<mathd\>n/\<mathd\>t\<rightarrow\>+\<infty\>>, that is, more
+  steps per unit time, then, by central limit theorem (for multi-dimension),
+
+  <\equation*>
+    \<Delta\>x<rsup|a>=\<Delta\>W<rsup|a>+\<omicron\><around*|(|<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>|)>,
+  </equation*>
+
+  where
+
+  <\equation*>
+    \<Delta\>W<rsup|a>\<sim\><with|font|cal|N><around*|(|0,\<Delta\>t
+    \<Sigma\><rsup|a b><around*|(|x,t|)>|)>.
+  </equation*>
+
+  <subsection|Stochastic Dynamics>
 
   TODO
-
-  \;
-
-  \;
 </body>
 
 <\initial>
@@ -626,7 +721,8 @@
     <associate|auto-4|<tuple|1.3|4>>
     <associate|auto-5|<tuple|A|4>>
     <associate|auto-6|<tuple|B|5>>
-    <associate|auto-7|<tuple|B.1|?>>
+    <associate|auto-7|<tuple|B.1|5>>
+    <associate|auto-8|<tuple|B.2|?>>
     <associate|footnote-1|<tuple|1|2>>
     <associate|footnr-1|<tuple|1|2>>
     <associate|lemma: Kramers\UMoyal Expansion|<tuple|13|4>>
@@ -659,6 +755,10 @@
       <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|Appendix
       B<space|2spc>Stochastic Dynamics> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-6><vspace|0.5fn>
+
+      <with|par-left|<quote|1tab>|B.1<space|2spc>Random Walk
+      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-7>>
     </associate>
   </collection>
 </auxiliary>
