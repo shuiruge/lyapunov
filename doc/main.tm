@@ -295,8 +295,8 @@
   <\theorem>
     [Stochastic Dynamics]
 
-    If <math|K<rsup|a b>> is symmetric and independent of <math|p>, then the
-    stochastic dynamics
+    If <math|K<rsup|a b>> is symmetric and independent of <math|p>, then
+    Fokker-Planck equation is equivalent to the stochastic dynamics
 
     <\equation*>
       \<mathd\>x<rsup|a>=<around*|[|T \<nabla\><rsub|b>K<rsup|a
@@ -305,14 +305,12 @@
       \<mathd\>W<rsup|a><around*|(|x,t|)>,
     </equation*>
 
-    \ where
+    where
 
     <\equation*>
       \<mathd\>W\<sim\><with|font|cal|N><around*|(|0,K<around*|(|x,t|)>
-      \<mathd\>t|)>,
+      \<mathd\>t|)>.
     </equation*>
-
-    is equivalent to Fokker-Planck equation.
   </theorem>
 
   <small|<\proof>
