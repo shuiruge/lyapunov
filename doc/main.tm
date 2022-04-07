@@ -163,7 +163,7 @@
   any <math|p>.
 
   <\theorem>
-    [Fokker-Planck Equation]
+    <label|theorem: Fokker-Planck Equation>[Fokker-Planck Equation]
 
     If the symmetric part of <math|K<rsup|a
     b><around*|{|p|}><around*|(|x,t|)>> is positive definite for any <math|p>
@@ -202,12 +202,12 @@
       p<around*|(|x,t|)>|]><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>|<row|<cell|=>|<cell|-T
       <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
       \<nabla\><rsub|a><around*|{|<around*|[|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|]><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>|}>+T
+      p<around*|(|x,t|)>|]><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>|}>>>|<row|<cell|+>|<cell|T
       <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
       <around*|[|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|]>\<nabla\><rsub|a><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>|<row|<cell|<around*|{|Divergence
-      theorem|}>=>|<cell|-T <big|int><rsub|\<partial\><with|font|cal|M>>\<mathd\>S<rsub|a>
-      p<around*|(|x,t|)> f<rsup|a><around*|{|p|}><around*|(|x,t|)><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>+T
+      p<around*|(|x,t|)>|]>\<nabla\><rsub|a><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>|<row|<cell|<around*|[|Divergence
+      theorem|]>=>|<cell|-T <big|int><rsub|\<partial\><with|font|cal|M>>\<mathd\>S<rsub|a>
+      p<around*|(|x,t|)> f<rsup|a><around*|{|p|}><around*|(|x,t|)><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>|<row|<cell|+>|<cell|T
       <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
       p<around*|(|x,t|)> f<rsup|a><around*|{|p|}><around*|(|x,t|)>\<nabla\><rsub|a><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>>>
     </align>
@@ -293,7 +293,7 @@
   follow.
 
   <\theorem>
-    [Stochastic Dynamics]
+    <label|theorem: Stochastic Dynamics>[Stochastic Dynamics]
 
     If <math|K<rsup|a b>> is symmetric and independent of <math|p>, then
     Fokker-Planck equation is equivalent to the stochastic dynamics
@@ -355,7 +355,7 @@
       <around*|[|K<rsup|a b><around*|(|x,t|)>
       \<nabla\><rsub|b>E<around*|(|x|)>-T \<nabla\><rsub|b>K<rsup|a
       b><around*|(|x,t|)>|]>|}>+T \<nabla\><rsub|a>\<nabla\><rsub|b><around*|(|p<around*|(|x,t|)>K<rsup|a
-      b><around*|(|x,t|)>|)>>>|<row|<cell|=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
+      b><around*|(|x,t|)>|)>>>|<row|<cell|<around*|{|Expand|}>=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
       b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
       p<around*|(|x,t|)>|}>- \<nabla\><rsub|a><around*|{|T
       \<nabla\><rsub|b>K<rsup|a b><around*|(|x,t|)>
@@ -368,7 +368,25 @@
       b><around*|(|x,t|)>\<nabla\><rsub|b>p<around*|(|x,t|)>|}>,>>>>
     </align>
 
-    which is just the Fokker-Planck equation.
+    which is just the Fokker-Planck equation. Indeed, the Fokker-Planck
+    equation <reference|theorem: Fokker-Planck Equation> is
+
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=>|<cell|-\<nabla\><rsub|a><around*|(|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
+      p<around*|(|x,t|)>|)>>>|<row|<cell|<around*|{|f<rsup|a>=\<cdots\>|}>=>|<cell|\<nabla\><rsub|a><around*|(|K<rsup|a
+      b><around*|{|p|}><around*|(|x,t|)> \<nabla\><rsub|b><around*|{|T ln
+      p<around*|(|x,t|)>+E<around*|(|x|)>|}>
+      p<around*|(|x,t|)>|)>>>|<row|<cell|<around*|{|K<rsup|a b> independent
+      of p|}>=>|<cell|\<nabla\><rsub|a><around*|(|K<rsup|a
+      b><around*|(|x,t|)> \<nabla\><rsub|b><around*|{|T ln
+      p<around*|(|x,t|)>+E<around*|(|x|)>|}>
+      p<around*|(|x,t|)>|)>>>|<row|<cell|<around*|{|Expand|}>=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
+      b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
+      p<around*|(|x,t|)>|}>+\<nabla\><rsub|a><around*|(|T K<rsup|a
+      b><around*|(|x,t|)> \<nabla\><rsub|b>p<around*|(|x,t|)>|)>.>>>>
+    </align>
+
+    Thus proof ends.
   </proof>>
 
   <\question>
@@ -443,8 +461,8 @@
 
   Thus, we propose an EM-like algorithm that minimizes the free energy, as
 
-  <\theorem>
-    [Recall-and-Learn]
+  <with|theorem-text|<macro|Algorithm>|<\theorem>
+    <label|algorithm: RL>[Recall and Learn (RL)]
 
     To minimize free energy <math|F<rsub|E><around*|[|p\|v|]>>, we have two
     steps:
@@ -459,73 +477,130 @@
     </enumerate-numeric>
 
     By repeating these two steps, we get smaller and smaller free energy.
-  </theorem>
+  </theorem>>
 
   For instance, in a brain, the first step can be illustrated as recalling,
   and the second as learning (searching for a more proper memory).
 
   <subsection|Example: Continuous Hopfield Network>
 
-  Let <math|U<rsup|\<alpha\>\<beta\>>> and <math|I<rsup|\<alpha\>>>
-  constants, and <math|L<rsub|v>> and <math|L<rsub|h>> scalar functions.
-  Define <math|f<rsub|\<alpha\>><around*|(|h|)>\<assign\>\<partial\>L<rsub|h>/\<partial\>h<rsup|\<alpha\>>>,
-  <math|g<rsub|\<alpha\>><around*|(|v|)>\<assign\>\<partial\>L<rsub|v>/\<partial\>v<rsup|\<alpha\>>>.
-  Then the deterministic version of continuous Hopfield network is
+  Here, we provide a biological inspired example, for illustrating both the
+  stochastic dynamics <reference|theorem: Stochastic Dynamics> and the RL
+  algorithm <reference|algorithm: RL>.
 
-  <\align>
-    <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
-    f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|<around*|(|U<rsup|T>|)><rsup|\<alpha\>\<beta\>>
-    g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>,>>>>
-  </align>
+  <\definition>
+    [Continuous Hopfield Network]
 
-  where <math|U> describes the strength of connection between neurons, and
-  <math|f>, <math|g> the activation functions of latent and ambient,
-  respectively. Further, we have the <math|E> constructed as
+    Let <math|U<rsup|\<alpha\>\<beta\>>> and <math|I<rsup|\<alpha\>>>
+    constants, and <math|L<rsub|v>> and <math|L<rsub|h>> scalar functions.
+    Define <math|f<rsub|\<alpha\>><around*|(|h|)>\<assign\>\<partial\>L<rsub|h>/\<partial\>h<rsup|\<alpha\>>>,
+    <math|g<rsub|\<alpha\>><around*|(|v|)>\<assign\>\<partial\>L<rsub|v>/\<partial\>v<rsup|\<alpha\>>>.
+    Then the dynamics of continuous Hopfield network is defined as
 
-  <\equation*>
-    E<around*|(|v,h|)>=<around*|[|<around*|(|v<rsup|\<alpha\>>-I<rsup|\<alpha\>>|)>
-    g<rsub|\<alpha\>><around*|(|v|)>-L<rsub|v><around*|(|v|)>|]>+<around*|[|h<rsup|\<alpha\>>
-    f<rsub|\<alpha\>><around*|(|h|)>-L<rsub|h><around*|(|h|)>|]>-U<rsub|\<alpha\>\<beta\>>
-    g<rsup|\<alpha\>><around*|(|v|)> f<rsup|\<beta\>><around*|(|h|)>,
-  </equation*>
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
+      f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|<around*|(|U<rsup|T>|)><rsup|\<alpha\>\<beta\>>
+      g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>,>>>>
+    </align>
 
-  which implies
+    where <math|U> describes the strength of connection between neurons, and
+    <math|f>, <math|g> the activation functions of latent and ambient,
+    respectively. Further, we have the <math|E> constructed as
 
-  <\equation*>
-    K=<matrix|<tformat|<table|<row|<cell|K<rsub|v>>|<cell|0>>|<row|<cell|0>|<cell|K<rsub|h>>>>>>,
-  </equation*>
+    <\equation*>
+      E<around*|(|v,h|)>=<around*|[|<around*|(|v<rsup|\<alpha\>>-I<rsup|\<alpha\>>|)>
+      g<rsub|\<alpha\>><around*|(|v|)>-L<rsub|v><around*|(|v|)>|]>+<around*|[|h<rsup|\<alpha\>>
+      f<rsub|\<alpha\>><around*|(|h|)>-L<rsub|h><around*|(|h|)>|]>-U<rsub|\<alpha\>\<beta\>>
+      g<rsup|\<alpha\>><around*|(|v|)> f<rsup|\<beta\>><around*|(|h|)>.
+    </equation*>
+  </definition>
 
-  where <math|K<rsub|v><around*|(|v|)>=\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>>,
-  <math|<space|0.6spc>K<rsub|h><around*|(|h|)>=\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>>.
-  Then we find the stochastic version, as
+  <\theorem>
+    If <math|f=\<partial\>L<rsub|h>> and <math|g=\<partial\>L<rsub|v>> are
+    piecewise linear functions<\footnote>
+      E.g. <samp|ReLU> or <samp|LeakyReLu>.
+    </footnote>, then the stochastic dynamics of the continuous Hopfield
+    network is
 
-  <\align>
-    <tformat|<cwith|1|-1|1|-1|color|<pattern|C:\\Program Files
-    (x86)\\TeXmacs\\misc\\patterns\\vintage\\metal-brushed-dark.png||>>|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
-    f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>+<sqrt|2
-    T> \<mathd\>W<rsub|v><rsup|\<alpha\>><around*|(|v|)>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|<around*|(|U<rsup|T>|)><rsup|\<alpha\>\<beta\>>
-    g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>+<sqrt|2 T>
-    \<mathd\>W<rsub|h><rsup|\<alpha\>><around*|(|h|)>,>>>>
-  </align>
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
+      f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>+<sqrt|2
+      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<beta\>\<alpha\>>
+      g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>+<sqrt|2 T>
+      \<mathd\>W<rsub|h><rsup|\<alpha\>>,>>>>
+    </align>
 
-  where
+    where
 
-  <\align>
-    <tformat|<table|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>
-    \<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>;>>|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|h><around*|(|h|)>
-    \<mathd\>W<rsup|\<beta\>><rsub|h><around*|(|h|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>.>>>>
-  </align>
+    <\align>
+      <tformat|<table|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>
+      \<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>;>>|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|h><around*|(|h|)>
+      \<mathd\>W<rsup|\<beta\>><rsub|h><around*|(|h|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>.>>>>
+    </align>
+  </theorem>
 
-  In addition, we find, along the gradient descent trajectory of <math|U>,
-  the difference is
+  <small|<\proof>
+    Directly, we have
 
-  <\equation*>
-    \<Delta\>U<rsup|\<alpha\>\<beta\>>\<propto\><around*|\<langle\>|-<frac|\<partial\>E|\<partial\>U<rsub|\<alpha\>\<beta\>>><around*|(|v,h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>=<around*|\<langle\>|g<rsup|\<alpha\>><around*|(|v|)>
-    f<rsup|\<alpha\>><around*|(|h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>.
-  </equation*>
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<partial\>E|\<partial\>v<rsup|\<alpha\>>><around*|(|v,h|)>=>|<cell|g<rsub|\<alpha\>><around*|(|v|)>+<around*|(|v<rsup|\<beta\>>-I<rsup|\<beta\>>|)>
+      <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>-<frac|\<partial\>L<rsub|v>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>-U<rsup|\<beta\>\<gamma\>>
+      f<rsub|\<gamma\>><around*|(|h|)> <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>>>|<row|<cell|<around*|{|g<rsub|\<alpha\>>=<frac|\<partial\>L<rsub|v>|\<partial\>v<rsup|\<alpha\>>>|}>=>|<cell|-<around*|[|U<rsup|\<beta\>\<gamma\>>
+      f<rsub|\<gamma\>><around*|(|h|)>+v<rsup|\<beta\>>-I<rsup|\<beta\>>|]>
+      <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>;>>>>
+    </align>
 
-  Since <math|f> and <math|g> are activation functions, we recover the
-  Hebbian rule, that is, neurons that fire together wire together.
+    and
+
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<partial\>E|\<partial\>h<rsup|\<alpha\>>><around*|(|v,h|)>=>|<cell|f<rsub|\<alpha\>><around*|(|h|)>+h<rsup|\<beta\>>
+      <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>-<frac|\<partial\>L<rsub|h>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>-U<rsup|\<gamma\>\<beta\>>
+      g<rsub|\<gamma\>><around*|(|v|)> <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>>>|<row|<cell|<around*|{|f<rsub|\<alpha\>>=<frac|\<partial\>L<rsub|h>|\<partial\>h<rsup|\<alpha\>>>|}>=>|<cell|-<around*|[|U<rsup|\<gamma\>\<beta\>>
+      g<rsub|\<gamma\>><around*|(|v|)>+h<rsup|\<beta\>>|]>
+      <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>.>>>>
+    </align>
+
+    If <math|f> and <math|g> are piecewise linear functions, then
+    <math|\<partial\><rsup|2>f> and <math|\<partial\><rsup|2>g> vanish. Thus,
+    comparing with <reference|theorem: Stochastic Dynamics>, we find
+    <math|K<rsub|v>=\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>>,
+    <math|K<rsub|h>=\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>>,
+    and <math|\<nabla\>K=0>. Thus, we get the stochastic version by directly
+    adding a random walk term <math|\<mathd\>W>, as
+
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
+      f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>+<sqrt|2
+      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<beta\>\<alpha\>>
+      g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>+<sqrt|2 T>
+      \<mathd\>W<rsub|h><rsup|\<alpha\>>,>>>>
+    </align>
+
+    where
+
+    <\align>
+      <tformat|<table|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>
+      \<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>;>>|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|h><around*|(|h|)>
+      \<mathd\>W<rsup|\<beta\>><rsub|h><around*|(|h|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>.>>>>
+    </align>
+
+    Thus proof ends.
+  </proof>>
+
+  <\remark>
+    [Hebbian Rule]
+
+    In addition, we find, along the gradient descent trajectory of <math|U>,
+    the difference is
+
+    <\equation*>
+      \<Delta\>U<rsup|\<alpha\>\<beta\>>\<propto\><around*|\<langle\>|-<frac|\<partial\>E|\<partial\>U<rsub|\<alpha\>\<beta\>>><around*|(|v,h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>=<around*|\<langle\>|g<rsup|\<alpha\>><around*|(|v|)>
+      f<rsup|\<alpha\>><around*|(|h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>.
+    </equation*>
+
+    Since <math|f> and <math|g> are activation functions, we recover the
+    Hebbian rule, that is, neurons that fire together wire together.
+  </remark>
 
   <appendix|Useful Lemmas>
 
@@ -712,6 +787,8 @@
 
 <\references>
   <\collection>
+    <associate|RL Algorithm|<tuple|12|?>>
+    <associate|algorithm: RL|<tuple|12|?>>
     <associate|auto-1|<tuple|1|1>>
     <associate|auto-2|<tuple|1.1|1>>
     <associate|auto-3|<tuple|1.2|3>>
@@ -721,8 +798,14 @@
     <associate|auto-7|<tuple|B.1|5>>
     <associate|auto-8|<tuple|B.2|6>>
     <associate|footnote-1|<tuple|1|2>>
+    <associate|footnote-2|<tuple|2|?>>
+    <associate|footnote-3|<tuple|3|?>>
     <associate|footnr-1|<tuple|1|2>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|13|5>>
+    <associate|footnr-2|<tuple|2|?>>
+    <associate|footnr-3|<tuple|3|?>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|16|5>>
+    <associate|theorem: Fokker-Planck Equation|<tuple|6|?>>
+    <associate|theorem: Stochastic Dynamics|<tuple|8|?>>
   </collection>
 </references>
 
