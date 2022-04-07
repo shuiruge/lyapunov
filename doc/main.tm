@@ -523,20 +523,22 @@
     network is
 
     <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
-      f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>+<sqrt|2
-      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<beta\>\<alpha\>>
-      g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>+<sqrt|2 T>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><around*|(|v|)>
+      <around*|[|U<rsub|\<beta\>\<gamma\>>
+      f<rsup|\<gamma\>><around*|(|h|)>-v<rsub|\<beta\>>+I<rsub|\<beta\>>|]>+<sqrt|2
+      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|h><around*|(|h|)>
+      <around*|[|U<rsub|\<gamma\>\<beta\>>
+      g<rsup|\<gamma\>><around*|(|v|)>-h<rsup|\<beta\>>|]>+<sqrt|2 T>
       \<mathd\>W<rsub|h><rsup|\<alpha\>>,>>>>
     </align>
 
-    where
-
-    <\align>
-      <tformat|<table|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>
-      \<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>;>>|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|h><around*|(|h|)>
-      \<mathd\>W<rsup|\<beta\>><rsub|h><around*|(|h|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>.>>>>
-    </align>
+    where <math|K<rsub|v><around*|(|v|)>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)>|]><rsup|-1>>
+    and <math|K<rsub|h><around*|(|h|)>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)>|]><rsup|-1>>
+    are piecewise constant matrices.<\footnote>
+      Here the <math|\<partial\><rsup|2>L> is Hessian matrix, and
+      <math|<around*|[|\<partial\><rsup|2>L|]><rsup|-1>> is the inverse
+      matrix.
+    </footnote>
   </theorem>
 
   <small|<\proof>
@@ -565,23 +567,16 @@
     comparing with <reference|theorem: Stochastic Dynamics>, we find
     <math|K<rsub|v>=\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>>,
     <math|K<rsub|h>=\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>>,
-    and <math|\<nabla\>K=0>. Thus, we get the stochastic version by directly
-    adding a random walk term <math|\<mathd\>W>, as
+    and <math|\<nabla\>K=0>. That is,
 
     <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
-      f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>+<sqrt|2
-      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<beta\>\<alpha\>>
-      g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>+<sqrt|2 T>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|v><around*|(|v|)>
+      <around*|[|U<rsub|\<beta\>\<gamma\>>
+      f<rsup|\<gamma\>><around*|(|h|)>-v<rsub|\<beta\>>+I<rsub|\<beta\>>|]>+<sqrt|2
+      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|h><around*|(|h|)>
+      <around*|[|U<rsub|\<gamma\>\<beta\>>
+      g<rsup|\<gamma\>><around*|(|v|)>-h<rsup|\<beta\>>|]>+<sqrt|2 T>
       \<mathd\>W<rsub|h><rsup|\<alpha\>>,>>>>
-    </align>
-
-    where
-
-    <\align>
-      <tformat|<table|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>
-      \<mathd\>W<rsup|\<alpha\>><rsub|v><around*|(|v|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>;>>|<row|<cell|<around*|\<langle\>|\<mathd\>W<rsup|\<alpha\>><rsub|h><around*|(|h|)>
-      \<mathd\>W<rsup|\<beta\>><rsub|h><around*|(|h|)>|\<rangle\>>=>|<cell|<around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>|]><rsup|\<alpha\>\<beta\>>.>>>>
     </align>
 
     Thus proof ends.
@@ -787,25 +782,24 @@
 
 <\references>
   <\collection>
-    <associate|RL Algorithm|<tuple|12|?>>
-    <associate|algorithm: RL|<tuple|12|?>>
+    <associate|algorithm: RL|<tuple|12|4>>
     <associate|auto-1|<tuple|1|1>>
     <associate|auto-2|<tuple|1.1|1>>
     <associate|auto-3|<tuple|1.2|3>>
     <associate|auto-4|<tuple|1.3|4>>
     <associate|auto-5|<tuple|A|5>>
-    <associate|auto-6|<tuple|B|5>>
-    <associate|auto-7|<tuple|B.1|5>>
+    <associate|auto-6|<tuple|B|6>>
+    <associate|auto-7|<tuple|B.1|6>>
     <associate|auto-8|<tuple|B.2|6>>
     <associate|footnote-1|<tuple|1|2>>
-    <associate|footnote-2|<tuple|2|?>>
+    <associate|footnote-2|<tuple|2|4>>
     <associate|footnote-3|<tuple|3|?>>
     <associate|footnr-1|<tuple|1|2>>
-    <associate|footnr-2|<tuple|2|?>>
+    <associate|footnr-2|<tuple|2|4>>
     <associate|footnr-3|<tuple|3|?>>
     <associate|lemma: Kramers\UMoyal Expansion|<tuple|16|5>>
-    <associate|theorem: Fokker-Planck Equation|<tuple|6|?>>
-    <associate|theorem: Stochastic Dynamics|<tuple|8|?>>
+    <associate|theorem: Fokker-Planck Equation|<tuple|6|2>>
+    <associate|theorem: Stochastic Dynamics|<tuple|8|3>>
   </collection>
 </references>
 
