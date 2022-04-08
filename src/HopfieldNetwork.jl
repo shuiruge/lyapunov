@@ -1,6 +1,54 @@
+"""
+This module implements the continuous Hopfield network discussed in the
+section "Example: Continuous Hopfield Network" of the documentation.
+
+Notations, e.g. U and I, follow the documentation.
+"""
+
+include("StochasticDynamics.jl")
 using Statistics: mean
 
+
+"""
+The data has the size (dimension, batch).
+"""
 Data{T} = AbstractMatrix{T}
+
+
+function expect(x::Data{T})::AbstractVector{T} where T
+	mean(x; dims=2)[:, 1]
+end
+
+
+"""
+The abstract type of continuous Hopfield network.
+
+Methods
+-------
+getU!
+	Returns the U matrix of the Hopfield network.
+getI!
+	Returns the I vector of the Hopfield network.
+fv
+	The activation function of the ambient variables.
+fh
+	The activation function of the latent variables.
+Kv
+	The covariance matrix of the ambient variables.
+Kh
+	The covariance matrix of the latent variables.
+
+Note that the Kv and Kh are functions. They are matrix application maps.
+Precisely, they are functions that take a vector and return a vector
+applied by the K matrix. That is, K(x)ₐ := Kₐᵦ xᵝ for both v and h.
+"""
+abstract type HopfieldNetwork{T} end
+function getU!(::HopfieldNetwork{T})::AbstractMatrix{T} where T end
+function getI!(::HopfieldNetwork{T})::AbstractVector{T} where T end
+function fv(::HopfieldNetwork{T}, ::Data{T})::Data{T} where T end
+function fh(::HopfieldNetwork{T}, ::Data{T})::Data{T} where T end
+function Kv(::HopfieldNetwork{T}, ::Data{T})::Data{T} where T end
+function Kh(::HopfieldNetwork{T}, ::Data{T})::Data{T} where T end
 
 
 function splitvh!(x::Data, vdim::Int)
@@ -15,122 +63,127 @@ function combinevh(v::Data{T}, h::Data{T}) where T
 end
 
 
-"""
-Implements the langevin dynamics algorithm.
-"""
-function langevin(f!, g!, x, t, dt)
-    μ = zero.(x)
-    f!(μ, x, t)
-
-    Σ = zero.(x)
-    g!(Σ, x, t)
-    W = sqrt.(Σ) .* randn(size(x)...)
-
-    μ .* dt .+ W .* sqrt(dt)
+function constant(c, size)
+	c .* ones(size...)
 end
 
 
 function relaxh!(
 	h::Data{A};
-	U::AbstractMatrix{A},
+	m::HopfieldNetwork{A},
 	v::Data{A},
 	t::A,
 	dt::A,
 	T::A,
 ) where {A<:Real}
+	U = getU!(m)
 
 	function f!(μ, h, t)
-		μ .= U' * tanh.(v) .- h
+		μ .= Kh(m, U' * fv(m, v) .- h)
 	end
 
 	function g!(Σ, h, t)
-		# Notice d^2 L_h = tanh'(h) = 1 - tanh(h)^2
-		Σ .= @. 2T / (1 - (tanh(h))^2)
-
-        # TODO: Caution that there's numerical instability here.
-        #       It comes from large h, where tanh(h) is close to 1,
-        #       leading to large Σ.
-
+		Σ .= Kh(m, constant(2T, size(h)))
 	end
 
 	h .= langevin(f!, g!, h, t, dt)
 end
 
 
+"""
+The Hebbian rule.
+"""
 function updateU!(
-	U::AbstractMatrix{T};
+	m::HopfieldNetwork{T};
 	v::Data{T},
 	h::Data{T},
 	η::T,
 	λ::T,
+	max_gradient_abs::T,
 ) where {T<:Real}
+	vdim = size(v, 1)
+	hdim = size(h, 1)
 
-	actv = tanh.(v)
-	acth = tanh.(h)
+	actv = fv(m, v)
+	acth = fh(m, h)
 
-	for i = 1:size(v, 1)
-		for j = 1:size(h, 1)
-			grad_U = mean(actv[i, :] .* acth[j, :])
-			U[i, j] += η * (grad_U - λ * U[i, j])
+	# Compute -∂E/∂U, as `grad`.
+	grad = zeros(vdim, hdim)
+	for i = 1:vdim
+		for j = 1:hdim
+			grad[i, j] = mean(actv[i, :] .* acth[j, :])
+			if abs(grad[i, j]) > max_gradient_abs
+				return
+			end
 		end
 	end
+
+	U = getU!(m)
+	U .+= η .* (grad - λ .* U)
 end
 
 
 """
-Implements the minimize free energy process.
+Implements the RL algorithm for one step iteration.
+	
+This algorithm minimizes the free energy, thus is named as `min-f-e`.
 
-- `h` is the hidden state.
-- `U` is the weight matrix.
-- `v` is the visible state.
-- `warmup` is a boolean flag indicating whether to warm up the process.
-- `t` is the integration time.
-- `dt` is the integration time step.
-- `T` is the "temperature".
-- `η` is the learning rate.
-- `λ` is the weight decay.
+Parameters
+----------
+- h : The initial value of the latent variables.
+- m : The Hopfield network.
+- v : The ambient variables.
+- t : The integral time.
+- dt : The time step.
+- η : The learning rate.
+- T : The factor that balances the expected energy and entropy.
+- λ : The regularization parameter.
+- warmup : Is a warmup step.
+- max_gradient_abs : The maximum absolute value of the gradient.
 """
 function minfe!(
     h::Data{A},
-    U::AbstractMatrix{A};
+    m::HopfieldNetwork{A};
     v::Data{A},
-    warmup::Bool,
     t::A,
     dt::A,
-    T::A,
     η::A,
-    λ::A,
+    T::A = 1.0,
+    λ::A = 0.0,
+    warmup::Bool = false,
+	max_gradient_abs::A = 1E+2,
 ) where {A<:Real}
-    relaxh!(h; U, v, t, dt, T)
+    relaxh!(h; m, v, t, dt, T)
     if warmup == false
-        updateU!(U; v, h, η, λ)
+        updateU!(m; v, h, η, λ, max_gradient_abs)
     end
 end
 
 
 function relaxvh(
 	v::Data{A},
-	h::Data{A},
+	h::Data{A};
+	m::HopfieldNetwork{A},
 	t::A,
-	dt::A;
-	U::AbstractMatrix{A},
-	I::AbstractVector{A},
+	dt::A,
 	T::A,
 ) where {A<:Real}
 	vdim = size(v, 1)
+	U = getU!(m)
 
 	function f!(μ, x, t)
 		(μv, μh) = splitvh!(μ, vdim)
 		(v, h) = splitvh!(x, vdim)
 
-		μv .= U * tanh.(h) .- v .+ I
-		μh .= U' * tanh.(v) .- h
+		μv .= Kv(m, U * fh(m, h) .- v .+ I)
+		μh .= Kh(m, U' * fv(m, v) .- h)
 	end
 
 	function g!(Σ, x, t)
-		# Notice d^2 L_v = tanh'(v) = 1-tanh(v)^2.
-		# And the same for v. Thus the whole x.
-		Σ .= @. 2T / (1 - (tanh(x))^2)
+		(v, h) = splitvh!(x, vdim)
+		Σ .= combinevh(
+			Kv(m, constant(2T, size(v))),
+			Kh(m, constant(2T, size(h))))
 	end
 
 	x = combinevh(v, h)
@@ -139,6 +192,10 @@ function relaxvh(
 end
 
 
-function getI(v::Data{T}) where {T<:Real}
-	mean(tanh.(v); dims=2)[:, 1]
+function updateI!(
+	m::HopfieldNetwork{T},
+	v::Data{T}
+) where {T<:Real}
+	I = getI!(m)
+	I .= expect(fv(m, v))
 end
