@@ -597,6 +597,22 @@
     Hebbian rule, that is, neurons that fire together wire together.
   </remark>
 
+  <\remark>
+    [Simplified Brain]
+
+    This model can be viewed as a simplified brain when <math|f> and <math|g>
+    are linear. Indeed, in the equation (1) of Dehaene et al.
+    (2003)<\footnote>
+      <hlink|A neuronal network model linking subjective reports and
+      objective physiological data during conscious
+      perception|https://www.pnas.org/content/100/14/8520>, Stanislas
+      Dehaene, Claire Sergent, and Jean-Pierre Changeux, 2003.
+    </footnote>, when the <math|V> are limited to a small region, and the
+    <math|\<tau\>>s are large, then the coefficients, i.e. the <math|m>s and
+    <math|h>s, can be regarded as constants. The equation (1), thus, reduces
+    to the continuous Hopfield network (without latent variables).
+  </remark>
+
   <appendix|Useful Lemmas>
 
   <\lemma>
@@ -770,6 +786,8 @@
   <subsection|Stochastic Dynamics>
 
   TODO
+
+  \;
 </body>
 
 <\initial>
@@ -793,11 +811,13 @@
     <associate|auto-8|<tuple|B.2|6>>
     <associate|footnote-1|<tuple|1|2>>
     <associate|footnote-2|<tuple|2|4>>
-    <associate|footnote-3|<tuple|3|?>>
+    <associate|footnote-3|<tuple|3|5>>
+    <associate|footnote-4|<tuple|4|?>>
     <associate|footnr-1|<tuple|1|2>>
     <associate|footnr-2|<tuple|2|4>>
-    <associate|footnr-3|<tuple|3|?>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|16|5>>
+    <associate|footnr-3|<tuple|3|5>>
+    <associate|footnr-4|<tuple|4|?>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|17|5>>
     <associate|theorem: Fokker-Planck Equation|<tuple|6|2>>
     <associate|theorem: Stochastic Dynamics|<tuple|8|3>>
   </collection>
