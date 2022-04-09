@@ -2,7 +2,7 @@
 """
 Implements the Euler method of solving the stochastic dynamics, τ ∈ [0, t],
 
-dx = μ dτ + dW, <dW, dW> = Σ
+dx = μ dτ + dW, <dW, dW> = Σ dτ
 
 where μ is the mean of the stochastic process, and Σ the covariance matrix.
 
