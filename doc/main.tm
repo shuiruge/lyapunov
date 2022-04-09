@@ -165,10 +165,10 @@
   <\theorem>
     <label|theorem: Fokker-Planck Equation>[Fokker-Planck Equation]
 
-    If the symmetric part of <math|K<rsup|a
-    b><around*|{|p|}><around*|(|x,t|)>> is positive definite for any <math|p>
-    and <math|<around*|(|x,t|)>>, then any <math|p> evolves by this \Pflux\Q
-    will relax to <math|q<rsub|E>>.
+    If, for any <math|p> and <math|t>, the symmetric part of <math|K<rsup|a
+    b><around*|{|p|}><around*|(|x,t|)>> is almost everywhere positive
+    definite on <math|<with|font|cal|M>>, then any <math|p> evolves by this
+    \Pflux\Q will relax to <math|q<rsub|E>>.
   </theorem>
 
   <small|<\proof>
@@ -289,14 +289,19 @@
   </remark>
 
   As the dynamics of distribution is a macroscopic viewpoint, the microscopic
-  viewpoint, i.e. the stochastic dynamics of single \Pparticle\Q, is as
-  follow.
+  viewpoint, i.e. the stochastic dynamics of single \Pparticle\Q<\footnote>
+    For the conception of stochastic dynamics, c.f. <reference|appendix:
+    Stochastic Dynamics>.
+  </footnote>, is as follow.
 
   <\theorem>
     <label|theorem: Stochastic Dynamics>[Stochastic Dynamics]
 
-    If <math|K<rsup|a b>> is symmetric and independent of <math|p>, then
-    Fokker-Planck equation is equivalent to the stochastic dynamics
+    If <math|K<rsup|a b>> is symmetric, independent of <math|p> and almost
+    everywhere smooth on <with|font|cal|M><\footnote>
+      <with|color|red|TODO: Check this.>
+    </footnote>, then Fokker-Planck equation is equivalent to the stochastic
+    dynamics
 
     <\equation*>
       \<mathd\>x<rsup|a>=<around*|[|T \<nabla\><rsub|b>K<rsup|a
@@ -345,7 +350,7 @@
       <around*|[|K<rsup|a b><around*|(|x,t|)>
       \<nabla\><rsub|b>E<around*|(|x|)>-T \<nabla\><rsub|b>K<rsup|a
       b><around*|(|x,t|)>|]>|}>+T \<nabla\><rsub|a>\<nabla\><rsub|b><around*|{|p<around*|(|x,t|)>K<rsup|a
-      b><around*|(|x,t|)>|}>+o<around*|(|\<Delta\>t|)>.
+      b><around*|(|x,t|)>|}>+o<around*|(|1|)>.
     </equation*>
 
     Letting <math|\<Delta\>t\<rightarrow\>0>, we find
@@ -357,12 +362,14 @@
       b><around*|(|x,t|)>|]>|}>+T \<nabla\><rsub|a>\<nabla\><rsub|b><around*|(|p<around*|(|x,t|)>K<rsup|a
       b><around*|(|x,t|)>|)>>>|<row|<cell|<around*|{|Expand|}>=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
       b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
-      p<around*|(|x,t|)>|}>- \<nabla\><rsub|a><around*|{|T
-      \<nabla\><rsub|b>K<rsup|a b><around*|(|x,t|)>
-      p<around*|(|x,t|)>|}>>>|<row|<cell|+>|<cell|
+      p<around*|(|x,t|)>|}><with|color|<pattern|C:\\Program Files
+      (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|-
+      \<nabla\><rsub|a><around*|{|T \<nabla\><rsub|b>K<rsup|a
+      b><around*|(|x,t|)> p<around*|(|x,t|)>|}>>>>|<row|<cell|+>|<cell|
       \<nabla\><rsub|a><around*|{|T K<rsup|a
-      b><around*|(|x,t|)>\<nabla\><rsub|b>p<around*|(|x,t|)>|}>+\<nabla\><rsub|a><around*|{|T
-      \<nabla\><rsub|b>K<rsup|a b><around*|(|x,t|)>p<around*|(|x,t|)>|}>>>|<row|<cell|=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
+      b><around*|(|x,t|)>\<nabla\><rsub|b>p<around*|(|x,t|)>|}><with|color|<pattern|C:\\Program
+      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|+\<nabla\><rsub|a><around*|{|T
+      \<nabla\><rsub|b>K<rsup|a b><around*|(|x,t|)>p<around*|(|x,t|)>|}>>>>|<row|<cell|=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
       b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
       p<around*|(|x,t|)>|}>+\<nabla\><rsub|a><around*|{|T K<rsup|a
       b><around*|(|x,t|)>\<nabla\><rsub|b>p<around*|(|x,t|)>|}>,>>>>
@@ -382,15 +389,15 @@
       p<around*|(|x,t|)>+E<around*|(|x|)>|}>
       p<around*|(|x,t|)>|)>>>|<row|<cell|<around*|{|Expand|}>=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
       b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
-      p<around*|(|x,t|)>|}>+\<nabla\><rsub|a><around*|(|T K<rsup|a
-      b><around*|(|x,t|)> \<nabla\><rsub|b>p<around*|(|x,t|)>|)>.>>>>
+      p<around*|(|x,t|)>|}>+\<nabla\><rsub|a><around*|{|T K<rsup|a
+      b><around*|(|x,t|)> \<nabla\><rsub|b>p<around*|(|x,t|)>|}>,>>>>
     </align>
 
-    Thus proof ends.
+    exactly the same. Thus proof ends.
   </proof>>
 
   <\question>
-    Given a Langevin-like equaiton, how can we determine if there exists the
+    Given a stochastic dynamics, how can we determine if there exists the
     <math|E>, or the stationary distribution <math|q<rsub|E>>?
   </question>
 
@@ -469,7 +476,7 @@
 
     <\enumerate-numeric>
       <item>minimize <math|<around*|\<langle\>|E<around*|(|v,\<cdummy\>|)>|\<rangle\>><rsub|p>-T
-      H<around*|[|p|]>> by Langevin dynamics until relaxation, where
+      H<around*|[|p|]>> by the stochastic dynamics until relaxation, where
       <math|p=q<rsub|E><around*|(|\<cdummy\>\|v|)>>; then
 
       <item>minimize <math|-T ln Z<around*|(|v|)>> by gradient descent and
@@ -480,7 +487,8 @@
   </theorem>>
 
   For instance, in a brain, the first step can be illustrated as recalling,
-  and the second as learning (searching for a more proper memory).
+  and the second as learning (searching for a more proper memory, or code of
+  information).
 
   <subsection|Example: Continuous Hopfield Network>
 
@@ -489,17 +497,22 @@
   algorithm <reference|algorithm: RL>.
 
   <\definition>
-    [Continuous Hopfield Network]
+    [Continuous Hopfield Network]<\footnote>
+      Originally illustrated in <hlink|Large Associative Memory Problem in
+      Neurobiology and Machine Learning|https://arxiv.org/abs/2008.06996>,
+      Dmitry Krotov and<nbsp>John Hopfield, 2020.
+    </footnote>
 
     Let <math|U<rsup|\<alpha\>\<beta\>>> and <math|I<rsup|\<alpha\>>>
-    constants, and <math|L<rsub|v>> and <math|L<rsub|h>> scalar functions.
-    Define <math|f<rsub|\<alpha\>><around*|(|h|)>\<assign\>\<partial\>L<rsub|h>/\<partial\>h<rsup|\<alpha\>>>,
-    <math|g<rsub|\<alpha\>><around*|(|v|)>\<assign\>\<partial\>L<rsub|v>/\<partial\>v<rsup|\<alpha\>>>.
+    constants, and <math|L<rsub|v><around*|(|v|)>> and
+    <math|L<rsub|h><around*|(|h|)>> scalar functions. Define
+    <math|f<rsub|\<alpha\>>\<assign\>\<partial\><rsub|\<alpha\>>L<rsub|h>>,
+    <math|g<rsub|\<alpha\>>\<assign\>\<partial\><rsub|\<alpha\>>L<rsub|v>>.
     Then the dynamics of continuous Hopfield network is defined as
 
     <\align>
       <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
-      f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|<around*|(|U<rsup|T>|)><rsup|\<alpha\>\<beta\>>
+      f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<beta\>\<alpha\>>
       g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>,>>>>
     </align>
 
@@ -515,15 +528,18 @@
     </equation*>
   </definition>
 
+  Next, we convert this deterministic dynamics to its stochastic version.
+
   <\theorem>
     If <math|f=\<partial\>L<rsub|h>> and <math|g=\<partial\>L<rsub|v>> are
     piecewise linear functions<\footnote>
-      E.g. <samp|ReLU> or <samp|LeakyReLu>.
-    </footnote>, then the stochastic dynamics of the continuous Hopfield
-    network is
+      E.g. <samp|LeakyReLu>.
+    </footnote>, and the Hessian matrix of <math|L<rsub|v>> and
+    <math|L<rsub|h>> are positive definite, then the stochastic dynamics of
+    the continuous Hopfield network is
 
     <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><around*|(|v|)>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsub|v><rsup|\<alpha\>\<beta\>><around*|(|v|)>
       <around*|[|U<rsub|\<beta\>\<gamma\>>
       f<rsup|\<gamma\>><around*|(|h|)>-v<rsub|\<beta\>>+I<rsub|\<beta\>>|]>+<sqrt|2
       T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|h><around*|(|h|)>
@@ -535,9 +551,8 @@
     where <math|K<rsub|v><around*|(|v|)>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)>|]><rsup|-1>>
     and <math|K<rsub|h><around*|(|h|)>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)>|]><rsup|-1>>
     are piecewise constant matrices.<\footnote>
-      Here the <math|\<partial\><rsup|2>L> is Hessian matrix, and
-      <math|<around*|[|\<partial\><rsup|2>L|]><rsup|-1>> is the inverse
-      matrix.
+      Here the <math|\<partial\><rsup|2>L> is the Hessian matrix, and
+      <math|<around*|[|\<partial\><rsup|2>L|]><rsup|-1>> the inverse matrix.
     </footnote>
   </theorem>
 
@@ -545,8 +560,10 @@
     Directly, we have
 
     <\align>
-      <tformat|<table|<row|<cell|<frac|\<partial\>E|\<partial\>v<rsup|\<alpha\>>><around*|(|v,h|)>=>|<cell|g<rsub|\<alpha\>><around*|(|v|)>+<around*|(|v<rsup|\<beta\>>-I<rsup|\<beta\>>|)>
-      <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>-<frac|\<partial\>L<rsub|v>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>-U<rsup|\<beta\>\<gamma\>>
+      <tformat|<table|<row|<cell|<frac|\<partial\>E|\<partial\>v<rsup|\<alpha\>>><around*|(|v,h|)>=>|<cell|<with|color|<pattern|C:\\Program
+      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|g<rsub|\<alpha\>><around*|(|v|)>>+<around*|(|v<rsup|\<beta\>>-I<rsup|\<beta\>>|)>
+      <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)><with|color|<pattern|C:\\Program
+      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|-<frac|\<partial\>L<rsub|v>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>>-U<rsup|\<beta\>\<gamma\>>
       f<rsub|\<gamma\>><around*|(|h|)> <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>>>|<row|<cell|<around*|{|g<rsub|\<alpha\>>=<frac|\<partial\>L<rsub|v>|\<partial\>v<rsup|\<alpha\>>>|}>=>|<cell|-<around*|[|U<rsup|\<beta\>\<gamma\>>
       f<rsub|\<gamma\>><around*|(|h|)>+v<rsup|\<beta\>>-I<rsup|\<beta\>>|]>
       <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>;>>>>
@@ -555,17 +572,21 @@
     and
 
     <\align>
-      <tformat|<table|<row|<cell|<frac|\<partial\>E|\<partial\>h<rsup|\<alpha\>>><around*|(|v,h|)>=>|<cell|f<rsub|\<alpha\>><around*|(|h|)>+h<rsup|\<beta\>>
-      <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>-<frac|\<partial\>L<rsub|h>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>-U<rsup|\<gamma\>\<beta\>>
+      <tformat|<table|<row|<cell|<frac|\<partial\>E|\<partial\>h<rsup|\<alpha\>>><around*|(|v,h|)>=>|<cell|<with|color|<pattern|C:\\Program
+      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|f<rsub|\<alpha\>><around*|(|h|)>>+h<rsup|\<beta\>>
+      <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)><with|color|<pattern|C:\\Program
+      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|-<frac|\<partial\>L<rsub|h>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>>-U<rsup|\<gamma\>\<beta\>>
       g<rsub|\<gamma\>><around*|(|v|)> <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>>>|<row|<cell|<around*|{|f<rsub|\<alpha\>>=<frac|\<partial\>L<rsub|h>|\<partial\>h<rsup|\<alpha\>>>|}>=>|<cell|-<around*|[|U<rsup|\<gamma\>\<beta\>>
       g<rsub|\<gamma\>><around*|(|v|)>+h<rsup|\<beta\>>|]>
       <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>.>>>>
     </align>
 
     If <math|f> and <math|g> are piecewise linear functions, then
-    <math|\<partial\><rsup|2>f> and <math|\<partial\><rsup|2>g> vanish. Thus,
-    comparing with <reference|theorem: Stochastic Dynamics>, we find
-    <math|K<rsub|v>=\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>>,
+    <math|\<partial\><rsup|2>f> and <math|\<partial\><rsup|2>g> vanish almost
+    everywhere<\footnote>
+      <with|color|red|TODO: Check this.>
+    </footnote>. Thus, comparing with <reference|theorem: Stochastic
+    Dynamics>, we find <math|K<rsub|v>=\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>>,
     <math|K<rsub|h>=\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>>,
     and <math|\<nabla\>K=0>. That is,
 
@@ -738,7 +759,7 @@
     <frac|\<mathd\>n|\<mathd\>t><around*|(|x<around*|(|\<tau\>|)>,\<tau\>|)>.
   </equation*>
 
-  For any time interval <math|\<Delta\>t>, his series of random walks leads
+  For any time interval <math|\<Delta\>t>, this series of random walks leads
   to a difference
 
   <\equation*>
@@ -759,7 +780,7 @@
   <\equation*>
     \<Delta\>x<rsup|a>=<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>
     <wide|W|~><rsup|a><around*|(|x,t|)>=<sqrt|<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>
-    \<Delta\>t> <wide|W|~><rsup|a><around*|(|x,t|)>+\<omicron\><around*|(|\<Delta\>t|)>.
+    \<Delta\>t> <wide|W|~><rsup|a><around*|(|x,t|)>+\<omicron\><around*|(|<sqrt|\<Delta\>t>|)>.
   </equation*>
 
   If
@@ -783,7 +804,7 @@
     \<Sigma\><rsup|a b><around*|(|x,t|)>|)>.
   </equation*>
 
-  <subsection|Stochastic Dynamics>
+  <subsection|Stochastic Dynamics><label|appendix: Stochastic Dynamics>
 
   TODO
 
@@ -801,6 +822,7 @@
 <\references>
   <\collection>
     <associate|algorithm: RL|<tuple|12|4>>
+    <associate|appendix: Stochastic Dynamics|<tuple|B.2|?>>
     <associate|auto-1|<tuple|1|1>>
     <associate|auto-2|<tuple|1.1|1>>
     <associate|auto-3|<tuple|1.2|3>>
@@ -809,14 +831,23 @@
     <associate|auto-6|<tuple|B|6>>
     <associate|auto-7|<tuple|B.1|6>>
     <associate|auto-8|<tuple|B.2|6>>
+    <associate|auto-9|<tuple|B.2|?>>
     <associate|footnote-1|<tuple|1|2>>
     <associate|footnote-2|<tuple|2|4>>
     <associate|footnote-3|<tuple|3|5>>
-    <associate|footnote-4|<tuple|4|?>>
+    <associate|footnote-4|<tuple|4|5>>
+    <associate|footnote-5|<tuple|5|?>>
+    <associate|footnote-6|<tuple|6|?>>
+    <associate|footnote-7|<tuple|7|?>>
+    <associate|footnote-8|<tuple|8|?>>
     <associate|footnr-1|<tuple|1|2>>
     <associate|footnr-2|<tuple|2|4>>
     <associate|footnr-3|<tuple|3|5>>
-    <associate|footnr-4|<tuple|4|?>>
+    <associate|footnr-4|<tuple|4|5>>
+    <associate|footnr-5|<tuple|5|?>>
+    <associate|footnr-6|<tuple|6|?>>
+    <associate|footnr-7|<tuple|7|?>>
+    <associate|footnr-8|<tuple|8|?>>
     <associate|lemma: Kramers\UMoyal Expansion|<tuple|17|5>>
     <associate|theorem: Fokker-Planck Equation|<tuple|6|2>>
     <associate|theorem: Stochastic Dynamics|<tuple|8|3>>

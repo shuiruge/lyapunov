@@ -68,7 +68,7 @@ end
 
 v1 = randu(vdim, batch)
 h1 = randu(hdim, batch)
-(v2, h2) = relaxvh(v1, h1; m, t=1000.0, dt=0.1, T=0.0)
+(v2, h2) = relaxvh(v1, h1; m, t=2000.0, dt=0.1, T=0.0)
 
 # Interestingly, we find that the ratios between elements of v2 and v are
 # almost constant.
@@ -76,4 +76,4 @@ expect(v1) ./ expect(v)
 expect(v2) ./ expect(v)
 
 # Effect of U over I:
-expect(abs.(Kv(m, U * tanh.(h1))) ./ (abs.(Kv(m, v1 .+ I)) .+ 0.1))
+expect(abs.(Kv(m, U * tanh.(h1))) ./ (abs.(Kv(m, zero.(v1) .+ I)) .+ 0.1))
