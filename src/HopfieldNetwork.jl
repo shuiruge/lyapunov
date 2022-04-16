@@ -6,18 +6,6 @@ Notations, e.g. U and I, follow the documentation.
 """
 
 include("StochasticDynamics.jl")
-using Statistics: mean
-
-
-"""
-The data has the size (dimension, batch).
-"""
-Data{T} = AbstractMatrix{T}
-
-
-function expect(x::Data{T})::AbstractVector{T} where T
-	mean(x; dims=2)[:, 1]
-end
 
 
 """

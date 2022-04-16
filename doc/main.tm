@@ -400,6 +400,39 @@
     b><around*|(|x,t|)>\<nabla\><rsub|b>E<around*|(|x|)>>?
   </question>
 
+  The scalar function <math|E> is called <em|Lyapunov function>. Given an
+  autonomous dynamical system<\footnote>
+    That is, ordinary differential equations that do not explicitly depend on
+    time. The word autonomous means independent of time.
+  </footnote>, along the phase trajectory, Lyapunov function will
+  monomotically decrease. So, it reflects the stability of the dynamical
+  system. Next, we investigate, for any autonomous dynamical system, if
+  there's a Lynapunov function, s.t.
+
+  <\equation*>
+    <frac|\<mathd\>x<rsup|a>|\<mathd\>t>=f<rsup|a><around*|(|x|)>=K<rsup|a
+    b><around*|(|x|)> \<nabla\><rsub|b>E<around*|(|x|)>,
+  </equation*>
+
+  Notice that, this is an autonomous stocastical dynamics with
+  <math|T\<rightarrow\>0>.
+
+  <\definition>
+    [Phase Tape]
+
+    Given an autonomous dynamical system <math|\<mathd\>x<rsup|a>/dt=f<rsup|a><around*|(|x|)>>
+    on <math|<with|font|cal|M>> and a hypersurface <math|<with|font|cal|S>>
+    with <math|dim<around*|(|<with|font|cal|S>|)>\<less\>dim<around*|(|<with|font|cal|M>|)>>.
+    A phase tape <math|PT<around*|(|<with|font|cal|S>,t|)>\<assign\><around*|{|x<rsup|a><around*|(|s|)>:s\<in\><around*|[|0,t|]>,x<rsup|a><around*|(|0|)>\<in\><with|font|cal|S>|}>>.
+  </definition>
+
+  <\theorem>
+    [Existance of Lyapunov Function]
+
+    If there's no limit cycle, then there exists a Lyapunov function,
+    constructed as follow. First\ 
+  </theorem>
+
   <section|Ambient & Latent Variables>
 
   In the real world, there can be two types of variables: ambient and latent.
@@ -492,7 +525,7 @@
   <with|theorem-text|<macro|Algorithm>|<\theorem>
     <label|algorithm: RL>[Recall and Learn (RL)]
 
-    To minimize free energy <math|F<rsub|E><around*|[|p\|v|]>>, we have two
+    To minimize free energy <math|F<rsub|E><around*|[|p|]>>, we have two
     steps:
 
     <\enumerate-numeric>
@@ -511,6 +544,19 @@
   and the second as learning (searching for a more proper memory, or code of
   information). So we call this algorithm <em|recall and learn>.
 
+  During the optimization, the first term minimizes the expectation of
+  <math|E<around*|(|\<cdummy\>;\<theta\>|)>>, while the second term smoothes
+  <math|E<around*|(|\<cdummy\>;\<theta\>|)>>. Since the
+  <math|q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>> is invariant for
+  <math|E<around*|(|x;\<theta\>|)>\<rightarrow\>E<around*|(|x;\<theta\>|)>+Const>,
+  we shall eliminate this symmetry by re-defining
+
+  <\equation*>
+    E<around*|(|x;\<theta\>|)>\<rightarrow\>E<around*|(|x;\<theta\>|)>-E<around*|(|x<rsub|\<star\>>;\<theta\>|)>,
+  </equation*>
+
+  for any <math|x<rsub|\<star\>>\<in\><with|font|cal|M>> given.
+
   <section|Example: Continuous Hopfield Network>
 
   Here, we provide a biological inspired example, for illustrating both the
@@ -518,18 +564,18 @@
   algorithm <reference|algorithm: RL>.
 
   <\definition>
-    [Continuous Hopfield Network]<\footnote>
-      Originally illustrated in <hlink|Large Associative Memory Problem in
-      Neurobiology and Machine Learning|https://arxiv.org/abs/2008.06996>,
-      Dmitry Krotov and<nbsp>John Hopfield, 2020.
-    </footnote>
+    [Continuous Hopfield Network]
 
     Let <math|U<rsup|\<alpha\>\<beta\>>> and <math|I<rsup|\<alpha\>>>
     constants, and <math|L<rsub|v><around*|(|v|)>> and
     <math|L<rsub|h><around*|(|h|)>> scalar functions. Define
     <math|f<rsub|\<alpha\>>\<assign\>\<partial\><rsub|\<alpha\>>L<rsub|h>>,
     <math|g<rsub|\<alpha\>>\<assign\>\<partial\><rsub|\<alpha\>>L<rsub|v>>.
-    Then the dynamics of continuous Hopfield network is defined as
+    Then the dynamics of continuous Hopfield network is defined as<\footnote>
+      Originally illustrated in <hlink|Large Associative Memory Problem in
+      Neurobiology and Machine Learning|https://arxiv.org/abs/2008.06996>,
+      Dmitry Krotov and<nbsp>John Hopfield, 2020.
+    </footnote>
 
     <\align>
       <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
@@ -553,25 +599,23 @@
 
   <\theorem>
     If <math|f=\<partial\>L<rsub|h>> and <math|g=\<partial\>L<rsub|v>> are
-    piecewise linear functions<\footnote>
-      E.g. <samp|LeakyReLu>.
-    </footnote>, and the Hessian matrix of <math|L<rsub|v>> and
+    linear functions, and the Hessian matrix of <math|L<rsub|v>> and
     <math|L<rsub|h>> are positive definite, then the stochastic dynamics of
     the continuous Hopfield network is
 
     <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsub|v><rsup|\<alpha\>\<beta\>><around*|(|v|)>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsub|v><rsup|\<alpha\>\<beta\>>
       <around*|[|U<rsub|\<beta\>\<gamma\>>
       f<rsup|\<gamma\>><around*|(|h|)>-v<rsub|\<beta\>>+I<rsub|\<beta\>>|]>+<sqrt|2
-      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|h><around*|(|h|)>
+      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|h>
       <around*|[|U<rsub|\<gamma\>\<beta\>>
       g<rsup|\<gamma\>><around*|(|v|)>-h<rsup|\<beta\>>|]>+<sqrt|2 T>
       \<mathd\>W<rsub|h><rsup|\<alpha\>>,>>>>
     </align>
 
-    where <math|K<rsub|v><around*|(|v|)>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)>|]><rsup|-1>>
-    and <math|K<rsub|h><around*|(|h|)>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)>|]><rsup|-1>>
-    are piecewise constant matrices.<\footnote>
+    where <math|K<rsub|v>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)>|]><rsup|-1>>
+    and <math|K<rsub|h>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)>|]><rsup|-1>>
+    are constant matrices.<\footnote>
       Here the <math|\<partial\><rsup|2>L> is the Hessian matrix, and
       <math|<around*|[|\<partial\><rsup|2>L|]><rsup|-1>> the inverse matrix.
     </footnote>
@@ -602,20 +646,18 @@
       <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>.>>>>
     </align>
 
-    If <math|f> and <math|g> are piecewise linear functions, then
-    <math|\<partial\><rsup|2>f> and <math|\<partial\><rsup|2>g> vanish almost
-    everywhere<\footnote>
-      <with|color|red|TODO: Check this.>
-    </footnote>. Thus, comparing with <reference|theorem: Stochastic
-    Dynamics>, we find <math|K<rsub|v>=\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>>,
+    If <math|f> and <math|g> are linear functions, then
+    <math|\<partial\><rsup|2>f> and <math|\<partial\><rsup|2>g> vanish. Thus,
+    comparing with <reference|theorem: Stochastic Dynamics>, we find
+    <math|K<rsub|v>=\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>>,
     <math|K<rsub|h>=\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>>,
     and <math|\<nabla\>K=0>. That is,
 
     <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|v><around*|(|v|)>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|v>
       <around*|[|U<rsub|\<beta\>\<gamma\>>
       f<rsup|\<gamma\>><around*|(|h|)>-v<rsub|\<beta\>>+I<rsub|\<beta\>>|]>+<sqrt|2
-      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|h><around*|(|h|)>
+      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|h>
       <around*|[|U<rsub|\<gamma\>\<beta\>>
       g<rsup|\<gamma\>><around*|(|v|)>-h<rsup|\<beta\>>|]>+<sqrt|2 T>
       \<mathd\>W<rsub|h><rsup|\<alpha\>>,>>>>
@@ -631,7 +673,7 @@
     the difference is
 
     <\equation*>
-      \<Delta\>U<rsup|\<alpha\>\<beta\>>\<propto\><around*|\<langle\>|-<frac|\<partial\>E|\<partial\>U<rsub|\<alpha\>\<beta\>>><around*|(|v,h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>=<around*|\<langle\>|g<rsup|\<alpha\>><around*|(|v|)>
+      \<Delta\>U<rsup|\<alpha\>\<beta\>>\<propto\><around*|\<langle\>|-<frac|\<partial\>E|\<partial\>U<rsub|\<alpha\>\<beta\>>><around*|(|v,h;U|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>=<around*|\<langle\>|g<rsup|\<alpha\>><around*|(|v|)>
       f<rsup|\<alpha\>><around*|(|h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>.
     </equation*>
 
@@ -642,9 +684,8 @@
   <\remark>
     [Simplified Brain]
 
-    This model can be viewed as a simplified brain when <math|f> and <math|g>
-    are linear. Indeed, in the equation (1) of Dehaene et al.
-    (2003)<\footnote>
+    This model can be viewed as a simplified model of brain. Indeed, in the
+    equation (1) of Dehaene et al. (2003)<\footnote>
       <hlink|A neuronal network model linking subjective reports and
       objective physiological data during conscious
       perception|https://www.pnas.org/content/100/14/8520>, Stanislas
@@ -652,7 +693,7 @@
     </footnote>, when the <math|V> are limited to a small region, and the
     <math|\<tau\>>s are large, then the coefficients, i.e. the <math|m>s and
     <math|h>s, can be regarded as constants. The equation (1), thus, reduces
-    to the continuous Hopfield network (without latent variables).
+    to the continuous Hopfield network.
   </remark>
 
   <appendix|Useful Lemmas>
@@ -914,38 +955,43 @@
 
 <\references>
   <\collection>
-    <associate|algorithm: RL|<tuple|13|4>>
-    <associate|appendix: Stochastic Dynamics|<tuple|B.2|6>>
+    <associate|algorithm: RL|<tuple|15|4>>
+    <associate|appendix: Stochastic Dynamics|<tuple|B.2|7>>
     <associate|auto-1|<tuple|1|1>>
+    <associate|auto-10|<tuple|5|8>>
+    <associate|auto-11|<tuple|5.1|8>>
+    <associate|auto-12|<tuple|5.2|8>>
     <associate|auto-2|<tuple|1|1>>
-    <associate|auto-3|<tuple|2|3>>
+    <associate|auto-3|<tuple|2|4>>
     <associate|auto-4|<tuple|3|4>>
     <associate|auto-5|<tuple|4|5>>
     <associate|auto-6|<tuple|A|6>>
-    <associate|auto-7|<tuple|B|6>>
-    <associate|auto-8|<tuple|B.1|6>>
-    <associate|auto-9|<tuple|B.2|?>>
+    <associate|auto-7|<tuple|B|7>>
+    <associate|auto-8|<tuple|B.1|7>>
+    <associate|auto-9|<tuple|B.2|7>>
     <associate|footnote-1|<tuple|1|2>>
+    <associate|footnote-10|<tuple|10|8>>
     <associate|footnote-2|<tuple|2|3>>
     <associate|footnote-3|<tuple|3|3>>
-    <associate|footnote-4|<tuple|4|4>>
-    <associate|footnote-5|<tuple|5|4>>
+    <associate|footnote-4|<tuple|4|3>>
+    <associate|footnote-5|<tuple|5|5>>
     <associate|footnote-6|<tuple|6|5>>
     <associate|footnote-7|<tuple|7|5>>
     <associate|footnote-8|<tuple|8|5>>
-    <associate|footnote-9|<tuple|9|?>>
+    <associate|footnote-9|<tuple|9|6>>
     <associate|footnr-1|<tuple|1|2>>
+    <associate|footnr-10|<tuple|10|8>>
     <associate|footnr-2|<tuple|2|3>>
     <associate|footnr-3|<tuple|3|3>>
-    <associate|footnr-4|<tuple|4|4>>
-    <associate|footnr-5|<tuple|5|4>>
+    <associate|footnr-4|<tuple|4|3>>
+    <associate|footnr-5|<tuple|5|5>>
     <associate|footnr-6|<tuple|6|5>>
     <associate|footnr-7|<tuple|7|5>>
     <associate|footnr-8|<tuple|8|5>>
-    <associate|footnr-9|<tuple|9|?>>
-    <associate|lemma: Conditional Distribution|<tuple|10|?>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|18|5>>
-    <associate|lemma: Macroscopic Landscape|<tuple|20|?>>
+    <associate|footnr-9|<tuple|9|6>>
+    <associate|lemma: Conditional Distribution|<tuple|12|4>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|20|6>>
+    <associate|lemma: Macroscopic Landscape|<tuple|22|7>>
     <associate|theorem: Fokker-Planck Equation|<tuple|6|2>>
     <associate|theorem: Stochastic Dynamics|<tuple|8|3>>
   </collection>
@@ -954,37 +1000,53 @@
 <\auxiliary>
   <\collection>
     <\associate|toc>
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|1<space|2spc>Lyapunov
+      <vspace*|2fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|font-size|<quote|1.19>|1<space|2spc>Lyapunov
       Function> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-1><vspace|0.5fn>
+      <no-break><pageref|auto-1><vspace|1fn>
 
-      <with|par-left|<quote|1tab>|1.1<space|2spc>Relaxation
+      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|1<space|2spc>Relaxation>
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-2>>
+      <no-break><pageref|auto-2><vspace|0.5fn>
 
-      <with|par-left|<quote|1tab>|1.2<space|2spc>Minimize Free Energy
-      Principle <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-3>>
+      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|2<space|2spc>Ambient
+      & Latent Variables> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-3><vspace|0.5fn>
 
-      <with|par-left|<quote|1tab>|1.3<space|2spc>Example: Continuous Hopfield
-      Network <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-4>>
+      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|3<space|2spc>Minimize
+      Free Energy Principle> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-4><vspace|0.5fn>
 
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|Appendix
-      A<space|2spc>Useful Lemmas> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|4<space|2spc>Example:
+      Continuous Hopfield Network> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-5><vspace|0.5fn>
 
       <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|Appendix
-      B<space|2spc>Stochastic Dynamics> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      A<space|2spc>Useful Lemmas> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-6><vspace|0.5fn>
+
+      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|Appendix
+      B<space|2spc>Stochastic Dynamics> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-7><vspace|0.5fn>
 
       <with|par-left|<quote|1tab>|B.1<space|2spc>Random Walk
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-7>>
+      <no-break><pageref|auto-8>>
 
       <with|par-left|<quote|1tab>|B.2<space|2spc>Stochastic Dynamics
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-8>>
+      <no-break><pageref|auto-9>>
+
+      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|5<space|2spc>Drafts>
+      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-10><vspace|0.5fn>
+
+      <with|par-left|<quote|1tab>|5.1<space|2spc>Trial 1
+      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-11>>
+
+      <with|par-left|<quote|1tab>|5.2<space|2spc>Trial 2
+      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-12>>
     </associate>
   </collection>
 </auxiliary>
