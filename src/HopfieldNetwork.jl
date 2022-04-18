@@ -8,35 +8,39 @@ Notations, e.g. U and I, follow the documentation.
 include("StochasticDynamics.jl")
 
 
-"""
-The abstract type of continuous Hopfield network.
+mutable struct HopfieldNetwork{T}
+	U::AbstractMatrix{T}
+	I::AbstractVector{T}
+	vdim::Int
+end
 
-Methods
--------
-getU!
-	Returns the U matrix of the Hopfield network.
-getI!
-	Returns the I vector of the Hopfield network.
-fv
-	The activation function of the ambient variables.
-fh
-	The activation function of the latent variables.
-Kv
-	The covariance matrix of the ambient variables.
-Kh
-	The covariance matrix of the latent variables.
 
-Note that the Kv and Kh are functions. They are matrix application maps.
-Precisely, they are functions that take a vector and return a vector
-applied by the K matrix. That is, K(x)ₐ := Kₐᵦ xᵝ for both v and h.
-"""
-abstract type HopfieldNetwork{T} end
-function getU!(::HopfieldNetwork{T})::AbstractMatrix{T} where T end
-function getI!(::HopfieldNetwork{T})::AbstractVector{T} where T end
-function fv(::HopfieldNetwork{T}, ::Data{T})::Data{T} where T end
-function fh(::HopfieldNetwork{T}, ::Data{T})::Data{T} where T end
-function Kv(::HopfieldNetwork{T}, ::Data{T})::Data{T} where T end
-function Kh(::HopfieldNetwork{T}, ::Data{T})::Data{T} where T end
+function getU!(m::HopfieldNetwork)
+	m.U
+end
+
+
+function getI!(m::HopfieldNetwork)
+	m.I
+end
+
+
+function fv(m::HopfieldNetwork{T}, v::Data{T})
+	v
+end
+
+
+function fh(m::HopfieldNetwork{T}, h::Data{T})
+	h
+end
+
+
+function Kv(m::HopfieldNetwork{T}, v::Data{T})
+end
+
+
+function Kh(m::HopfieldNetwork{T}, h::Data{T})
+end
 
 
 function splitvh!(x::Data, vdim::Int)
@@ -54,6 +58,14 @@ end
 function constant(c, size)
 	c .* ones(size...)
 end
+
+
+function langevin(m::HopfieldNetwork)
+	Langevin()
+end
+
+
+# ---------------------------------------------
 
 
 function relaxh!(
