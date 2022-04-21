@@ -122,7 +122,7 @@
   <\lemma>
     [Conservation of \PMass\Q]
 
-    \ For any time-dependent distribution <math|p<around*|(|x,t|)>>, there
+    For any time-dependent distribution <math|p<around*|(|x,t|)>>, there
     exists a \Pflux\Q <math|f<rsup|a><around*|{|p|}><around*|(|x,t|)>> s.t.
 
     <\equation*>
@@ -152,19 +152,7 @@
   </lemma>
 
   <small|<\proof>
-    For any vector <math|f<rsup|a>> and <math|v<rsub|a>>, we can always
-    construct a tensor <math|K<rsup|a b>> s.t. <math|f<rsup|a>=K<rsup| a b>
-    v<rsub|b>>. Indeed, we can rotate <math|v<rsub|a>> to the direction of
-    <math|f<rsup|a>> and then dimension-wise recale to <math|f<rsup|a>>. This
-    rotation and dimension-wise rescaling compose the linear transform
-    <math|K<rsup|a b>>. Now, letting
-
-    <\equation*>
-      v<rsub|a>=-\<nabla\><rsub|a><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}>,
-    </equation*>
-
-    we arrive at the conclusion.
+    TODO
   </proof>>
 
   Now, we claim a sufficient condition of relaxing to <math|q<rsub|E>> for
@@ -388,50 +376,67 @@
   </proof>>
 
   <\question>
-    Given a stochastic dynamics, how can we determine if there exists the
-    <math|E>, or the stationary distribution <math|q<rsub|E>>?
+    Given an autonomous dynamical system<\footnote>
+      That is, ordinary differential equations that do not explicitly depend
+      on time. The word autonomous means independent of time.
+    </footnote>,
+
+    <\equation*>
+      <frac|\<mathd\>x<rsup|a>|\<mathd\>t>=f<rsup|a><around*|(|x|)>,
+    </equation*>
+
+    are there <math|E<around*|(|x|)>> and <math|K<rsup|a b><around*|(|x|)>>
+    s.t. <math|f<rsup|a><around*|(|x|)>=-K<rsup|a b><around*|(|x|)>
+    \<nabla\><rsub|b>E<around*|(|x|)>>? And if exist, how can we construct
+    them explicitly?
   </question>
 
-  <\question>
-    Further, if it exists, then how can we reveal it? Precisely, in the case
-    <math|T\<rightarrow\>0>, given <math|<around*|(|\<mathd\>x<rsup|a>/\<mathd\>t|)>=h<rsup|a><around*|(|x,t|)>>,
-    how can we reconstruct the <math|E> and find a positive definite
-    <math|K<rsup|a b>>, s.t. <math|h<rsup|a><around*|(|x|)>=K<rsup|a
-    b><around*|(|x,t|)>\<nabla\><rsub|b>E<around*|(|x|)>>?
-  </question>
+  This question calls for a generic method of construction of Lyapunov
+  function.
 
-  The scalar function <math|E> is called <em|Lyapunov function>. Given an
-  autonomous dynamical system<\footnote>
-    That is, ordinary differential equations that do not explicitly depend on
-    time. The word autonomous means independent of time.
-  </footnote>, along the phase trajectory, Lyapunov function will
-  monomotically decrease. So, it reflects the stability of the dynamical
-  system. Next, we investigate, for any autonomous dynamical system, if
-  there's a Lynapunov function, s.t.
-
-  <\equation*>
-    <frac|\<mathd\>x<rsup|a>|\<mathd\>t>=f<rsup|a><around*|(|x|)>=K<rsup|a
-    b><around*|(|x|)> \<nabla\><rsub|b>E<around*|(|x|)>,
-  </equation*>
-
-  Notice that, this is an autonomous stocastical dynamics with
-  <math|T\<rightarrow\>0>.
+  <section|Lyapunov Function>
 
   <\definition>
-    [Phase Tape]
+    [Lyapunov Function]
 
-    Given an autonomous dynamical system <math|\<mathd\>x<rsup|a>/dt=f<rsup|a><around*|(|x|)>>
-    on <math|<with|font|cal|M>> and a hypersurface <math|<with|font|cal|S>>
-    with <math|dim<around*|(|<with|font|cal|S>|)>\<less\>dim<around*|(|<with|font|cal|M>|)>>.
-    A phase tape <math|PT<around*|(|<with|font|cal|S>,t|)>\<assign\><around*|{|x<rsup|a><around*|(|s|)>:s\<in\><around*|[|0,t|]>,x<rsup|a><around*|(|0|)>\<in\><with|font|cal|S>|}>>.
+    Given an autonomous dynamical system<\footnote>
+      That is, ordinary differential equations that do not explicitly depend
+      on time. The word autonomous means independent of time.
+    </footnote>,
+
+    <\equation*>
+      <frac|\<mathd\>x<rsup|a>|\<mathd\>t>=f<rsup|a><around*|(|x|)>,
+    </equation*>
+
+    a Lyapunov function of this dynamical system, <math|V<around*|(|x|)>>, is
+    a scalar function s.t. <math|\<nabla\><rsub|a>V<around*|(|x|)>
+    f<rsup|a><around*|(|x|)>\<leqslant\>0> and the equality holds if and only
+    if <math|f<rsup|a><around*|(|x|)>=0>.
   </definition>
 
-  <\theorem>
-    [Existance of Lyapunov Function]
+  Along the phase trajectory, a Lyapunov function will monomotically
+  decrease. So, it reflects the stability of the dynamical system. Again, by
+  lemma <reference|lemma: Vector Fields>, for any <math|x> out of the
+  neighbourhood of singular points of <math|\<nabla\><rsub|a>V<around*|(|x|)>>,
+  i.e. <math|x\<notin\><with|font|cal|U><rsub|\<delta\>><around*|(|\<nabla\><rsub|a>V<around*|(|x|)>|)>>,
+  there exists a tensor fields <math|K<rsup|a b><around*|(|x|)>> with the
+  same order of smooth as <math|f<rsup|a><around*|(|x|)>> or
+  <math|\<nabla\><rsub|a>V<around*|(|x|)>>, s.t.
+  <math|f<rsup|a><around*|(|x|)>=-K<rsup|a b><around*|(|x|)>
+  \<nabla\><rsub|b>V<around*|(|x|)>>. Then we have, for any
+  <math|x\<notin\><with|font|cal|U><rsub|\<delta\>><around*|(|\<nabla\><rsub|a>V<around*|(|x|)>|)>>,
 
-    If there's no limit cycle, then there exists a Lyapunov function,
-    constructed as follow. First\ 
-  </theorem>
+  <\equation*>
+    <frac|\<mathd\>V|\<mathd\>t><around*|(|x<around*|(|t|)>|)>=\<nabla\><rsub|a>V<around*|(|x|)>
+    f<rsup|a><around*|(|x|)>=-K<rsup|a b><around*|(|x|)>
+    \<nabla\><rsub|a>V<around*|(|x|)> \<nabla\><rsub|b>V<around*|(|x|)>\<less\>0,
+  </equation*>
+
+  meaning that the symmetric part of <math|K<rsup|a b><around*|(|x|)>> is
+  positive definite. Comparing with the Fokker-Planck equation
+  <reference|theorem: Fokker-Planck Equation>, in the case
+  <math|T\<rightarrow\>0>, we recognize that <math|V<around*|(|x|)>> here is
+  the <math|E<around*|(|x|)>> there.
 
   <section|Ambient & Latent Variables>
 
@@ -698,6 +703,70 @@
 
   <appendix|Useful Lemmas>
 
+  <subsection|Vector Fields>
+
+  <\lemma>
+    Given any vector <math|f<rsup|a>> and <math|g<rsub|b>>, if
+    <math|g<rsub|b>\<neq\>0>, then there exists a tensor <math|K<rsup|a b>>,
+    s.t. <math|f<rsup|a>=K<rsup|a b> g<rsub|b>>.
+  </lemma>
+
+  <\proof>
+    We can rotate <math|g<rsub|b>> to the direction of <math|f<rsup|a>> and
+    then dimension-wise recale to <math|f<rsup|a>>. This rotation and
+    dimension-wise rescaling compose the linear transform <math|K<rsup|a b>>.
+  </proof>
+
+  Now we extends this lemma to vector fields.
+
+  <\lemma>
+    <label|lemma: Vector Fields>[Vector Fields]
+
+    Given any vector fields <math|f<rsup|a><around*|(|x|)>> and
+    <math|g<rsub|b><around*|(|x|)>>, define
+    <math|<with|font|cal|U><rsub|\<delta\>><around*|(|g|)>> as the union of
+    <math|\<delta\>>-neighbourhoods of singular point of
+    <math|g<rsub|b><around*|(|x|)>>. then there exists a smooth tensor field
+    <math|K<rsup|a b><around*|(|x|)>>, s.t.
+    <math|f<rsup|a><around*|(|x|)>=K<rsup|a b><around*|(|x|)>
+    g<rsub|b><around*|(|x|)>> for <math|\<forall\>x\<notin\><with|font|cal|U><rsub|\<delta\>><around*|(|g|)>>.
+  </lemma>
+
+  <\proof>
+    Only smoothness of <math|K<rsup|a b><around*|(|x|)>> is to be proved.
+    Since <math|f<rsup|a>> and <math|g<rsub|b>> are smooth, after varying
+    them a little, that is, <math|f<rsup|a><around*|(|x+\<delta\>x|)>=K<rsup|a
+    b><around*|(|x+\<delta\>x|)> g<rsub|b><around*|(|x+\<delta\>x|)>>. Taylor
+    expanding <math|f<rsup|a>> and <math|g<rsub|b>>, we find
+    <math|f<rsup|a><around*|(|x|)>+\<delta\>x<rsup|b>
+    \<nabla\><rsub|b>f<rsup|a><around*|(|x|)>=K<rsup|a
+    b><around*|(|x+\<delta\>x|)> g<rsub|b><around*|(|x|)>+K<rsup|a
+    b><around*|(|x+\<delta\>x|)> \<delta\>x<rsup|c>
+    \<nabla\><rsub|c>g<rsub|b><around*|(|x|)>>. Thus
+    \ <math|\<delta\>x<rsup|b> <around*|[|\<nabla\><rsub|b>f<rsup|a><around*|(|x|)>-K<rsup|a
+    c><around*|(|x+\<delta\>x|)> \ \<nabla\><rsub|b>g<rsub|c><around*|(|x|)>|]>=<around*|[|K<rsup|a
+    b><around*|(|x+\<delta\>x|)>-K<rsup|a b><around*|(|x|)>|]>
+    g<rsub|b><around*|(|x|)>>. Since <math|g<rsub|b><around*|(|x|)>> is not
+    singular, we have <math|K<rsup|a><rsub|b><around*|(|x+\<delta\>x|)>-K<rsup|a><rsub|b><around*|(|x|)>=<with|font|cal|O><around*|(|\<delta\>x|)>>,
+    thus the first order derivatives exist. The same process holds for higher
+    order derivatives, untill the order where either <math|f<rsup|a>> or
+    <math|g<rsub|b>> becomes non-smooth.
+  </proof>
+
+  When <math|x> approaches a singular point of
+  <math|g<rsub|b><around*|(|x|)>>, then the <math|K<rsup|a b><around*|(|x|)>>
+  may be divergent, since <math|f<rsup|a><around*|(|x|)>> may not vanish at
+  this point. Even excluding the singular points is not enough. For instance,
+  TODO: add a plot. In this example, the <math|K<rsup|a b><around*|(|x|)>>
+  cannot be smooth. This is why we have to exclude the neighbours of the
+  singular points, instead of the singular points themselves.
+
+  <subsection|Kramers\UMoyal Expansion>
+
+  Kramers\UMoyal Expansion relates the microscopic landscape, i.e. the
+  dynamics of Brownian particles, and the macroscopic landscape, i.e. the
+  evolution of distribution.
+
   <\lemma>
     <label|lemma: Kramers\UMoyal Expansion>[Kramers\UMoyal Expansion]
 
@@ -955,43 +1024,42 @@
 
 <\references>
   <\collection>
-    <associate|algorithm: RL|<tuple|15|4>>
+    <associate|algorithm: RL|<tuple|14|4>>
     <associate|appendix: Stochastic Dynamics|<tuple|B.2|7>>
     <associate|auto-1|<tuple|1|1>>
-    <associate|auto-10|<tuple|5|8>>
-    <associate|auto-11|<tuple|5.1|8>>
-    <associate|auto-12|<tuple|5.2|8>>
+    <associate|auto-10|<tuple|B|?>>
+    <associate|auto-11|<tuple|B.1|?>>
+    <associate|auto-12|<tuple|B.2|?>>
     <associate|auto-2|<tuple|1|1>>
     <associate|auto-3|<tuple|2|4>>
     <associate|auto-4|<tuple|3|4>>
     <associate|auto-5|<tuple|4|5>>
-    <associate|auto-6|<tuple|A|6>>
-    <associate|auto-7|<tuple|B|7>>
-    <associate|auto-8|<tuple|B.1|7>>
-    <associate|auto-9|<tuple|B.2|7>>
+    <associate|auto-6|<tuple|5|6>>
+    <associate|auto-7|<tuple|A|7>>
+    <associate|auto-8|<tuple|A.1|7>>
+    <associate|auto-9|<tuple|A.2|7>>
     <associate|footnote-1|<tuple|1|2>>
-    <associate|footnote-10|<tuple|10|8>>
     <associate|footnote-2|<tuple|2|3>>
     <associate|footnote-3|<tuple|3|3>>
     <associate|footnote-4|<tuple|4|3>>
     <associate|footnote-5|<tuple|5|5>>
     <associate|footnote-6|<tuple|6|5>>
-    <associate|footnote-7|<tuple|7|5>>
-    <associate|footnote-8|<tuple|8|5>>
-    <associate|footnote-9|<tuple|9|6>>
+    <associate|footnote-7|<tuple|7|6>>
+    <associate|footnote-8|<tuple|8|?>>
+    <associate|footnote-9|<tuple|9|?>>
     <associate|footnr-1|<tuple|1|2>>
-    <associate|footnr-10|<tuple|10|8>>
     <associate|footnr-2|<tuple|2|3>>
     <associate|footnr-3|<tuple|3|3>>
     <associate|footnr-4|<tuple|4|3>>
     <associate|footnr-5|<tuple|5|5>>
     <associate|footnr-6|<tuple|6|5>>
-    <associate|footnr-7|<tuple|7|5>>
-    <associate|footnr-8|<tuple|8|5>>
-    <associate|footnr-9|<tuple|9|6>>
-    <associate|lemma: Conditional Distribution|<tuple|12|4>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|20|6>>
-    <associate|lemma: Macroscopic Landscape|<tuple|22|7>>
+    <associate|footnr-7|<tuple|7|6>>
+    <associate|footnr-8|<tuple|8|?>>
+    <associate|footnr-9|<tuple|9|?>>
+    <associate|lemma: Conditional Distribution|<tuple|11|4>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|21|6>>
+    <associate|lemma: Macroscopic Landscape|<tuple|23|7>>
+    <associate|lemma: Vector Fields|<tuple|20|?>>
     <associate|theorem: Fokker-Planck Equation|<tuple|6|2>>
     <associate|theorem: Stochastic Dynamics|<tuple|8|3>>
   </collection>
@@ -1035,18 +1103,6 @@
       <with|par-left|<quote|1tab>|B.2<space|2spc>Stochastic Dynamics
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-9>>
-
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|5<space|2spc>Drafts>
-      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-10><vspace|0.5fn>
-
-      <with|par-left|<quote|1tab>|5.1<space|2spc>Trial 1
-      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-11>>
-
-      <with|par-left|<quote|1tab>|5.2<space|2spc>Trial 2
-      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-12>>
     </associate>
   </collection>
 </auxiliary>
