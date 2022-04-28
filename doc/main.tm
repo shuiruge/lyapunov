@@ -870,111 +870,6 @@
     </equation*>
   </small>
 
-  An application of this lemma is to show the anti-intuitive claim that a
-  stochastic dynamics, even though has a single fixed point, may not lead to
-  a stable distribution for an ensemble of particles obeying it.
-
-  <\theorem>
-    Given a stochastic dynamics
-
-    <\equation*>
-      \<mathd\>x<rsup|a>=f<rsup|a><around*|(|x|)>
-      \<mathd\>t+\<mathd\>W<rsup|a>,
-    </equation*>
-
-    where <math|\<mathd\>W<rsup|a>\<sim\><with|font|cal|N><around*|(|0,\<Sigma\><rsup|a
-    b> \<mathd\>t|)>>. Consider an ensemble of particles<\footnote>
-      While saying \Pensemble\Q, we mean that the number of particles has the
-      order of Avogadro's constant, s.t. the distribution of the particles
-      can be viewed as smooth.
-    </footnote>, randomly sampled at an initial time, evolving along this
-    stochastic dynamics. Let <math|p<around*|(|x,t|)>> denotes the
-    distribution of the particles. Then, we have the limit
-
-    <\equation*>
-      p<rsub|\<star\>><around*|(|x|)>\<assign\>lim<rsub|t\<rightarrow\>+\<infty\>>p<around*|(|x,t|)>
-    </equation*>
-
-    exists if and only if there exists constant vector <math|c<rsup|a>>, s.t.
-    the following equation holds, for <math|\<forall\>x\<in\><with|font|cal|M>>,
-
-    <\equation*>
-      \<mathe\><rsup|-E<around*|(|x|)>> <around*|[|
-      f<rsup|\<alpha\>><around*|(|x|)>+<frac|1|2>\<Sigma\><rsup|\<alpha\>\<beta\>>\<nabla\><rsub|\<beta\>>E<around*|(|x|)>|]>=c<rsup|\<alpha\>>,
-    </equation*>
-
-    where <math|E<around*|(|x|)>\<assign\>-ln
-    p<rsub|\<star\>><around*|(|x|)>>.
-  </theorem>
-
-  <small|<\proof>
-    By lemma <reference|lemma: Kramers\UMoyal Expansion>, we have
-
-    <\align>
-      <tformat|<table|<row|<cell|p<around*|(|x,t+\<mathd\>t|)>-p<around*|(|x,t|)>=>|<cell|<big|sum><rsub|n=1><rsup|+\<infty\>><frac|<around*|(|-1|)><rsup|n>|n!>\<nabla\><rsub|a<rsub|1>>\<cdots\>\<nabla\><rsub|a<rsub|n>><around*|[|p<around*|(|x,t|)><around*|\<langle\>|\<mathd\>x<rsup|a<rsub|1>>\<cdots\>\<mathd\>x<rsup|a<rsub|n>>|\<rangle\>>|]>>>|<row|<cell|=>|<cell|-\<nabla\><rsub|\<alpha\>><around*|[|p<around*|(|x,t|)>
-      <around*|\<langle\>|\<mathd\>x<rsup|\<alpha\>>|\<rangle\>>|]>+<frac|1|2>\<nabla\><rsub|\<alpha\>>\<nabla\><rsub|\<beta\>><around*|[|p<around*|(|x,t|)>
-      <around*|\<langle\>|\<mathd\>x<rsup|\<alpha\>>
-      \<mathd\>x<rsup|\<beta\>>|\<rangle\>>|]>+\<cdots\>>>>>
-    </align>
-
-    Directly from the stochastic dynamics, we have
-
-    <\align>
-      <tformat|<table|<row|<cell|<around*|\<langle\>|\<mathd\>x<rsup|\<alpha\>>|\<rangle\>>=>|<cell|f<rsup|\<alpha\>><around*|(|x|)>
-      \<mathd\>t;>>|<row|<cell|<around*|\<langle\>|\<mathd\>x<rsup|\<alpha\>>
-      \<mathd\>x<rsup|\<beta\>>|\<rangle\>>=>|<cell|\<Sigma\><rsup|\<alpha\>\<beta\>>\<mathd\>t.>>>>
-    </align>
-
-    Thus,
-
-    <\equation*>
-      p<around*|(|x,t+\<mathd\>t|)>-p<around*|(|x,t|)>=<around*|{|-\<nabla\><rsub|\<alpha\>><around*|[|p<around*|(|x,t|)>
-      f<rsup|\<alpha\>><around*|(|x|)>|]>+<frac|1|2>\<nabla\><rsub|\<alpha\>>\<nabla\><rsub|\<beta\>><around*|[|p<around*|(|x,t|)>\<Sigma\><rsup|\<alpha\>\<beta\>>|]>|}>\<mathd\>t+\<omicron\><around*|(|\<mathd\>t|)>.
-    </equation*>
-
-    If <math|lim<rsub|t\<rightarrow\>+\<infty\>>p<around*|(|x,t|)>> exists,
-    then <math|lim<rsub|t\<rightarrow\>+\<infty\>><around*|[|p<around*|(|x,t+\<mathd\>t|)>-p<around*|(|x,t|)>|]>=0>
-    for <math|\<forall\>x>, we have, for <math|\<forall\>x>,
-
-    <\equation*>
-      -\<nabla\><rsub|\<alpha\>><around*|[|p<around*|(|x,t|)>
-      f<rsup|\<alpha\>><around*|(|x|)>|]>+<frac|1|2>\<nabla\><rsub|\<alpha\>>\<nabla\><rsub|\<beta\>><around*|[|p<around*|(|x,t|)>\<Sigma\><rsup|\<alpha\>\<beta\>>|]>=0.
-    </equation*>
-
-    And denotes <math|E<around*|(|x|)>\<assign\>-ln
-    p<rsub|\<star\>><around*|(|x|)>>, direct calculation gives, as
-    <math|t\<rightarrow\>\<infty\>>, for <math|\<forall\>x>,
-
-    <\align>
-      <tformat|<table|<row|<cell|>|<cell|-\<nabla\><rsub|\<alpha\>><around*|[|p<rsub|\<star\>><around*|(|x|)>
-      f<rsup|\<alpha\>><around*|(|x|)>|]>+<frac|1|2>\<nabla\><rsub|\<alpha\>>\<nabla\><rsub|\<beta\>><around*|[|p<rsub|\<star\>><around*|(|x|)>\<Sigma\><rsup|\<alpha\>\<beta\>>|]>>>|<row|<cell|<around*|{|\<nabla\>p<around*|(|x|)>=p<around*|(|x|)>\<nabla\>ln
-      p<around*|(|x|)>|}>=>|<cell|-\<nabla\><rsub|\<alpha\>><around*|[|p<rsub|\<star\>><around*|(|x|)>
-      f<rsup|\<alpha\>><around*|(|x|)>|]>+<frac|1|2>\<Sigma\><rsup|\<alpha\>\<beta\>>\<nabla\><rsub|\<alpha\>><around*|[|p<rsub|\<star\>><around*|(|x|)>
-      \<nabla\><rsub|\<beta\>>ln p<rsub|\<star\>><around*|(|x|)>|]>>>|<row|<cell|<around*|{|E\<assign\>\<cdots\>|}>=>|<cell|-\<nabla\><rsub|\<alpha\>><around*|[|p<rsub|\<star\>><around*|(|x|)>
-      f<rsup|\<alpha\>><around*|(|x|)>|]>-<frac|1|2>\<Sigma\><rsup|\<alpha\>\<beta\>>\<nabla\><rsub|\<alpha\>><around*|[|p<rsub|\<star\>><around*|(|x|)>
-      \<nabla\><rsub|\<beta\>>E<around*|(|x|)>|]>>>|<row|<cell|=>|<cell|-\<nabla\><rsub|\<alpha\>><around*|{|p<rsub|\<star\>><around*|(|x|)><around*|[|
-      f<rsup|\<alpha\>><around*|(|x|)>+<frac|1|2>\<Sigma\><rsup|\<alpha\>\<beta\>>\<nabla\><rsub|\<beta\>>E<around*|(|x|)>|]>|}>>>|<row|<cell|=>|<cell|0.>>>>
-    </align>
-
-    This means
-
-    <\equation*>
-      p<rsub|\<star\>><around*|(|x|)><around*|[|
-      f<rsup|\<alpha\>><around*|(|x|)>+<frac|1|2>\<Sigma\><rsup|\<alpha\>\<beta\>>\<nabla\><rsub|\<beta\>>E<around*|(|x|)>|]>=C<rsup|\<alpha\>>,
-    </equation*>
-
-    where <math|C> is constant vector. Or say
-
-    <\equation*>
-      \<mathe\><rsup|-E<around*|(|x|)>> <around*|[|
-      f<rsup|\<alpha\>><around*|(|x|)>+<frac|1|2>\<Sigma\><rsup|\<alpha\>\<beta\>>\<nabla\><rsub|\<beta\>>E<around*|(|x|)>|]>=c<rsup|\<alpha\>>,
-    </equation*>
-
-    where <math|c<rsup|\<alpha\>>\<assign\>C<rsup|\<alpha\>> Z<rsub|E>> with
-    <math|Z<rsub|E>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-    exp<around*|(|-E<around*|(|x|)>|)>>.
-  </proof>>
-
   <appendix|Stochastic Dynamics>
 
   <subsection|Random Walk>
@@ -1046,7 +941,7 @@
   and the second is a random walk. Precisely,
 
   <\definition>
-    [Stochastic Dynamics]
+    <label|definition: Stochastic Dynamics>[Stochastic Dynamics]
 
     Given <math|\<mu\><rsup|a><around*|(|x,t|)>> and <math|\<Sigma\><rsup|a
     b><around*|(|x,t|)>> on <math|<with|font|cal|M>\<times\>\<bbb-R\>>,
@@ -1060,18 +955,21 @@
     covariance <math|\<Sigma\><rsup|a b><around*|(|x,t|)>>.
   </definition>
 
-  Consider an ensemble of particles, each obeys this stochastic dynamics.
-  This ensemble will form a distribution, evolving with time <math|t>, say
-  <math|p<around*|(|t|)>>. The equation of this evolution is
-
   <\lemma>
     <label|lemma: Macroscopic Landscape>[Macroscopic Landscape]
 
+    Consider an ensemble of particles, randomly sampled at an initial time,
+    evolving along a stochastic dynamics <reference|definition: Stochastic
+    Dynamics>. By saying \Pensemble\Q, we mean that the number of particles
+    has the order of Avogadro's constant, s.t. the distribution of the
+    particles can be viewed as smooth. Let <math|p<around*|(|x,t|)>> denotes
+    the distribution. Then we have
+
     <\equation*>
-      <frac|\<partial\>p|\<partial\>t><around*|(|t|)>=-\<nabla\><rsub|a><around*|{|p<around*|(|x,t|)>
-      \<mu\><rsup|a><around*|(|x,t|)>|}>+<frac|1|2>
-      \<nabla\><rsub|a>\<nabla\><rsub|b><around*|{|p<around*|(|x,t|)>\<Sigma\><rsup|a
-      b><around*|(|x,t|)>|}>.
+      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+      \<mu\><rsup|a><around*|(|x,t|)>|]>+<frac|1|2>
+      \<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>\<Sigma\><rsup|a
+      b><around*|(|x,t|)>|]>.
     </equation*>
   </lemma>
 
@@ -1102,21 +1000,47 @@
     are <math|o<around*|(|\<Delta\>t|)>>. So, we have
 
     <\equation*>
-      <frac|p<around*|(|x,t+\<Delta\>t|)>-p<around*|(|x,t|)>|\<Delta\>t>=-\<nabla\><rsub|a><around*|{|p<around*|(|x,t|)>
-      \<mu\><rsup|a><around*|(|x,t|)>|}>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|{|p<around*|(|x,t|)>\<Sigma\><rsup|a
-      b><around*|(|x,t|)>|}>+o<around*|(|1|)>.
+      p<around*|(|x,t+\<Delta\>t|)>-p<around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+      \<mu\><rsup|a><around*|(|x,t|)>|]>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>\<Sigma\><rsup|a
+      b><around*|(|x,t|)>|]>\<Delta\>t+o<around*|(|\<Delta\>t|)>.
     </equation*>
 
     Letting <math|\<Delta\>t\<rightarrow\>0>, we find
 
     <\equation*>
-      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-\<nabla\><rsub|a><around*|{|p<around*|(|x,t|)>
-      \<mu\><rsup|a><around*|(|x,t|)>|}>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|{|p<around*|(|x,t|)>\<Sigma\><rsup|a
-      b><around*|(|x,t|)>|}>.
+      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+      \<mu\><rsup|a><around*|(|x,t|)>|]>+<frac|1|2>
+      \<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>\<Sigma\><rsup|a
+      b><around*|(|x,t|)>|]>.
     </equation*>
 
     Thus proof ends.
   </proof>>
+
+  When reducing <math|\<mu\><rsup|a><around*|(|x,t|)>\<rightarrow\>\<mu\><around*|(|x|)>>
+  and <math|\<Sigma\><rsup|a b><around*|(|x,t|)>\<rightarrow\>2T
+  \<delta\><rsup|a b>>, we have
+
+  <\equation*>
+    <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-<wide|\<nabla\>|\<vect\>>\<cdummy\><around*|[|p<around*|(|x,t|)>
+    <wide|\<mu\>|\<vect\>><around*|(|x|)>|]>+T
+    \<nabla\><rsup|2>p<around*|(|x,t|)>.
+  </equation*>
+
+  If <math|<wide|\<mu\>|\<vect\>><around*|(|x|)>=0>, we arrive at <hlink|heat
+  equation|https://en.wikipedia.org/wiki/Heat_equation>,\ 
+
+  <\equation*>
+    <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=T
+    \<nabla\><rsup|2>p<around*|(|x,t|)>.
+  </equation*>
+
+  And if <math|T=0>, we arrive at conservation equation
+
+  <\equation*>
+    <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>+<wide|\<nabla\>|\<vect\>>\<cdummy\><around*|[|p<around*|(|x,t|)>
+    <wide|\<mu\>|\<vect\>><around*|(|x|)>|]>=0.
+  </equation*>
 </body>
 
 <\initial>
@@ -1142,28 +1066,27 @@
     <associate|auto-6|<tuple|5|5>>
     <associate|auto-7|<tuple|A|6>>
     <associate|auto-8|<tuple|A.1|6>>
-    <associate|auto-9|<tuple|A.2|6>>
+    <associate|auto-9|<tuple|A.2|7>>
+    <associate|definition: Stochastic Dynamics|<tuple|22|8>>
     <associate|footnote-1|<tuple|1|2>>
     <associate|footnote-2|<tuple|2|3>>
     <associate|footnote-3|<tuple|3|3>>
     <associate|footnote-4|<tuple|4|3>>
-    <associate|footnote-5|<tuple|5|3>>
+    <associate|footnote-5|<tuple|5|4>>
     <associate|footnote-6|<tuple|6|5>>
     <associate|footnote-7|<tuple|7|5>>
     <associate|footnote-8|<tuple|8|6>>
-    <associate|footnote-9|<tuple|9|?>>
     <associate|footnr-1|<tuple|1|2>>
     <associate|footnr-2|<tuple|2|3>>
     <associate|footnr-3|<tuple|3|3>>
     <associate|footnr-4|<tuple|4|3>>
-    <associate|footnr-5|<tuple|5|3>>
+    <associate|footnr-5|<tuple|5|4>>
     <associate|footnr-6|<tuple|6|5>>
     <associate|footnr-7|<tuple|7|5>>
     <associate|footnr-8|<tuple|8|6>>
-    <associate|footnr-9|<tuple|9|?>>
     <associate|lemma: Conditional Distribution|<tuple|11|4>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|21|6>>
-    <associate|lemma: Macroscopic Landscape|<tuple|24|8>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|21|7>>
+    <associate|lemma: Macroscopic Landscape|<tuple|23|8>>
     <associate|lemma: Vector Fields|<tuple|20|6>>
     <associate|theorem: Fokker-Planck Equation|<tuple|6|2>>
     <associate|theorem: Stochastic Dynamics|<tuple|8|3>>
