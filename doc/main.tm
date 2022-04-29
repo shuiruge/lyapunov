@@ -23,7 +23,7 @@
       <math|X>, then
 
       <\equation*>
-        <around*|\<langle\>|f|\<rangle\>><rsub|p>=<around*|\<langle\>|f|\<rangle\>><rsub|X>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+        <around*|\<langle\>|f|\<rangle\>><rsub|p>=<around*|\<langle\>|f|\<rangle\>><rsub|X>=\<bbb-E\><rsub|x\<sim\>p><around*|[|f<around*|(|x|)>|]>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
         p<around*|(|x|)> f<around*|(|x|)>;
       </equation*>
 
@@ -55,351 +55,12 @@
     </itemize>
   </notation>
 
-  <section|Relaxation>
-
-  Next, we illustrate how, during a non-equilibrium process, a distribution
-  <math|p> relaxes to its stationary distribution <math|q>, and how this
-  process relates to the variational inference. Further, we try to find the
-  most generic dynamics that underlies the non-equilibrium to equilibrium
-  process, on both macroscopic (distribution) and microscopic (\Pparticle\Q)
-  viewpoints.
-
-  First, we shall define what relaxation is, via free energy.
-
-  <\definition>
-    [Free Energy]
-
-    Let <math|E<around*|(|x|)>:<with|font|cal|M>\<rightarrow\>\<bbb-R\>>.
-    Define stationary distribution
-
-    <\equation*>
-      q<rsub|E><around*|(|x|)>\<assign\><frac|exp<around*|(|-E<around*|(|x|)>/T|)>|Z>,
-    </equation*>
-
-    where <math|T\<gtr\>0> and <math|Z<rsub|E>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-    exp<around*|(|-E<around*|(|x|)>/T|)>>. Given <math|E>, for any
-    time-dependent distribution <math|p<around*|(|x,t|)>>, define free energy
-    as
-
-    <\equation*>
-      F<rsub|E><around*|[|p<around*|(|\<cdummy\>,t|)>|]>\<assign\>T
-      \ D<rsub|KL><around*|(|p\<\|\|\>q<rsub|E>|)>-T ln
-      Z<rsub|E>=T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      p<around*|(|x,t|)> ln<frac|p<around*|(|x,t|)>|q<rsub|E><around*|(|x|)>>-T
-      ln Z<rsub|E>.
-    </equation*>
-
-    Or, equivalently,
-
-    <\equation*>
-      F<rsub|E><around*|[|p<around*|(|\<cdummy\>,t|)>|]>\<assign\><around*|\<langle\>|E|\<rangle\>><rsub|p<around*|(|\<cdummy\>,t|)>>-T
-      H<around*|[|p<around*|(|\<cdummy\>,t|)>|]>,
-    </equation*>
-
-    where entropy functional <math| H<around*|[|p<around*|(|\<cdummy\>,t|)>|]>:=<around*|\<langle\>|-ln
-    p<around*|(|\<cdummy\>,t|)>|\<rangle\>><rsub|p>>.
-  </definition>
-
-  <\definition>
-    [Relaxation]
-
-    For a time-dependent distribution <math|p<around*|(|x,t|)>> on
-    <math|<with|font|cal|M>>, we say <math|p> relaxes to <math|q<rsub|E>> if
-    and only if<strong|> the free energy <math|F<rsub|E><around*|[|p<around*|(|\<cdummy\>,t|)>|]>>
-    monotonically decreases to its minimum<math|>, where
-    <math|p<around*|(|\<cdummy\>,t|)>=q<rsub|E>>.
-  </definition>
-
-  We can visualize this relaxation process by an imaginary ensemble of
-  juggling \Pparticles\Q (or \Pbees\Q). Initially, they are arbitrarily
-  positioned. This forms a distribution of \Pparticles\Q <math|p>. With some
-  underlying dynamics, these \Pparticles\Q moves and finally the distribution
-  relaxes, if it can, to a stationary distribution <math|q<rsub|E>>.
-  Apparently, the underlying dynamics and the <math|E> are correlated. We
-  first provide a way of peeping the underlying dynamics, that is, the
-  \Pflux\Q.
-
-  <\lemma>
-    [Conservation of \PMass\Q]
-
-    For any time-dependent distribution <math|p<around*|(|x,t|)>>, there
-    exists a \Pflux\Q <math|f<rsup|a><around*|{|p|}><around*|(|x,t|)>> s.t.
-
-    <\equation*>
-      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>+\<nabla\><rsub|a><around*|(|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|)>=0.
-    </equation*>
-  </lemma>
-
-  What is the dynamics of <math|p> by which any initial <math|p> will finally
-  relax to <math|q<rsub|E>>? That is, what is the sufficient (and essential)
-  condition of relaxing to <math|q<rsub|E>> for any <math|p>? Because of the
-  conservation of \Pmass\Q, the dynamics of <math|p>, i.e.
-  <math|\<partial\>p/\<partial\>t>, is determined by a \Pflux\Q,<strong|>
-  <math|f<rsup|a>>. Thus, this sufficient (and essential) condition must be
-  about the <math|f<rsup|a>>.
-
-  <\lemma>
-    Given <math|p> and <math|<around*|(|x,t|)>>, for any
-    <math|f<rsup|a><around*|{|p|}><around*|(|x,t|)>>, we can always construct
-    a <math|K<rsup|a b><around*|{|p|}><around*|(|x,t|)>> s.t.
-
-    <\equation*>
-      f<rsup|a><around*|{|p|}><around*|(|x,t|)>=-K<rsup|a
-      b><around*|{|p|}><around*|(|x,t|)> \<nabla\><rsub|b><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}>.
-    </equation*>
-  </lemma>
-
-  <small|<\proof>
-    TODO
-  </proof>>
-
-  Now, we claim a sufficient condition of relaxing to <math|q<rsub|E>> for
-  any <math|p>.
-
-  <\theorem>
-    <label|theorem: Fokker-Planck Equation>[Fokker-Planck Equation]
-
-    If, for any <math|p> and <math|t>, the symmetric part of <math|K<rsup|a
-    b><around*|{|p|}><around*|(|x,t|)>> is a.e. positive definite on
-    <math|<with|font|cal|M>>, then any <math|p> evolves by this \Pflux\Q will
-    relax to <math|q<rsub|E>>.
-  </theorem>
-
-  <small|<\proof>
-    Directly
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>F<rsub|E>|\<mathd\>t><around*|[|p<around*|(|\<cdummy\>,t|)>|]>=>|<cell|T
-      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>|<row|<cell|<around*|{|Conservation
-      of mass|}>=>|<cell|-T <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      \<nabla\><rsub|a><around*|[|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|]><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>.>>>>
-    </align>
-
-    Since
-
-    <\equation*>
-      \<nabla\><rsub|a><around*|[|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|]><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>=\<nabla\><rsub|a><around*|{|<around*|[|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|]><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>|}>-
-      <around*|[|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|]>\<nabla\><rsub|a><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>,
-    </equation*>
-
-    we have
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>F<rsub|E>|\<mathd\>t><around*|[|p<around*|(|\<cdummy\>,t|)>|]>=>|<cell|-T
-      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      \<nabla\><rsub|a><around*|[|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|]><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>|<row|<cell|=>|<cell|-T
-      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      \<nabla\><rsub|a><around*|{|<around*|[|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|]><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>|}>>>|<row|<cell|+>|<cell|T
-      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      <around*|[|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|]>\<nabla\><rsub|a><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>|<row|<cell|<around*|[|Divergence
-      theorem|]>=>|<cell|-T <big|int><rsub|\<partial\><with|font|cal|M>>\<mathd\>S<rsub|a>
-      p<around*|(|x,t|)> f<rsup|a><around*|{|p|}><around*|(|x,t|)><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>|<row|<cell|+>|<cell|T
-      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      p<around*|(|x,t|)> f<rsup|a><around*|{|p|}><around*|(|x,t|)>\<nabla\><rsub|a><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>>>
-    </align>
-
-    The first term vanishes.<\footnote>
-      <with|color|red|To-do: Explain the reason explicitly.>
-    </footnote> Then, direct calculus shows
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>F<rsub|E>|\<mathd\>t><around*|[|p<around*|(|\<cdummy\>,t|)>|]>=>|<cell|T
-      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      p<around*|(|x,t|)> f<rsup|a><around*|{|p|}><around*|(|x,t|)>\<nabla\><rsub|a><around*|[|ln<frac|p<around*|(|x,t|)>|q<around*|(|x|)>>+1|]>>>|<row|<cell|=>|<cell|T
-      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      p<around*|(|x,t|)> f<rsup|a><around*|{|p|}><around*|(|x,t|)><around*|[|\<nabla\><rsub|a>ln
-      p<around*|(|x,t|)>-\<nabla\><rsub|a>ln
-      q<around*|(|x|)>|]>>>|<row|<cell|<around*|{|q<around*|(|x|)>\<assign\>\<cdots\>|}>=>|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      p<around*|(|x,t|)> f<rsup|a><around*|{|p|}><around*|(|x,t|)><around*|[|T
-      \<nabla\><rsub|a>ln p<around*|(|x,t|)>+\<nabla\><rsub|a>E<around*|(|x|)>|]>>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>p<around*|(|x,t|)>
-      f<rsup|a><around*|{|p|}><around*|(|x,t|)> \<nabla\><rsub|a><around*|{|T
-      ln p<around*|(|x,t|)>+E<around*|(|x|)>|}>.>>>>
-    </align>
-
-    By the previous lemma, we have
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>F<rsub|E>|\<mathd\>t><around*|[|p<around*|(|\<cdummy\>,t|)>|]>=>|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>p<around*|(|x,t|)>
-      f<rsup|a><around*|{|p|}><around*|(|x,t|)> \<nabla\><rsub|a><around*|{|T
-      ln p<around*|(|x,t|)>+E<around*|(|x|)>|}>>>|<row|<cell|<around*|{|f<rsup|a>=\<cdots\>|}>=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>p<around*|(|x,t|)>K<rsup|a
-      b><around*|{|p|}><around*|(|x,t|)> \<nabla\><rsub|a><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}> \<nabla\><rsub|b><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}>.>>>>
-    </align>
-
-    Letting <math|S<rsup|a b>\<assign\><around*|(|K<rsup|a b>+K<rsup|b
-    a>|)>/2> and <math|A<rsup|a b>\<assign\><around*|(|K<rsup|a b>-K<rsup|b
-    a>|)>/2>, we have <math|K<rsup|a b>=S<rsup|a b>+A<rsup|a b>>, where
-    <math|S<rsup|a b>> is symmetric and <math|A<rsup|a b>> anti-symmetric.
-    Then,
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>F<rsub|E>|\<mathd\>t><around*|[|p<around*|(|\<cdummy\>,t|)>|]>=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>p<around*|(|x,t|)><around*|[|S<rsup|a
-      b><around*|{|p|}><around*|(|x,t|)>+A<rsup|a
-      b><around*|{|p|}><around*|(|x,t|)>|]> \<nabla\><rsub|a><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}> \<nabla\><rsub|b><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}>>>|<row|<cell|<around*|{|A<rsup|a
-      b>=A<rsup|b a>|}>=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>p<around*|(|x,t|)>S<rsup|a
-      b><around*|{|p|}><around*|(|x,t|)> \<nabla\><rsub|a><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}> \<nabla\><rsub|b><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}>.>>>>
-    </align>
-
-    The condition claims that <math|S<rsup|a
-    b><around*|{|p|}><around*|(|x,t|)>> is positive definite for any <math|p>
-    and <math|<around*|(|x,t|)>>. Then, the integrad is a positive definite
-    quadratic form, being positive if and only if
-    <math|\<nabla\><rsub|a><around*|{|T ln
-    p<around*|(|x,t|)>+E<around*|(|x|)>|}>\<neq\>0>. Then, we find
-    <math|<around*|(|\<mathd\>F<rsub|E>/\<mathd\>t|)><around*|[|p<around*|(|\<cdummy\>,t|)>|]>\<less\>0>
-    as long as <math|\<nabla\><rsub|a><around*|{|T ln
-    p<around*|(|x,t|)>+E<around*|(|x|)>|}>\<neq\>0> at some <math|x>, i.e.
-    <math|p\<neq\>q>, and <math|<around*|(|\<mathd\>F<rsub|E>/\<mathd\>t|)><around*|[|p<around*|(|\<cdummy\>,t|)>|]>=0>
-    if and only if <math|\<nabla\><rsub|a><around*|{|T ln
-    p<around*|(|x,t|)>+E<around*|(|x|)>|}>=0> for <math|\<forall\>x>, i.e.
-    <math|p=q>. Thus proof ends.
-  </proof>>
-
-  <\remark>
-    [Sufficent but Not Essential]
-
-    However, this is not an essntial condition of relaxing to
-    <math|q<rsub|E>> for any <math|p>. Indeed, we proved the integrand of
-    <math|<around*|(|\<mathd\>F<rsub|E>/\<mathd\>t|)><around*|[|p<around*|(|\<cdummy\>,t|)>|]>>
-    is negative everywhere, which implies the integral, i.e.
-    <math|<around*|(|\<mathd\>F<rsub|E>/\<mathd\>t|)><around*|[|p<around*|(|\<cdummy\>,t|)>|]>>,
-    is negative. But, we cannot exclude the case where the integrand is not
-    negative everywhere, whereas the integral is still negative. During the
-    proof, this is the only place that leads to the non-essential-ness, which
-    is hard to overcome.
-  </remark>
-
-  As the dynamics of distribution is a macroscopic viewpoint, the microscopic
-  viewpoint, i.e. the stochastic dynamics of single \Pparticle\Q<\footnote>
-    For the conception of stochastic dynamics, c.f. <reference|appendix:
-    Stochastic Dynamics>.
-  </footnote>, is as follow.
-
-  <\theorem>
-    <label|theorem: Stochastic Dynamics>[Stochastic Dynamics]
-
-    If <math|K<rsup|a b>> is symmetric, independent of <math|p> and almost
-    everywhere smooth on <with|font|cal|M><\footnote>
-      <with|color|red|TODO: Check this.>
-    </footnote>, then Fokker-Planck equation is equivalent to the stochastic
-    dynamics
-
-    <\equation*>
-      \<mathd\>x<rsup|a>=<around*|[|T \<nabla\><rsub|b>K<rsup|a
-      b><around*|(|x,t|)>-K<rsup|a b><around*|(|x,t|)>
-      \<nabla\><rsub|b>E<around*|(|x|)>|]> \<mathd\>t+<sqrt|2 T>
-      \<mathd\>W<rsup|a><around*|(|x,t|)>,
-    </equation*>
-
-    where
-
-    <\equation*>
-      \<mathd\>W\<sim\><with|font|cal|N><around*|(|0,K<around*|(|x,t|)>
-      \<mathd\>t|)>.
-    </equation*>
-  </theorem>
-
-  <small|<\proof>
-    By the lemma <reference|lemma: Macroscopic Landscape>, we find
-
-    <\equation*>
-      \<mu\><rsup|a><around*|(|x,t|)>=T \<nabla\><rsub|b>K<rsup|a
-      b><around*|(|x,t|)>-K<rsup|a b><around*|(|x,t|)>
-      \<nabla\><rsub|b>E<around*|(|x|)>
-    </equation*>
-
-    and
-
-    <\equation*>
-      \<Sigma\><rsup|a b><around*|(|x,t|)>=2 T K<rsup|a b><around*|(|x,t|)>.
-    </equation*>
-
-    Then, directly,
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=>|<cell|-\<nabla\><rsub|a><around*|{|p<around*|(|x,t|)>
-      \<mu\><rsup|a><around*|(|x,t|)>|}>+<frac|1|2>
-      \<nabla\><rsub|a>\<nabla\><rsub|b><around*|(|p<around*|(|x,t|)>\<Sigma\><rsup|a
-      b><around*|(|x,t|)>|)>>>|<row|<cell|=>|<cell|\<nabla\><rsub|a><around*|{|p<around*|(|x,t|)>
-      <around*|[|K<rsup|a b><around*|(|x,t|)>
-      \<nabla\><rsub|b>E<around*|(|x|)>-T \<nabla\><rsub|b>K<rsup|a
-      b><around*|(|x,t|)>|]>|}>+\<nabla\><rsub|a>\<nabla\><rsub|b><around*|{|T
-      p<around*|(|x,t|)>K<rsup|a b><around*|(|x,t|)>|}>>>|<row|<cell|<around*|{|Expand|}>=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
-      b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
-      p<around*|(|x,t|)>|}><with|color|<pattern|C:\\Program Files
-      (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|-
-      \<nabla\><rsub|a><around*|{|T \<nabla\><rsub|b>K<rsup|a
-      b><around*|(|x,t|)> p<around*|(|x,t|)>|}>>>>|<row|<cell|+>|<cell|
-      \<nabla\><rsub|a><around*|{|T K<rsup|a
-      b><around*|(|x,t|)>\<nabla\><rsub|b>p<around*|(|x,t|)>|}><with|color|<pattern|C:\\Program
-      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|+\<nabla\><rsub|a><around*|{|T
-      \<nabla\><rsub|b>K<rsup|a b><around*|(|x,t|)>p<around*|(|x,t|)>|}>>>>|<row|<cell|=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
-      b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
-      p<around*|(|x,t|)>|}>+\<nabla\><rsub|a><around*|{|T K<rsup|a
-      b><around*|(|x,t|)>\<nabla\><rsub|b>p<around*|(|x,t|)>|}>,>>>>
-    </align>
-
-    which is just the Fokker-Planck equation. Indeed, the Fokker-Planck
-    equation <reference|theorem: Fokker-Planck Equation> is
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=>|<cell|-\<nabla\><rsub|a><around*|(|f<rsup|a><around*|{|p|}><around*|(|x,t|)>
-      p<around*|(|x,t|)>|)>>>|<row|<cell|<around*|{|f<rsup|a>=\<cdots\>|}>=>|<cell|\<nabla\><rsub|a><around*|(|K<rsup|a
-      b><around*|{|p|}><around*|(|x,t|)> \<nabla\><rsub|b><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}>
-      p<around*|(|x,t|)>|)>>>|<row|<cell|<around*|{|K<rsup|a b> independent
-      of p|}>=>|<cell|\<nabla\><rsub|a><around*|(|K<rsup|a
-      b><around*|(|x,t|)> \<nabla\><rsub|b><around*|{|T ln
-      p<around*|(|x,t|)>+E<around*|(|x|)>|}>
-      p<around*|(|x,t|)>|)>>>|<row|<cell|<around*|{|Expand|}>=>|<cell|\<nabla\><rsub|a><around*|{|K<rsup|a
-      b><around*|(|x,t|)> \<nabla\><rsub|b>E<around*|(|x|)>
-      p<around*|(|x,t|)>|}>+\<nabla\><rsub|a><around*|{|T K<rsup|a
-      b><around*|(|x,t|)> \<nabla\><rsub|b>p<around*|(|x,t|)>|}>,>>>>
-    </align>
-
-    exactly the same. Thus proof ends.
-  </proof>>
-
-  <\question>
-    Given an autonomous dynamical system<\footnote>
-      That is, ordinary differential equations that do not explicitly depend
-      on time. The word autonomous means independent of time.
-    </footnote>,
-
-    <\equation*>
-      <frac|\<mathd\>x<rsup|a>|\<mathd\>t>=f<rsup|a><around*|(|x|)>,
-    </equation*>
-
-    are there <math|E<around*|(|x|)>> and <math|K<rsup|a b><around*|(|x|)>>
-    s.t. <math|f<rsup|a><around*|(|x|)>=-K<rsup|a b><around*|(|x|)>
-    \<nabla\><rsub|b>E<around*|(|x|)>>? And if exist, how can we construct
-    them explicitly?
-  </question>
-
-  This question calls for a generic method of construction of Lyapunov
-  function.
-
   <section|Lyapunov Function>
 
   <\definition>
     [Lyapunov Function]
 
-    Given an autonomous dynamical system<\footnote>
+    Given an autonomous dynamics<\footnote>
       That is, ordinary differential equations that do not explicitly depend
       on time. The word autonomous means independent of time.
     </footnote>,
@@ -408,358 +69,147 @@
       <frac|\<mathd\>x<rsup|a>|\<mathd\>t>=f<rsup|a><around*|(|x|)>,
     </equation*>
 
-    a Lyapunov function of this dynamical system, <math|V<around*|(|x|)>>, is
-    a scalar function s.t. <math|\<nabla\><rsub|a>V<around*|(|x|)>
+    a Lyapunov function of this dynamics, <math|V<around*|(|x|)>>, is a
+    scalar function s.t. <math|\<nabla\><rsub|a>V<around*|(|x|)>
     f<rsup|a><around*|(|x|)>\<leqslant\>0> and the equality holds if and only
     if <math|f<rsup|a><around*|(|x|)>=0>.
   </definition>
 
   Along the phase trajectory, a Lyapunov function will monomotically
-  decrease. So, it reflects the stability of the dynamical system. Again, by
-  lemma <reference|lemma: Vector Fields>, for any <math|x> out of the
-  neighbourhood of singular points of <math|\<nabla\><rsub|a>V<around*|(|x|)>>,
-  i.e. <math|x\<notin\><with|font|cal|U><rsub|\<delta\>><around*|(|\<nabla\><rsub|a>V<around*|(|x|)>|)>>,
-  there exists a tensor fields <math|K<rsup|a b><around*|(|x|)>> with the
-  same order of smooth as <math|f<rsup|a><around*|(|x|)>> or
-  <math|\<nabla\><rsub|a>V<around*|(|x|)>>, s.t.
-  <math|f<rsup|a><around*|(|x|)>=-K<rsup|a b><around*|(|x|)>
-  \<nabla\><rsub|b>V<around*|(|x|)>>. Then we have, for any
-  <math|x\<notin\><with|font|cal|U><rsub|\<delta\>><around*|(|\<nabla\><rsub|a>V<around*|(|x|)>|)>>,
+  decrease. So, it reflects the stability of the dynamics.
+
+  The problem is how to find a Lyapunov function for a given autonomous
+  dynamics, if there is any. Here we propose a simulation based method that
+  furnishes a criterion on whether a Lyapunov function for this autonomous
+  dynamics exists or not, and then to reveal an analytic approximation to the
+  true Lyapunov function if it exists.
+
+  We first extend the autonomous (determinate) dynamics to a stochastical
+  dynamics<\footnote>
+    Stochastic dynamics is defined in <reference|definition: Stochastic
+    Dynamics>.
+  </footnote>, as
 
   <\equation*>
-    <frac|\<mathd\>V|\<mathd\>t><around*|(|x<around*|(|t|)>|)>=\<nabla\><rsub|a>V<around*|(|x|)>
-    f<rsup|a><around*|(|x|)>=-K<rsup|a b><around*|(|x|)>
-    \<nabla\><rsub|a>V<around*|(|x|)> \<nabla\><rsub|b>V<around*|(|x|)>\<less\>0,
+    \<mathd\>X<rsup|a>=f<rsup|a><around*|(|X|)>
+    \<mathd\>t+\<mathd\>W<rsup|a>,
   </equation*>
 
-  meaning that the symmetric part of <math|K<rsup|a b><around*|(|x|)>> is
-  positive definite. Comparing with the Fokker-Planck equation
-  <reference|theorem: Fokker-Planck Equation>, in the case
-  <math|T\<rightarrow\>0>, we recognize that <math|V<around*|(|x|)>> here is
-  the <math|E<around*|(|x|)>> there.
+  where <math|\<mathd\>W<rsup|a>\<sim\><with|font|cal|N><around*|(|0,2T
+  \<delta\><rsup|a b>\<mathd\>t|)>> and parameter <math|T\<gtr\>0>. Then, we
+  sample an essemble of particles independently evolving along this
+  stochastic dynamics. As a set of Markov chains, this simulation will reach
+  a stationary distribution. This is true if the Markov chain is irreducible
+  and recurrent. These condition is hard to check. But, in practice, there is
+  criterion that if the chains have converged at a finite time.<\footnote>
+    E.g., Gelman-Rubin-Brooks plot.
+  </footnote> If it has converged, we get an empirical distribution, denoted
+  as <math|p<rsub|D>>, that approximates to the true stationary distribution.
 
-  <section|Ambient & Latent Variables>
+  Now, we to find an analytic approximation to the empirical distribution
+  <math|p<rsub|D>>. This can be done by any universal approximator, such as
+  neural network. Say, an universal approximator
+  <math|E<around*|(|\<cdummy\>;\<theta\>|)>> parameterized by
+  <math|\<theta\>>, and define <math|q<rsub|E>> as
 
-  In the real world, there can be two types of variables: ambient and latent.
-  The ambient variables are those observed directly, like sensory inputs or
-  experimental observations. While the latent are usually more simple and
-  basic aspects, like wave-function in QM.
+  <\equation*>
+    q<rsub|E><around*|(|x;\<theta\>|)>\<assign\><frac|exp<around*|(|-E<around*|(|x;\<theta\>|)>/T|)>|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>,
+  </equation*>
 
-  We formulate the <math|E> as a funciton of
-  <math|<around*|(|v,h|)>\<in\><with|font|cal|V>\<times\><with|font|cal|H>>,
-  where <math|v>, for visible, represents the ambient and <math|h>, for
-  hidden, represents the latent. Then, we extend the free energy to
+  where <math|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+  exp<around*|(|-E<around*|(|x;\<theta\>|)>/T|)>>.
 
-  <\definition>
-    [Conditional Free Energy]
+  Then, we construct the loss as
 
-    Given <math|v>, if define
+  <\equation*>
+    L<around*|(|\<theta\>|)>\<assign\>T D<rsub|KL><around*|(|p<rsub|D>\<\|\|\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>|)>=T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+    p<rsub|D><around*|(|x|)> ln p<rsub|D><around*|(|x|)>-T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+    p<rsub|D><around*|(|x|)> ln q<rsub|E><around*|(|x;\<theta\>|)>.
+  </equation*>
 
-    <\equation*>
-      Z<rsub|E><around*|(|v|)>\<assign\><big|int><rsub|<with|font|cal|H>>\<mathd\>\<mu\><around*|(|h|)>
-      exp<around*|(|-E<around*|(|v,h|)>/T|)>,
-    </equation*>
+  The first term is independent of <math|\<theta\>>, thus omitable. Thus, the
+  loss becomes
 
-    then we have a conditional free energy of distribution
-    <math|p<around*|(|h|)>> defined as
-
-    <\equation*>
-      F<rsub|E><around*|[|p\|v|]>\<assign\>T
-      D<rsub|KL><around*|(|p\<\|\|\>q<rsub|E><around*|(|\<cdummy\>\|v|)>|)>-T
-      ln Z<rsub|E><around*|(|v|)>.
-    </equation*>
-  </definition>
-
-  Directly, we have
-
-  <\lemma>
-    <label|lemma: Conditional Distribution>
-
-    <\equation*>
-      q<rsub|E><around*|(|h\|v|)>=<frac|exp<around*|(|-E<around*|(|v,h|)>/T|)>|<big|int><rsub|<with|font|cal|H>>\<mathd\>\<mu\><around*|(|h|)>
-      exp<around*|(|-E<around*|(|v,h|)>/T|)>>,
-    </equation*>
-
-    which is simply the <math|q<rsub|E>> with the <math|v> in the
-    <math|E<around*|(|v,h|)>> fixed.
-  </lemma>
-
-  Thus,
-
-  <\theorem>
-    <\equation*>
-      F<rsub|E><around*|[|p\|v|]>=<around*|\<langle\>|E<around*|(|v,\<cdummy\>|)>|\<rangle\>><rsub|p>-T
-      H<around*|[|p|]>.
-    </equation*>
-  </theorem>
-
-  <section|Minimize Free Energy Principle>
-
-  If <math|E> is in a function family parameterized by
-  <math|\<theta\>\<in\>\<bbb-R\><rsup|N>>, denoted as
-  <math|E<around*|(|x;\<theta\>|)>>, then we want to find the most generic
-  distribution <math|q<rsub|E>> in the function family of <math|E> s.t. the
-  expection <math|<around*|\<langle\>|E<around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|q<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>>
-  is minimized. For instance, given ambient <math|v>, we want to locates
-  <math|v> on the minimum of <math|E>, that is
-  <math|<around*|\<langle\>|E<around*|(|v,\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v;\<theta\>|)>>>
-  (c.f. lemma <reference|lemma: Conditional Distribution>).
-
-  On one hand, we want to minimize <math|<around*|\<langle\>|E<around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|q<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>>;
-  on the other hand, we shall keep the minimal prior knowledge on
-  <math|q<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>, that is, maximize
-  <math|H<around*|[|q<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>|]>>. So, we
-  find the <math|\<theta\>> that minimizes
-  <math|<around*|\<langle\>|E<around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|q<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>-T
-  H<around*|[|q<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>|]>>, where the
-  positive constant <math|T> balances the two aspects. This happens to be the
-  free energy.
-
-  Next, we propose an algorithm that establishes the free energy
-  minimization. First, notice the relation
+  <\align>
+    <tformat|<table|<row|<cell|L<around*|(|\<theta\>|)>=>|<cell|-T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+    p<rsub|D><around*|(|x|)> ln q<rsub|E><around*|(|x;\<theta\>|)>>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+    p<rsub|D><around*|(|x|)> E<around*|(|x;\<theta\>|)>+T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+    p<rsub|D><around*|(|x|)> ln Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>>|<row|<cell|<around*|[|p<rsub|D>
+    is empirical|]>=>|<cell|\<bbb-E\><rsub|x\<sim\>p<rsub|D>><around*|[|E<around*|(|x;\<theta\>|)>|]>>>|<row|<cell|<around*|[|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+    p<rsub|D><around*|(|x|)>=1|]>+>|<cell|ln
+    Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>.>>>>
+  </align>
 
   <\lemma>
     <\equation*>
-      <frac|\<partial\>|\<partial\>\<theta\><rsup|\<alpha\>>><around*|{|-T ln
-      Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>|}>=<around*|\<langle\>|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|q<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>.
+      T<frac|\<partial\>|\<partial\>\<theta\><rsup|\<alpha\>>>ln
+      Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>=-\<bbb-E\><rsub|x\<sim\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>><around*|[|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|]>.
     </equation*>
   </lemma>
-
-  So, we have an EM-like algorithm, as
-
-  <with|theorem-text|<macro|Algorithm>|<\theorem>
-    <label|algorithm: RL>[Recall and Learn (RL)]
-
-    To minimize free energy <math|F<rsub|E><around*|[|p|]>>, we have two
-    steps:
-
-    <\enumerate-numeric>
-      <item>minimize <math|<around*|\<langle\>|E<around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|p>-T
-      H<around*|[|p|]>> by the stochastic dynamics until relaxation, where
-      <math|p=q<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>; then
-
-      <item>minimize <math|-T ln Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>
-      by gradient descent and replacing <math|<around*|\<langle\>|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|<with|color|blue|q<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>>\<rightarrow\><around*|\<langle\>|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|<with|color|blue|p>>>.
-    </enumerate-numeric>
-
-    By repeating these two steps, we get smaller and smaller free energy.
-  </theorem>>
-
-  For instance, in a brain, the first step can be illustrated as recalling,
-  and the second as learning (searching for a more proper memory, or code of
-  information). So we call this algorithm <em|recall and learn>.
-
-  During the optimization, the first term minimizes the expectation of
-  <math|E<around*|(|\<cdummy\>;\<theta\>|)>>, while the second term smoothes
-  <math|E<around*|(|\<cdummy\>;\<theta\>|)>>. Since the
-  <math|q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>> is invariant for
-  <math|E<around*|(|x;\<theta\>|)>\<rightarrow\>E<around*|(|x;\<theta\>|)>+Const>,
-  we shall eliminate this symmetry by re-defining
-
-  <\equation*>
-    E<around*|(|x;\<theta\>|)>\<rightarrow\>E<around*|(|x;\<theta\>|)>-E<around*|(|x<rsub|\<star\>>;\<theta\>|)>,
-  </equation*>
-
-  for any <math|x<rsub|\<star\>>\<in\><with|font|cal|M>> given.
-
-  <section|Example: Continuous Hopfield Network>
-
-  Here, we provide a biological inspired example, for illustrating both the
-  stochastic dynamics <reference|theorem: Stochastic Dynamics> and the RL
-  algorithm <reference|algorithm: RL>.
-
-  <\definition>
-    [Continuous Hopfield Network]
-
-    Let <math|U<rsup|\<alpha\>\<beta\>>> and <math|I<rsup|\<alpha\>>>
-    constants, and <math|L<rsub|v><around*|(|v|)>> and
-    <math|L<rsub|h><around*|(|h|)>> scalar functions. Define
-    <math|f<rsub|\<alpha\>>\<assign\>\<partial\><rsub|\<alpha\>>L<rsub|h>>,
-    <math|g<rsub|\<alpha\>>\<assign\>\<partial\><rsub|\<alpha\>>L<rsub|v>>.
-    Then the dynamics of continuous Hopfield network is defined as<\footnote>
-      Originally illustrated in <hlink|Large Associative Memory Problem in
-      Neurobiology and Machine Learning|https://arxiv.org/abs/2008.06996>,
-      Dmitry Krotov and<nbsp>John Hopfield, 2020.
-    </footnote>
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<alpha\>\<beta\>>
-      f<rsub|\<beta\>><around*|(|h|)>-v<rsup|\<alpha\>>+I<rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|U<rsup|\<beta\>\<alpha\>>
-      g<rsub|\<beta\>><around*|(|v|)>-h<rsup|\<alpha\>>,>>>>
-    </align>
-
-    where <math|U> describes the strength of connection between neurons, and
-    <math|f>, <math|g> the activation functions of latent and ambient,
-    respectively. Further, we have the <math|E> constructed as
-
-    <\equation*>
-      E<around*|(|v,h|)>=<around*|[|<around*|(|v<rsup|\<alpha\>>-I<rsup|\<alpha\>>|)>
-      g<rsub|\<alpha\>><around*|(|v|)>-L<rsub|v><around*|(|v|)>|]>+<around*|[|h<rsup|\<alpha\>>
-      f<rsub|\<alpha\>><around*|(|h|)>-L<rsub|h><around*|(|h|)>|]>-U<rsub|\<alpha\>\<beta\>>
-      g<rsup|\<alpha\>><around*|(|v|)> f<rsup|\<beta\>><around*|(|h|)>.
-    </equation*>
-  </definition>
-
-  Next, we convert this deterministic dynamics to its stochastic version.
-
-  <\theorem>
-    If <math|f=\<partial\>L<rsub|h>> and <math|g=\<partial\>L<rsub|v>> are
-    linear functions, and the Hessian matrix of <math|L<rsub|v>> and
-    <math|L<rsub|h>> are positive definite, then the stochastic dynamics of
-    the continuous Hopfield network is
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsub|v><rsup|\<alpha\>\<beta\>>
-      <around*|[|U<rsub|\<beta\>\<gamma\>>
-      f<rsup|\<gamma\>><around*|(|h|)>-v<rsub|\<beta\>>+I<rsub|\<beta\>>|]>+<sqrt|2
-      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|h>
-      <around*|[|U<rsub|\<gamma\>\<beta\>>
-      g<rsup|\<gamma\>><around*|(|v|)>-h<rsup|\<beta\>>|]>+<sqrt|2 T>
-      \<mathd\>W<rsub|h><rsup|\<alpha\>>,>>>>
-    </align>
-
-    where <math|K<rsub|v>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|v><around*|(|v|)>|]><rsup|-1>>
-    and <math|K<rsub|h>\<assign\><around*|[|\<partial\><rsup|2>L<rsub|h><around*|(|h|)>|]><rsup|-1>>
-    are constant matrices.<\footnote>
-      Here the <math|\<partial\><rsup|2>L> is the Hessian matrix, and
-      <math|<around*|[|\<partial\><rsup|2>L|]><rsup|-1>> the inverse matrix.
-    </footnote>
-  </theorem>
 
   <small|<\proof>
-    Directly, we have
+    Directly,
 
     <\align>
-      <tformat|<table|<row|<cell|<frac|\<partial\>E|\<partial\>v<rsup|\<alpha\>>><around*|(|v,h|)>=>|<cell|<with|color|<pattern|C:\\Program
-      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|g<rsub|\<alpha\>><around*|(|v|)>>+<around*|(|v<rsup|\<beta\>>-I<rsup|\<beta\>>|)>
-      <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)><with|color|<pattern|C:\\Program
-      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|-<frac|\<partial\>L<rsub|v>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>>-U<rsup|\<beta\>\<gamma\>>
-      f<rsub|\<gamma\>><around*|(|h|)> <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>>>|<row|<cell|<around*|{|g<rsub|\<alpha\>>=<frac|\<partial\>L<rsub|v>|\<partial\>v<rsup|\<alpha\>>>|}>=>|<cell|-<around*|[|U<rsup|\<beta\>\<gamma\>>
-      f<rsub|\<gamma\>><around*|(|h|)>+v<rsup|\<beta\>>-I<rsup|\<beta\>>|]>
-      <frac|\<partial\>g<rsub|\<beta\>>|\<partial\>v<rsup|\<alpha\>>><around*|(|v|)>;>>>>
+      <tformat|<table|<row|<cell|T<frac|\<partial\>|\<partial\>\<theta\><rsup|\<alpha\>>>ln
+      Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>=>|<cell|T<frac|1|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>><frac|\<partial\>|\<partial\>\<theta\><rsup|\<alpha\>>>Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>>|<row|<cell|<around*|{|Z<rsub|E>\<assign\>\<cdots\>|}>=>|<cell|T<frac|1|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>><frac|\<partial\>|\<partial\>\<theta\><rsup|\<alpha\>>><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      \<mathe\><rsup|-E<around*|(|x;\<theta\>|)>/T>>>|<row|<cell|=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      <frac|\<mathe\><rsup|-E<around*|(|x;\<theta\>|)>/T>|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>><frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|x;\<theta\>|)>>>|<row|<cell|<around*|{|q<rsub|E>\<assign\>\<cdots\>|}>=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      q<rsub|E><around*|(|x;\<theta\>|)><frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|x;\<theta\>|)>.>>|<row|<cell|=>|<cell|-\<bbb-E\><rsub|x\<sim\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>><around*|[|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|]>.>>>>
     </align>
 
-    and
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<partial\>E|\<partial\>h<rsup|\<alpha\>>><around*|(|v,h|)>=>|<cell|<with|color|<pattern|C:\\Program
-      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|f<rsub|\<alpha\>><around*|(|h|)>>+h<rsup|\<beta\>>
-      <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)><with|color|<pattern|C:\\Program
-      Files (x86)\\TeXmacs\\misc\\patterns\\vintage\\granite-light.png||>|-<frac|\<partial\>L<rsub|h>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>>-U<rsup|\<gamma\>\<beta\>>
-      g<rsub|\<gamma\>><around*|(|v|)> <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>>>|<row|<cell|<around*|{|f<rsub|\<alpha\>>=<frac|\<partial\>L<rsub|h>|\<partial\>h<rsup|\<alpha\>>>|}>=>|<cell|-<around*|[|U<rsup|\<gamma\>\<beta\>>
-      g<rsub|\<gamma\>><around*|(|v|)>+h<rsup|\<beta\>>|]>
-      <frac|\<partial\>f<rsub|\<beta\>>|\<partial\>h<rsup|\<alpha\>>><around*|(|h|)>.>>>>
-    </align>
-
-    If <math|f> and <math|g> are linear functions, then
-    <math|\<partial\><rsup|2>f> and <math|\<partial\><rsup|2>g> vanish. Thus,
-    comparing with <reference|theorem: Stochastic Dynamics>, we find
-    <math|K<rsub|v>=\<partial\><rsup|2>L<rsub|v><around*|(|v|)><rsup|-1>>,
-    <math|K<rsub|h>=\<partial\><rsup|2>L<rsub|h><around*|(|h|)><rsup|-1>>,
-    and <math|\<nabla\>K=0>. That is,
-
-    <\align>
-      <tformat|<table|<row|<cell|<frac|\<mathd\>v<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|v>
-      <around*|[|U<rsub|\<beta\>\<gamma\>>
-      f<rsup|\<gamma\>><around*|(|h|)>-v<rsub|\<beta\>>+I<rsub|\<beta\>>|]>+<sqrt|2
-      T> \<mathd\>W<rsub|v><rsup|\<alpha\>>;>>|<row|<cell|<frac|\<mathd\>h<rsup|\<alpha\>>|\<mathd\>t>=>|<cell|K<rsup|\<alpha\>\<beta\>><rsub|h>
-      <around*|[|U<rsub|\<gamma\>\<beta\>>
-      g<rsup|\<gamma\>><around*|(|v|)>-h<rsup|\<beta\>>|]>+<sqrt|2 T>
-      \<mathd\>W<rsub|h><rsup|\<alpha\>>,>>>>
-    </align>
-
-    Thus proof ends.
+    Thus, proof ends.
   </proof>>
 
-  <\remark>
-    [Hebbian Rule]
+  This implies
 
-    In addition, we find, along the gradient descent trajectory of <math|U>,
-    the difference is
+  <\align>
+    <tformat|<table|<row|<cell|>|<cell|<frac|\<partial\>L|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<theta\>|)>=\<bbb-E\><rsub|x\<sim\>p<rsub|D>><around*|[|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|]>-\<bbb-E\><rsub|x\<sim\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>><around*|[|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|]>,>>>>
+  </align>
 
-    <\equation*>
-      \<Delta\>U<rsup|\<alpha\>\<beta\>>\<propto\><around*|\<langle\>|-<frac|\<partial\>E|\<partial\>U<rsub|\<alpha\>\<beta\>>><around*|(|v,h;U|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>=<around*|\<langle\>|g<rsup|\<alpha\>><around*|(|v|)>
-      f<rsup|\<alpha\>><around*|(|h|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>\|v|)>>.
-    </equation*>
+  where the second term can be computed via persistent MCMC. So, during this
+  computation, we employ two different sets of Markov chains that are
+  consistently evolving. The first is constructed by the stochastic dynamics,
+  and the second by the persistent MCMC of <math|q<rsub|E>>. Along the
+  gradient descent steps of <math|\<theta\>>, on the chains of
+  <math|p<rsub|D>> <math|E> is sunk, while on the chains of <math|q<rsub|E>>
+  <math|E> is elevated. Gradient descent stops when the two parts balance,
+  where <math|q<rsub|E>> fits <math|p<rsub|D>> best.
 
-    Since <math|f> and <math|g> are activation functions, we recover the
-    Hebbian rule, that is, neurons that fire together wire together.
-  </remark>
+  Finally, we claim that the <math|E> we find at the best fit
+  <math|\<theta\>> is a Lyapunov of the original autonomous (determinate)
+  dynamics. We first claim that the evolution of the distribution of the
+  stochastic dynamics, <math|p<around*|(|x,t|)>>, by lemma <reference|lemma:
+  Macroscopic Landscape>, is
 
-  <\remark>
-    [Simplified Brain]
+  <\equation*>
+    <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+    f<rsup|a><around*|(|x|)>|]>+T \<Delta\>p<around*|(|x,t|)>,
+  </equation*>
 
-    This model can be viewed as a simplified model of brain. Indeed, in the
-    equation (1) of Dehaene et al. (2003)<\footnote>
-      <hlink|A neuronal network model linking subjective reports and
-      objective physiological data during conscious
-      perception|https://www.pnas.org/content/100/14/8520>, Stanislas
-      Dehaene, Claire Sergent, and Jean-Pierre Changeux, 2003.
-    </footnote>, when the <math|V> are limited to a small region, and the
-    <math|\<tau\>>s are large, then the coefficients, i.e. the <math|m>s and
-    <math|h>s, can be regarded as constants. The equation (1), thus, reduces
-    to the continuous Hopfield network.
-  </remark>
+  where Laplacian <math|\<Delta\>\<assign\>\<delta\><rsup|a
+  b>\<nabla\><rsub|a>\<nabla\><rsub|b>>. In the end,
+  <math|p\<rightarrow\>q<rsub|E>> where <math|\<partial\>p/\<partial\>t\<rightarrow\>0>.
+  Here, it becomes
+
+  <\equation*>
+    0=-\<nabla\><rsub|a>E<around*|(|x|)> f<rsup|a><around*|(|x|)>-\<delta\><rsup|a
+    b> \<nabla\><rsub|a>E <around*|(|x|)>\<nabla\><rsub|b>E<around*|(|x|)>+T
+    <around*|[|\<nabla\><rsub|a>f<rsup|a><around*|(|x|)>+\<Delta\>E<around*|(|x|)>|]>.
+  </equation*>
+
+  As <math|T\<rightarrow\>0>, the stochastic dynamics reduces to the
+  original, and we arrive at
+
+  <\equation*>
+    \<nabla\><rsub|a>E<around*|(|x|)> f<rsup|a><around*|(|x|)>=-\<delta\><rsup|a
+    b> \<nabla\><rsub|a>E <around*|(|x|)>\<nabla\><rsub|b>E<around*|(|x|)>\<leqslant\>0,
+  </equation*>
+
+  where equality holds if and only if <math|\<nabla\><rsub|a>E<around*|(|x|)>=0>.
+  Thus, <math|E<around*|(|x|)>> is a Lyapunov function.
 
   <appendix|Useful Lemmas>
-
-  <subsection|Vector Fields>
-
-  <\lemma>
-    Given any vector <math|f<rsup|a>> and <math|g<rsub|b>>, if
-    <math|g<rsub|b>\<neq\>0>, then there exists a tensor <math|K<rsup|a b>>,
-    s.t. <math|f<rsup|a>=K<rsup|a b> g<rsub|b>>.
-  </lemma>
-
-  <\proof>
-    We can rotate <math|g<rsub|b>> to the direction of <math|f<rsup|a>> and
-    then dimension-wise recale to <math|f<rsup|a>>. This rotation and
-    dimension-wise rescaling compose the linear transform <math|K<rsup|a b>>.
-  </proof>
-
-  Now we extends this lemma to vector fields.
-
-  <\lemma>
-    <label|lemma: Vector Fields>[Vector Fields]
-
-    Given any vector fields <math|f<rsup|a><around*|(|x|)>> and
-    <math|g<rsub|b><around*|(|x|)>>, define
-    <math|<with|font|cal|U><rsub|\<delta\>><around*|(|g|)>> as the union of
-    <math|\<delta\>>-neighbourhoods of singular point of
-    <math|g<rsub|b><around*|(|x|)>>. then there exists a smooth tensor field
-    <math|K<rsup|a b><around*|(|x|)>>, s.t.
-    <math|f<rsup|a><around*|(|x|)>=K<rsup|a b><around*|(|x|)>
-    g<rsub|b><around*|(|x|)>> for <math|\<forall\>x\<notin\><with|font|cal|U><rsub|\<delta\>><around*|(|g|)>>.
-  </lemma>
-
-  <\proof>
-    Only smoothness of <math|K<rsup|a b><around*|(|x|)>> is to be proved.
-    Since <math|f<rsup|a>> and <math|g<rsub|b>> are smooth, after varying
-    them a little, that is, <math|f<rsup|a><around*|(|x+\<delta\>x|)>=K<rsup|a
-    b><around*|(|x+\<delta\>x|)> g<rsub|b><around*|(|x+\<delta\>x|)>>. Taylor
-    expanding <math|f<rsup|a>> and <math|g<rsub|b>>, we find
-    <math|f<rsup|a><around*|(|x|)>+\<delta\>x<rsup|b>
-    \<nabla\><rsub|b>f<rsup|a><around*|(|x|)>=K<rsup|a
-    b><around*|(|x+\<delta\>x|)> g<rsub|b><around*|(|x|)>+K<rsup|a
-    b><around*|(|x+\<delta\>x|)> \<delta\>x<rsup|c>
-    \<nabla\><rsub|c>g<rsub|b><around*|(|x|)>>. Thus
-    \ <math|\<delta\>x<rsup|b> <around*|[|\<nabla\><rsub|b>f<rsup|a><around*|(|x|)>-K<rsup|a
-    c><around*|(|x+\<delta\>x|)> \ \<nabla\><rsub|b>g<rsub|c><around*|(|x|)>|]>=<around*|[|K<rsup|a
-    b><around*|(|x+\<delta\>x|)>-K<rsup|a b><around*|(|x|)>|]>
-    g<rsub|b><around*|(|x|)>>. Since <math|g<rsub|b><around*|(|x|)>> is not
-    singular, we have <math|K<rsup|a><rsub|b><around*|(|x+\<delta\>x|)>-K<rsup|a><rsub|b><around*|(|x|)>=<with|font|cal|O><around*|(|\<delta\>x|)>>,
-    thus the first order derivatives exist. The same process holds for higher
-    order derivatives, untill the order where either <math|f<rsup|a>> or
-    <math|g<rsub|b>> becomes non-smooth.
-  </proof>
-
-  When <math|x> approaches a singular point of
-  <math|g<rsub|b><around*|(|x|)>>, then the <math|K<rsup|a b><around*|(|x|)>>
-  may be divergent, since <math|f<rsup|a><around*|(|x|)>> may not vanish at
-  this point. Even excluding the singular points is not enough. For instance,
-  TODO: add a plot. In this example, the <math|K<rsup|a b><around*|(|x|)>>
-  cannot be smooth. This is why we have to exclude the neighbours of the
-  singular points, instead of the singular points themselves.
 
   <subsection|Kramers\UMoyal Expansion>
 
@@ -883,7 +333,7 @@
 
   where, for <math|\<forall\>i>, <math|\<varepsilon\><rsup|a><rsub|i>\<sim\>P>
   for some distribution <math|P>, with the mean <math|0> and covariance
-  <math|\<Sigma\><around*|(|x,t|)>>, and the walk steps
+  <math|\<Sigma\><rsup|a b><around*|(|x,t|)>>, and the walk steps
 
   <\equation*>
     n<around*|(|t|)>=<big|int><rsub|0><rsup|t>\<mathd\>\<tau\>
@@ -897,43 +347,68 @@
     \<Delta\>x<rsup|a>\<assign\><big|sum><rsub|i=n<around*|(|t|)>><rsup|n<around*|(|t+\<Delta\>t|)>>\<varepsilon\><rsup|a><rsub|i>.
   </equation*>
 
-  Let
+  Then, we have
 
-  <\equation*>
-    <wide|W|~><rsup|a><around*|(|x,t|)>\<assign\><frac|1|<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>><big|sum><rsub|i=n<around*|(|t|)>><rsup|n<around*|(|t+\<Delta\>t|)>>\<varepsilon\><rsup|a><rsub|i>,
-  </equation*>
+  <\theorem>
+    [Brownian Motion]
 
-  we have <math|\<Delta\>x<rsup|a>=<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>
-  <wide|W|~><rsup|a><around*|(|x,t|)>>. Since
-  <math|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>=<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>
-  \<Delta\>t+o<around*|(|\<Delta\>t|)>>, we have
+    As <math|\<mathd\>n/\<mathd\>t\<rightarrow\>+\<infty\>>,
 
-  <\equation*>
-    \<Delta\>x<rsup|a>=<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>
-    <wide|W|~><rsup|a><around*|(|x,t|)>=<sqrt|<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>
-    \<Delta\>t> <wide|W|~><rsup|a><around*|(|x,t|)>+\<omicron\><around*|(|<sqrt|\<Delta\>t>|)>.
-  </equation*>
+    <\equation*>
+      \<Delta\>x<rsup|a>=\<Delta\>W<rsup|a>+\<omicron\><around*|(|<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>|)>,
+    </equation*>
 
-  If
+    where
 
-  <\equation*>
-    <frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)> \<Sigma\><rsup|a
-    b><around*|(|x,t|)>=<with|font|cal|O><around*|(|1|)>
-  </equation*>
+    <\equation*>
+      \<Delta\>W<rsup|a>\<sim\><with|font|cal|N><around*|(|0,\<Delta\>t
+      \<Sigma\><rsup|a b><around*|(|x,t|)>|)>.
+    </equation*>
+  </theorem>
 
-  as <math|\<mathd\>n/\<mathd\>t\<rightarrow\>+\<infty\>>, that is, more
-  steps per unit time, then, by central limit theorem (for multi-dimension),
+  <small|<\proof>
+    Let
 
-  <\equation*>
-    \<Delta\>x<rsup|a>=\<Delta\>W<rsup|a>+\<omicron\><around*|(|<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>|)>,
-  </equation*>
+    <\equation*>
+      <wide|W|~><rsup|a><around*|(|x,t|)>\<assign\><frac|1|<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>><big|sum><rsub|i=n<around*|(|t|)>><rsup|n<around*|(|t+\<Delta\>t|)>>\<varepsilon\><rsup|a><rsub|i>,
+    </equation*>
 
-  where
+    we have <math|\<Delta\>x<rsup|a>=<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>
+    <wide|W|~><rsup|a><around*|(|x,t|)>>. Since
+    <math|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>=<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>
+    \<Delta\>t+o<around*|(|\<Delta\>t|)>>, we have
 
-  <\equation*>
-    \<Delta\>W<rsup|a>\<sim\><with|font|cal|N><around*|(|0,\<Delta\>t
-    \<Sigma\><rsup|a b><around*|(|x,t|)>|)>.
-  </equation*>
+    <\equation*>
+      \<Delta\>x<rsup|a>=<sqrt|n<around*|(|t+\<Delta\>t|)>-n<around*|(|t|)>>
+      <wide|W|~><rsup|a><around*|(|x,t|)>=<sqrt|<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>
+      \<Delta\>t> <wide|W|~><rsup|a><around*|(|x,t|)>+\<omicron\><around*|(|<sqrt|\<Delta\>t>|)>.
+    </equation*>
+
+    If
+
+    <\equation*>
+      <frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)> \<Sigma\><rsup|a
+      b><around*|(|x,t|)>=<with|font|cal|O><around*|(|1|)>
+    </equation*>
+
+    as <math|\<mathd\>n/\<mathd\>t\<rightarrow\>+\<infty\>>, that is, more
+    steps per unit time, then, by central limit theorem (for
+    multi-dimension),
+
+    <\equation*>
+      \<Delta\>x<rsup|a>=\<Delta\>W<rsup|a>+\<omicron\><around*|(|<frac|\<mathd\>n|\<mathd\>t><around*|(|x,t|)>|)>,
+    </equation*>
+
+    where
+
+    <\equation*>
+      \<Delta\>W<rsup|a>\<sim\><with|font|cal|N><around*|(|0,\<Delta\>t
+      \<Sigma\><rsup|a b><around*|(|x,t|)>|)>.
+    </equation*>
+  </proof>>
+
+  In reality, the space cannot be infinite, we live in a box, no matter how
+  large it is.
 
   <subsection|Stochastic Dynamics><label|appendix: Stochastic Dynamics>
 
@@ -952,7 +427,7 @@
     </equation*>
 
     where <math|\<mathd\>W<rsup|a><around*|(|x,t|)>> is a random walk with
-    covariance <math|\<Sigma\><rsup|a b><around*|(|x,t|)>>.
+    covariance <math|\<Sigma\><rsup|a b><around*|(|x,t|)> \<mathd\>t>.
   </definition>
 
   <\lemma>
@@ -1016,31 +491,6 @@
 
     Thus proof ends.
   </proof>>
-
-  When reducing <math|\<mu\><rsup|a><around*|(|x,t|)>\<rightarrow\>\<mu\><around*|(|x|)>>
-  and <math|\<Sigma\><rsup|a b><around*|(|x,t|)>\<rightarrow\>2T
-  \<delta\><rsup|a b>>, we have
-
-  <\equation*>
-    <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-<wide|\<nabla\>|\<vect\>>\<cdummy\><around*|[|p<around*|(|x,t|)>
-    <wide|\<mu\>|\<vect\>><around*|(|x|)>|]>+T
-    \<nabla\><rsup|2>p<around*|(|x,t|)>.
-  </equation*>
-
-  If <math|<wide|\<mu\>|\<vect\>><around*|(|x|)>=0>, we arrive at <hlink|heat
-  equation|https://en.wikipedia.org/wiki/Heat_equation>,\ 
-
-  <\equation*>
-    <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=T
-    \<nabla\><rsup|2>p<around*|(|x,t|)>.
-  </equation*>
-
-  And if <math|T=0>, we arrive at conservation equation
-
-  <\equation*>
-    <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>+<wide|\<nabla\>|\<vect\>>\<cdummy\><around*|[|p<around*|(|x,t|)>
-    <wide|\<mu\>|\<vect\>><around*|(|x|)>|]>=0.
-  </equation*>
 </body>
 
 <\initial>
@@ -1053,43 +503,43 @@
 
 <\references>
   <\collection>
-    <associate|algorithm: RL|<tuple|14|5>>
-    <associate|appendix: Stochastic Dynamics|<tuple|B.2|8>>
+    <associate|algorithm: RL|<tuple|7|5>>
+    <associate|appendix: Stochastic Dynamics|<tuple|B.2|9>>
     <associate|auto-1|<tuple|1|1>>
-    <associate|auto-10|<tuple|B|7>>
-    <associate|auto-11|<tuple|B.1|7>>
-    <associate|auto-12|<tuple|B.2|8>>
+    <associate|auto-10|<tuple|B.2|8>>
+    <associate|auto-11|<tuple|B.2|8>>
+    <associate|auto-12|<tuple|B.2|9>>
     <associate|auto-2|<tuple|1|1>>
-    <associate|auto-3|<tuple|2|3>>
-    <associate|auto-4|<tuple|3|4>>
-    <associate|auto-5|<tuple|4|4>>
-    <associate|auto-6|<tuple|5|5>>
-    <associate|auto-7|<tuple|A|6>>
-    <associate|auto-8|<tuple|A.1|6>>
-    <associate|auto-9|<tuple|A.2|7>>
-    <associate|definition: Stochastic Dynamics|<tuple|22|8>>
+    <associate|auto-3|<tuple|A|3>>
+    <associate|auto-4|<tuple|A.1|4>>
+    <associate|auto-5|<tuple|B|5>>
+    <associate|auto-6|<tuple|B.1|5>>
+    <associate|auto-7|<tuple|B.2|7>>
+    <associate|auto-8|<tuple|B.2|7>>
+    <associate|auto-9|<tuple|B.2|7>>
+    <associate|definition: Stochastic Dynamics|<tuple|6|9>>
     <associate|footnote-1|<tuple|1|2>>
     <associate|footnote-2|<tuple|2|3>>
     <associate|footnote-3|<tuple|3|3>>
     <associate|footnote-4|<tuple|4|3>>
     <associate|footnote-5|<tuple|5|4>>
-    <associate|footnote-6|<tuple|6|5>>
-    <associate|footnote-7|<tuple|7|5>>
+    <associate|footnote-6|<tuple|6|6>>
+    <associate|footnote-7|<tuple|7|6>>
     <associate|footnote-8|<tuple|8|6>>
     <associate|footnr-1|<tuple|1|2>>
     <associate|footnr-2|<tuple|2|3>>
     <associate|footnr-3|<tuple|3|3>>
     <associate|footnr-4|<tuple|4|3>>
     <associate|footnr-5|<tuple|5|4>>
-    <associate|footnr-6|<tuple|6|5>>
-    <associate|footnr-7|<tuple|7|5>>
+    <associate|footnr-6|<tuple|6|6>>
+    <associate|footnr-7|<tuple|7|6>>
     <associate|footnr-8|<tuple|8|6>>
-    <associate|lemma: Conditional Distribution|<tuple|11|4>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|21|7>>
-    <associate|lemma: Macroscopic Landscape|<tuple|23|8>>
-    <associate|lemma: Vector Fields|<tuple|20|6>>
-    <associate|theorem: Fokker-Planck Equation|<tuple|6|2>>
-    <associate|theorem: Stochastic Dynamics|<tuple|8|3>>
+    <associate|lemma: Conditional Distribution|<tuple|5|5>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|4|7>>
+    <associate|lemma: Macroscopic Landscape|<tuple|7|9>>
+    <associate|lemma: Vector Fields|<tuple|4|7>>
+    <associate|theorem: Fokker-Planck|<tuple|3|2>>
+    <associate|theorem: Stochastic Dynamics|<tuple|4|3>>
   </collection>
 </references>
 
