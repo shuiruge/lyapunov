@@ -1,50 +1,64 @@
-using Distributions
-using PDMats
+
+"""
+Define stochastic differentital equation
+
+    dx = f(x,t) dt + g(x,t) dW, <dW, dW> = Σ(x,t) dt
+
+Methods
+-------
+f : function of x and t
+g : function of x and t
+normal : sample from Normal(0, Σ(x,t))
+"""
+abstract type SDE{T} end
+
+"""
+The f(x,t) function in the SDE.
+
+Parameters
+----------
+sde : The SDE.
+x : The state.
+t : The time.
+"""
+function f(::SDE{T}, ::AbstractArray{T, N}, ::T)::AbstractArray{T, N} where {T, N} end
+
+"""
+The g(x,t) function in the SDE.
+
+Parameters
+----------
+sde : The SDE.
+x : The state.
+t : The time.
+dW : The Wiener process.
+"""
+function g(::SDE{T}, ::AbstractArray{T, N}, ::T, ::AbstractArray{T, M})::AbstractArray{T, N} where {T, M, N} end
+
+"""
+Compute the dW/√dt.
+
+Parameters
+----------
+sde : The SDE.
+x : The state.
+t : The time.
+"""
+function normal(::SDE{T}, ::AbstractArray{T, N}, ::T)::AbstractArray{T, M} where {T, M, N} end
 
 
 """
-dx = μ dt + dW, <dW, dW> = Σ dt
+Define the solver for the SDE.
 
-where μ is the mean of the stochastic process, and Σ the covariance matrix.
-
-Here we assume that covariance matrix is diagonal. Thus Σ is the diagonal part
-of the covariance matrix, thus is a vector.
-
-The μ and Σ are inplace computed by `f!` and `g!` respectively.
+Methods
+-------
+solve : Solve the SDE.
 """
-abstract type StochasticDynamics{T} end
-function f!(
-    ::StochasticDynamics{T},
-    ::AbstractArray{T, N},
-    ::AbstractArray{T, N},
-    ::T
-)::AbstractArray{T, N} where {T, N}
-end
-function g!(
-    ::StochasticDynamics,
-    ::AbstractArray{T, N},
-    ::AbstractArray{T, N},
-    ::T
-)::AbstractArray{T, N} where {T, N}
-end
-function initΣ(
-    ::StochasticDynamics{T},
-    ::AbstractArray{T}
-)::AbstractPDMat{T} where T
-end
-
-
 abstract type Solver{T} end
-function solve!(
-    ::Solver{T},
-    ::StochasticDynamics{T},
-    ::AbstractArray{T, N},
-    ::T
-)::AbstractArray{T, N} where {T, N}
-end
+function solve(::SDE{T}, ::AbstractArray{T, N}, ::T, ::T; method::Solver{T})::AbstractArray{T, N} where {T, N} end
 
 
-struct EulerMethod{T} <: Solver{T} where T
+struct EulerMethod{T} <: Solver{T}
     dt::T
 end
 
@@ -52,17 +66,15 @@ end
 """
 Implements the Euler method of solving the stochastic dynamics during [0, t].
 """
-function solve!(d::StochasticDynamics, x, t; method::EulerMethod)
-    τ = zero(t)
-    μ = zero.(x)
-    Σ = initΣ(d, x)
-    dt = method.dt
+function solve(sde, x₀, t₀, t; method::EulerMethod{T}) where {T, N}
+    x = copy(x₀)
+    τ = t₀
+    dτ = method.dt
 
     while τ < t
-        f!(d, μ, x, τ)
-        g!(d, Σ, x, τ)
-        d = MvNormal(μ * dt, Σ * dt)
-        x .+= rand(d, size(x))
-        τ += dt
+        r = normal(sde, x, τ)
+        x .+= f(sde, x, τ) * dτ + g(sde, x, τ, r) * √(dτ)
+        τ += dτ
     end
+    x
 end
