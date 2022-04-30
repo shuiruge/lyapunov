@@ -24,7 +24,7 @@ t : The time.
 function f(::SDE{T}, ::AbstractArray{T, N}, ::T)::AbstractArray{T, N} where {T, N} end
 
 """
-The g(x,t) function in the SDE.
+The g(x,t) dW in the SDE.
 
 Parameters
 ----------
@@ -64,7 +64,7 @@ end
 
 
 """
-Implements the Euler method of solving the stochastic dynamics during [0, t].
+Implements the Euler method of solving the SDE from t₀ to t.
 """
 function solve(sde, x₀, t₀, t; method::EulerMethod{T}) where {T, N}
     x = copy(x₀)
@@ -72,8 +72,8 @@ function solve(sde, x₀, t₀, t; method::EulerMethod{T}) where {T, N}
     dτ = method.dt
 
     while τ < t
-        r = normal(sde, x, τ)
-        x .+= f(sde, x, τ) * dτ + g(sde, x, τ, r) * √(dτ)
+        dW = normal(sde, x, τ) .* √(dτ)
+        x .+= f(sde, x, τ) .* dτ .+ g(sde, x, τ, dW)
         τ += dτ
     end
     x
