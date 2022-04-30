@@ -9,8 +9,6 @@
     <assign|axiom-text|<macro|Ansatz>>
   </hide-preamble>
 
-  <chapter|Lyapunov Function>
-
   <\notation>
     Overall notations in this section are:
 
@@ -37,21 +35,16 @@
       denotes normal distribution with mean <math|\<mu\>> and covariance
       <math|\<Sigma\>>;
 
-      <item>given function <math|g>, let <math|f<around*|{|g|}>>, or
-      <math|f<rsub|<around*|{|g|}>>>, denote a function constructed out of
-      <math|g>, that is,
-
-      <\equation*>
-        f<around*|{|\<cdummy\>|}>:<around*|(|<with|font|cal|M>\<rightarrow\>A|)>\<rightarrow\><around*|(|<with|font|cal|M>\<rightarrow\>B|)>;
-      </equation*>
-
       <item>for conditional maps <math|f>, let <math|f<around*|(|x\|y|)>>
       denotes the map of <math|x> with <math|y> given and fixed, and
       <math|f<around*|(|x;y|)>> denotes the map of <math|x> with <math|y>
       given but mutable;
 
-      <item>r.v. is short for random variable, i.i.d. for independent
-      identically distributed, s.t. for such that, and a.e. for almost every.
+      <item>r.v. is short for random variable, and i.i.d. for independent
+      identically distributed.
+
+      <item>ODE for ordinary differential equation(s), SDE for stochastic
+      differential equation(s).
     </itemize>
   </notation>
 
@@ -60,66 +53,69 @@
   <\definition>
     [Lyapunov Function]
 
-    Given an autonomous dynamics<\footnote>
+    Given an autonomous<\footnote>
       That is, ordinary differential equations that do not explicitly depend
       on time. The word autonomous means independent of time.
-    </footnote>,
+    </footnote> ODE,
 
     <\equation*>
       <frac|\<mathd\>x<rsup|a>|\<mathd\>t>=f<rsup|a><around*|(|x|)>,
     </equation*>
 
-    a Lyapunov function of this dynamics, <math|V<around*|(|x|)>>, is a
-    scalar function s.t. <math|\<nabla\><rsub|a>V<around*|(|x|)>
+    a Lyapunov function, <math|V<around*|(|x|)>>, of it is a scalar function
+    such that <math|\<nabla\><rsub|a>V<around*|(|x|)>
     f<rsup|a><around*|(|x|)>\<leqslant\>0> and the equality holds if and only
     if <math|f<rsup|a><around*|(|x|)>=0>.
   </definition>
 
-  Along the phase trajectory, a Lyapunov function will monomotically
-  decrease. So, it reflects the stability of the dynamics.
+  Along the phase trajectory, a Lyapunov function monomotically decreases.
+  So, it reflects the stability of the ODE.
 
-  The problem is how to find a Lyapunov function for a given autonomous
-  dynamics, if there is any. Here we propose a simulation based method that
-  furnishes a criterion on whether a Lyapunov function for this autonomous
-  dynamics exists or not, and then to reveal an analytic approximation to the
-  true Lyapunov function if it exists.
+  <\question>
+    Given an autonomous ODE, whether a Lyapunov function of it exists or not?
+  </question>
 
-  We first extend the autonomous (determinate) dynamics to a stochastical
-  dynamics<\footnote>
-    Stochastic dynamics is defined in <reference|definition: Stochastic
-    Dynamics>.
+  <\question>
+    And how to construct, or approximate to, it if there is any?
+  </question>
+
+  Here we propose a simulation based method that furnishes a criterion on
+  whether a Lyapunov function exists or not, and then reveals an analytic
+  approximation to the Lyapunov function if it exists.
+
+  We first extend the autonomous ODE to a SDE<\footnote>
+    SDE is defined in <reference|definition: Stochastic Dynamics>.
   </footnote>, as
 
   <\equation*>
-    \<mathd\>X<rsup|a>=f<rsup|a><around*|(|X|)>
-    \<mathd\>t+\<mathd\>W<rsup|a>,
+    \<mathd\>X<rsup|a>=f<rsup|a><around*|(|X|)> \<mathd\>t+<sqrt|2T >
+    \<mathd\>W<rsup|a>,
   </equation*>
 
-  where <math|\<mathd\>W<rsup|a>\<sim\><with|font|cal|N><around*|(|0,2T
-  \<delta\><rsup|a b>\<mathd\>t|)>> and parameter <math|T\<gtr\>0>. Then, we
-  sample an essemble of particles independently evolving along this
-  stochastic dynamics. As a set of Markov chains, this simulation will reach
-  a stationary distribution. This is true if the Markov chain is irreducible
-  and recurrent. These condition is hard to check. But, in practice, there is
-  criterion that if the chains have converged at a finite time.<\footnote>
+  where <math|\<mathd\>W<rsup|a>\<sim\><with|font|cal|N><around*|(|0,\<delta\><rsup|a
+  b>\<mathd\>t|)>> and parameter <math|T\<gtr\>0>. Then, we sample an
+  essemble of \Pparticles\Q independently evolving along this SDE. As a set
+  of Markov chains, this simulation will arrive at a stationary distribution.
+  This is true if the Markov chain is irreducible and recurrent. These
+  conditions are hard to check. But, in practice, there is criterion on the
+  convergence of a chain at a finite time.<\footnote>
     E.g., Gelman-Rubin-Brooks plot.
   </footnote> If it has converged, we get an empirical distribution, denoted
   as <math|p<rsub|D>>, that approximates to the true stationary distribution.
 
-  Now, we to find an analytic approximation to the empirical distribution
-  <math|p<rsub|D>>. This can be done by any universal approximator, such as
-  neural network. Say, an universal approximator
+  Next, we are to find an analytic approximation to the empirical
+  distribution <math|p<rsub|D>>. This can be taken by any universal
+  approximator, such as neural network. Say, an universal approximator
   <math|E<around*|(|\<cdummy\>;\<theta\>|)>> parameterized by
   <math|\<theta\>>, and define <math|q<rsub|E>> as
 
   <\equation*>
-    q<rsub|E><around*|(|x;\<theta\>|)>\<assign\><frac|exp<around*|(|-E<around*|(|x;\<theta\>|)>/T|)>|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>,
+    q<rsub|E><around*|(|x;\<theta\>|)>\<assign\><frac|exp<around*|(|-E<around*|(|x;\<theta\>|)>/T|)>|Z<rsub|E><around*|(|\<theta\>|)>>,
   </equation*>
 
-  where <math|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-  exp<around*|(|-E<around*|(|x;\<theta\>|)>/T|)>>.
-
-  Then, we construct the loss as
+  where <math|Z<rsub|E><around*|(|\<theta\>|)>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+  exp<around*|(|-E<around*|(|x;\<theta\>|)>/T|)>>. Then, we construct the
+  loss as
 
   <\equation*>
     L<around*|(|\<theta\>|)>\<assign\>T D<rsub|KL><around*|(|p<rsub|D>\<\|\|\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>|)>=T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
@@ -134,16 +130,18 @@
     <tformat|<table|<row|<cell|L<around*|(|\<theta\>|)>=>|<cell|-T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
     p<rsub|D><around*|(|x|)> ln q<rsub|E><around*|(|x;\<theta\>|)>>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
     p<rsub|D><around*|(|x|)> E<around*|(|x;\<theta\>|)>+T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-    p<rsub|D><around*|(|x|)> ln Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>>|<row|<cell|<around*|[|p<rsub|D>
-    is empirical|]>=>|<cell|\<bbb-E\><rsub|x\<sim\>p<rsub|D>><around*|[|E<around*|(|x;\<theta\>|)>|]>>>|<row|<cell|<around*|[|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-    p<rsub|D><around*|(|x|)>=1|]>+>|<cell|ln
-    Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>.>>>>
+    p<rsub|D><around*|(|x|)> ln Z<rsub|E><around*|(|\<theta\>|)>>>|<row|<cell|=>|<cell|<around*|\<langle\>|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|p<rsub|D>>>>|<row|<cell|<around*|[|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+    p<rsub|D><around*|(|x|)>=1|]>+>|<cell|T ln
+    Z<rsub|E><around*|(|\<theta\>|)>.>>>>
   </align>
+
+  We find the best fit <math|\<theta\><rsub|\<star\>>\<assign\>argmin<rsub|\<theta\>>L<around*|(|\<theta\>|)>>
+  by using gradient descent. Notice the relation
 
   <\lemma>
     <\equation*>
       T<frac|\<partial\>|\<partial\>\<theta\><rsup|\<alpha\>>>ln
-      Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>=-\<bbb-E\><rsub|x\<sim\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>><around*|[|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|]>.
+      Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>=-<around*|\<langle\>|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>>.
     </equation*>
   </lemma>
 
@@ -155,7 +153,7 @@
       Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>=>|<cell|T<frac|1|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>><frac|\<partial\>|\<partial\>\<theta\><rsup|\<alpha\>>>Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>>>|<row|<cell|<around*|{|Z<rsub|E>\<assign\>\<cdots\>|}>=>|<cell|T<frac|1|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>><frac|\<partial\>|\<partial\>\<theta\><rsup|\<alpha\>>><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
       \<mathe\><rsup|-E<around*|(|x;\<theta\>|)>/T>>>|<row|<cell|=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
       <frac|\<mathe\><rsup|-E<around*|(|x;\<theta\>|)>/T>|Z<rsub|E<around*|(|\<cdummy\>;\<theta\>|)>>><frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|x;\<theta\>|)>>>|<row|<cell|<around*|{|q<rsub|E>\<assign\>\<cdots\>|}>=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      q<rsub|E><around*|(|x;\<theta\>|)><frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|x;\<theta\>|)>.>>|<row|<cell|=>|<cell|-\<bbb-E\><rsub|x\<sim\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>><around*|[|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|]>.>>>>
+      q<rsub|E><around*|(|x;\<theta\>|)><frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|x;\<theta\>|)>.>>|<row|<cell|=>|<cell|-<around*|\<langle\>|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>>.>>>>
     </align>
 
     Thus, proof ends.
@@ -164,23 +162,87 @@
   This implies
 
   <\align>
-    <tformat|<table|<row|<cell|>|<cell|<frac|\<partial\>L|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<theta\>|)>=\<bbb-E\><rsub|x\<sim\>p<rsub|D>><around*|[|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|]>-\<bbb-E\><rsub|x\<sim\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>><around*|[|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|]>,>>>>
+    <tformat|<table|<row|<cell|>|<cell|<frac|\<partial\>L|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<theta\>|)>=<around*|\<langle\>|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|p<rsub|D>>-<around*|\<langle\>|<frac|\<partial\>E|\<partial\>\<theta\><rsup|\<alpha\>>><around*|(|\<cdummy\>;\<theta\>|)>|\<rangle\>><rsub|q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>>.>>>>
   </align>
 
-  where the second term can be computed via persistent MCMC. So, during this
-  computation, we employ two different sets of Markov chains that are
-  consistently evolving. The first is constructed by the stochastic dynamics,
-  and the second by the persistent MCMC of <math|q<rsub|E>>. Along the
-  gradient descent steps of <math|\<theta\>>, on the chains of
-  <math|p<rsub|D>> <math|E> is sunk, while on the chains of <math|q<rsub|E>>
-  <math|E> is elevated. Gradient descent stops when the two parts balance,
-  where <math|q<rsub|E>> fits <math|p<rsub|D>> best.
+  Both of the two terms can be computed by Monte Carlo integral. Since
+  <math|p<rsub|D>> has been an empirical distribution, the computation of the
+  first Monte Carlo integral is straight forward. The second can be computed
+  in the same way of generating the empirical distribution <math|p<rsub|D>>,
+  by noticing
+
+  <\lemma>
+    Markov chains by SDE
+
+    <\equation*>
+      \<mathd\>X<rsup|a>=-\<nabla\><rsup|a>E<around*|(|x|)>
+      \<mathd\>t+<sqrt|2T> \<mathd\>V<rsup|a>,
+    </equation*>
+
+    where <math|\<mathd\>V<rsup|a>\<sim\><with|font|cal|N><around*|(|0,\<delta\><rsup|a
+    b> \<mathd\>t|)>> and <math|T\<gtr\>0>, will converge to
+    <math|q<rsub|E>>.
+  </lemma>
+
+  <small|<\proof>
+    By lemma <reference|lemma: Macroscopic Landscape>, the distribution
+    <math|p<around*|(|x,t|)>> of the Markov chains generated by the SDE obeys
+
+    <\equation*>
+      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+      \<nabla\><rsup|a>E<around*|(|x|)>|]>+T \<Delta\>p<around*|(|x,t|)>.
+    </equation*>
+
+    It's straight forward to check that <math|q<rsub|E>> is a stationary
+    solution to this equation. And for any initial value of
+    <math|p<around*|(|x,t|)>>, it always relax to <math|q<rsub|E>>. Indeed,
+
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>|\<mathd\>t> T
+      D<rsub|KL><around*|(|p\<\|\|\>q<rsub|E>|)>=>|<cell|<frac|\<mathd\>|\<mathd\>t>
+      T <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      p<around*|(|x,t|)> <around*|[|ln p<around*|(|x,t|)>-ln
+      q<rsub|E><around*|(|x|)>|]>>>|<row|<cell|=>|<cell|T
+      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)> <around*|[|ln
+      p<around*|(|x,t|)>-ln q<rsub|E><around*|(|x|)>+1|]>>>|<row|<cell|<around*|{|<frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=\<cdots\>|}>=>|<cell|T
+      <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      \<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+      \<nabla\><rsup|a>E<around*|(|x|)>+T
+      \<nabla\><rsup|a>p<around*|(|x,t|)>|]> <around*|[|ln
+      p<around*|(|x,t|)>-ln q<rsub|E><around*|(|x|)>+1|]>>>|<row|<cell|<around*|{|Integral
+      by part|}>=>|<cell|-T <big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)><around*|[|p<around*|(|x,t|)>
+      \<nabla\><rsup|a>E<around*|(|x|)>+T
+      \<nabla\><rsup|a>p<around*|(|x,t|)>|]> \ \<nabla\><rsub|a><around*|[|ln
+      p<around*|(|x,t|)>-ln q<rsub|E><around*|(|x|)>+1|]>>>|<row|<cell|=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      p<around*|(|x,t|)> \<nabla\><rsub|a><around*|[|E<around*|(|x|)>+T ln
+      p<around*|(|x,t|)>|]> \ \<nabla\><rsup|a><around*|[|E<around*|(|x|)>+T
+      ln p<around*|(|x,t|)>|]>>>|<row|<cell|\<leqslant\>>|<cell|0,>>>>
+    </align>
+
+    and the equility holds if and only if
+    <math|\<nabla\><rsub|a><around*|[|E<around*|(|x|)>+T ln
+    p<around*|(|x,t|)>|]>=0> for <math|\<forall\>x>, that is,
+    <math|p<around*|(|x,t|)>\<equiv\>q<rsub|E><around*|(|x|)>>.
+  </proof>>
+
+  Even though the <math|\<theta\>> is keep changing during the gradient
+  descent process, as long as it's controlled so as to be slowly varying, we
+  can use the same strategy as the persistent contrastive divergence trick to
+  simplify the computation. \ So, during the gradient descent steps, we
+  employ two distinct sets of Markov chains that are consistently evolving.
+  The first is constructed by the SDE of <math|p<rsub|D>>, and the second by
+  the SDE of <math|q<rsub|E>>. Along the gradient descent steps of
+  <math|\<theta\>>, on the chains of <math|p<rsub|D>> <math|E> is suppressed,
+  while on the chains of <math|q<rsub|E>> <math|E> is elevated. Gradient
+  descent stops when the two parts balance, where <math|q<rsub|E>> fits
+  <math|p<rsub|D>> best.
 
   Finally, we claim that the <math|E> we find at the best fit
-  <math|\<theta\>> is a Lyapunov of the original autonomous (determinate)
-  dynamics. We first claim that the evolution of the distribution of the
-  stochastic dynamics, <math|p<around*|(|x,t|)>>, by lemma <reference|lemma:
-  Macroscopic Landscape>, is
+  <math|\<theta\><rsub|\<star\>>> is a Lyapunov of the original autonomous
+  ODE. By lemma <reference|lemma: Macroscopic Landscape>, the distribution
+  <math|p<around*|(|x,t|)>> of the Markov chains generated by the SDE of
+  <math|p<rsub|D>> obeys
 
   <\equation*>
     <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
@@ -189,8 +251,8 @@
 
   where Laplacian <math|\<Delta\>\<assign\>\<delta\><rsup|a
   b>\<nabla\><rsub|a>\<nabla\><rsub|b>>. In the end,
-  <math|p\<rightarrow\>q<rsub|E>> where <math|\<partial\>p/\<partial\>t\<rightarrow\>0>.
-  Here, it becomes
+  <math|p\<rightarrow\>p<rsub|D>\<approx\>q<rsub|E>> where
+  <math|\<partial\>p/\<partial\>t\<rightarrow\>0>. Here, it becomes
 
   <\equation*>
     0=-\<nabla\><rsub|a>E<around*|(|x|)> f<rsup|a><around*|(|x|)>-\<delta\><rsup|a
@@ -198,8 +260,8 @@
     <around*|[|\<nabla\><rsub|a>f<rsup|a><around*|(|x|)>+\<Delta\>E<around*|(|x|)>|]>.
   </equation*>
 
-  As <math|T\<rightarrow\>0>, the stochastic dynamics reduces to the
-  original, and we arrive at
+  As <math|T\<rightarrow\>0>, the SDE reduces to the original ODE, and we
+  arrive at
 
   <\equation*>
     \<nabla\><rsub|a>E<around*|(|x|)> f<rsup|a><around*|(|x|)>=-\<delta\><rsup|a
@@ -407,23 +469,22 @@
     </equation*>
   </proof>>
 
-  In reality, the space cannot be infinite, we live in a box, no matter how
-  large it is.
-
   <subsection|Stochastic Dynamics><label|appendix: Stochastic Dynamics>
 
-  A stochastic dynamics is defined by two parts. The first is deterministic,
-  and the second is a random walk. Precisely,
+  A stochastic dynamics, or stochastic differential equations (SDE), is
+  defined by two parts. The first is deterministic, and the second is a
+  random walk. Precisely,
 
   <\definition>
-    <label|definition: Stochastic Dynamics>[Stochastic Dynamics]
-
-    Given <math|\<mu\><rsup|a><around*|(|x,t|)>> and <math|\<Sigma\><rsup|a
+    <label|definition: SDE>Given <math|f<rsup|a><around*|(|x,t|)>>,
+    <math|g<rsup|a><rsub|b><around*|(|x,t|)>>, and <math|\<Sigma\><rsup|a
     b><around*|(|x,t|)>> on <math|<with|font|cal|M>\<times\>\<bbb-R\>>,
+    stochastic differential equations is defined as
 
     <\equation*>
-      \<mathd\>x<rsup|a>=\<mu\><rsup|a><around*|(|x,t|)>
-      \<mathd\>t+\<mathd\>W<rsup|a><around*|(|x,t|)>,
+      \<mathd\>x<rsup|a>=f<rsup|a><around*|(|x,t|)>
+      \<mathd\>t+g<rsup|a><rsub|b><around*|(|x,t|)>
+      \<mathd\>W<rsup|b><around*|(|x,t|)>,
     </equation*>
 
     where <math|\<mathd\>W<rsup|a><around*|(|x,t|)>> is a random walk with
@@ -434,26 +495,28 @@
     <label|lemma: Macroscopic Landscape>[Macroscopic Landscape]
 
     Consider an ensemble of particles, randomly sampled at an initial time,
-    evolving along a stochastic dynamics <reference|definition: Stochastic
-    Dynamics>. By saying \Pensemble\Q, we mean that the number of particles
-    has the order of Avogadro's constant, s.t. the distribution of the
-    particles can be viewed as smooth. Let <math|p<around*|(|x,t|)>> denotes
-    the distribution. Then we have
+    evolving along a SDE <reference|definition: Stochastic Dynamics>. By
+    saying \Pensemble\Q, we mean that the number of particles has the order
+    of Avogadro's constant, s.t. the distribution of the particles can be
+    viewed as smooth. Let <math|p<around*|(|x,t|)>> denotes the distribution.
+    Then we have
 
     <\equation*>
       <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
-      \<mu\><rsup|a><around*|(|x,t|)>|]>+<frac|1|2>
-      \<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>\<Sigma\><rsup|a
-      b><around*|(|x,t|)>|]>.
+      f<rsup|a><around*|(|x,t|)>|]>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
+      K<rsup|a b><around*|(|x,t|)>|]>,
     </equation*>
+
+    where <math|K<rsup|a b>\<assign\>g<rsup|a><rsub|c><around*|(|x,t|)>
+    g<rsup|b><rsub|d><around*|(|x,t|)> \<Sigma\><rsup|c d><around*|(|x,t|)>>.
   </lemma>
 
   <small|<\proof>
-    From the difference of the stochastic dynamics,
+    From the difference of the SDE,
 
     <\equation*>
-      \<Delta\>x<rsup|a>=\<mu\><rsup|a><around*|(|x,t|)> \<Delta\>t+
-      \<Delta\>W<rsup|a><around*|(|x,t|)>,
+      \<Delta\>x<rsup|a>=f<rsup|a><around*|(|x,t|)> \<Delta\>t+
+      g<rsup|a><rsub|b><around*|(|x,t|)> \<Delta\>W<rsup|a><around*|(|x,t|)>,
     </equation*>
 
     by Kramers\UMoyal expansion <reference|lemma: Kramers\UMoyal Expansion>,
@@ -465,28 +528,47 @@
 
     For <math|n=1>, since <math|\<mathd\>W<rsup|a><around*|(|x,t|)>> is a
     random walk, <math|<around*|\<langle\>|\<Delta\>W<rsup|a><around*|(|x,t|)>|\<rangle\>><rsub|\<Delta\>W<around*|(|x,t|)>>=0>.
-    Then the term is <math|-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)><around*|\<langle\>|\<Delta\>x<rsup|a>|\<rangle\>><rsub|\<Delta\>x>|]>=-\<nabla\><rsub|a><around*|{|p<around*|(|x,t|)>
-    \<mu\><rsup|a><around*|(|x,t|)>|}>\<Delta\>t>. And for <math|n=2>, by
-    noticing that, as a random walk, <math|<around*|\<langle\>|\<Delta\>W<rsup|a><around*|(|x,t|)>
+    Then the term is
+
+    <\equation*>
+      -\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)><around*|\<langle\>|\<Delta\>x<rsup|a>|\<rangle\>><rsub|\<Delta\>x>|]>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+      f<rsup|a><around*|(|x,t|)>|]>\<Delta\>t.
+    </equation*>
+
+    And for <math|n=2>, by noticing that, as a random walk,
+    <math|<around*|\<langle\>|\<Delta\>W<rsup|a><around*|(|x,t|)>
     \<Delta\>W<rsup|b><around*|(|x,t|)>|\<rangle\>><rsub|\<Delta\>W<around*|(|x,t|)>>=<with|font|cal|O><around*|(|\<Delta\>t|)>>,
-    we have, up to <math|o<around*|(|\<Delta\>t|)>>, only
-    <math|<around*|(|1/2|)> \<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>\<Sigma\><rsup|a
-    b><around*|(|x,t|)>|]> \<Delta\>t> left. For <math|n\<geqslant\>3>, all
-    are <math|o<around*|(|\<Delta\>t|)>>. So, we have
+    we have,
+
+    <\equation*>
+      <frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
+      <around*|\<langle\>|\<Delta\>x<rsup|a>
+      \<Delta\>x<rsup|b>|\<rangle\>><rsub|\<Delta\>x>|]>=<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
+      g<rsup|a><rsub|c><around*|(|x,t|)> g<rsup|b><rsub|d><around*|(|x,t|)>
+      \<Sigma\><rsup|c d><around*|(|x,t|)>|]>
+      \<Delta\>t+\<omicron\><around*|(|\<Delta\>t|)>.
+    </equation*>
+
+    \;
+
+    For <math|n\<geqslant\>3>, all are <math|o<around*|(|\<Delta\>t|)>>. So,
+    we have
 
     <\equation*>
       p<around*|(|x,t+\<Delta\>t|)>-p<around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
-      \<mu\><rsup|a><around*|(|x,t|)>|]>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>\<Sigma\><rsup|a
-      b><around*|(|x,t|)>|]>\<Delta\>t+o<around*|(|\<Delta\>t|)>.
+      f<rsup|a><around*|(|x,t|)>|]>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
+      g<rsup|a><rsub|c><around*|(|x,t|)> g<rsup|b><rsub|d><around*|(|x,t|)>
+      \<Sigma\><rsup|c d><around*|(|x,t|)>|]>
+      \<Delta\>t+o<around*|(|\<Delta\>t|)>.
     </equation*>
 
     Letting <math|\<Delta\>t\<rightarrow\>0>, we find
 
     <\equation*>
       <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
-      \<mu\><rsup|a><around*|(|x,t|)>|]>+<frac|1|2>
-      \<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>\<Sigma\><rsup|a
-      b><around*|(|x,t|)>|]>.
+      \<mu\><rsup|a><around*|(|x,t|)>|]>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
+      g<rsup|a><rsub|c><around*|(|x,t|)> g<rsup|b><rsub|d><around*|(|x,t|)>
+      \<Sigma\><rsup|c d><around*|(|x,t|)>|]>.
     </equation*>
 
     Thus proof ends.
@@ -503,43 +585,24 @@
 
 <\references>
   <\collection>
-    <associate|algorithm: RL|<tuple|7|5>>
-    <associate|appendix: Stochastic Dynamics|<tuple|B.2|9>>
+    <associate|appendix: Stochastic Dynamics|<tuple|B.2|4>>
     <associate|auto-1|<tuple|1|1>>
-    <associate|auto-10|<tuple|B.2|8>>
-    <associate|auto-11|<tuple|B.2|8>>
-    <associate|auto-12|<tuple|B.2|9>>
-    <associate|auto-2|<tuple|1|1>>
-    <associate|auto-3|<tuple|A|3>>
-    <associate|auto-4|<tuple|A.1|4>>
-    <associate|auto-5|<tuple|B|5>>
-    <associate|auto-6|<tuple|B.1|5>>
-    <associate|auto-7|<tuple|B.2|7>>
-    <associate|auto-8|<tuple|B.2|7>>
-    <associate|auto-9|<tuple|B.2|7>>
-    <associate|definition: Stochastic Dynamics|<tuple|6|9>>
-    <associate|footnote-1|<tuple|1|2>>
-    <associate|footnote-2|<tuple|2|3>>
-    <associate|footnote-3|<tuple|3|3>>
-    <associate|footnote-4|<tuple|4|3>>
-    <associate|footnote-5|<tuple|5|4>>
-    <associate|footnote-6|<tuple|6|6>>
-    <associate|footnote-7|<tuple|7|6>>
-    <associate|footnote-8|<tuple|8|6>>
-    <associate|footnr-1|<tuple|1|2>>
-    <associate|footnr-2|<tuple|2|3>>
-    <associate|footnr-3|<tuple|3|3>>
-    <associate|footnr-4|<tuple|4|3>>
-    <associate|footnr-5|<tuple|5|4>>
-    <associate|footnr-6|<tuple|6|6>>
-    <associate|footnr-7|<tuple|7|6>>
-    <associate|footnr-8|<tuple|8|6>>
-    <associate|lemma: Conditional Distribution|<tuple|5|5>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|4|7>>
-    <associate|lemma: Macroscopic Landscape|<tuple|7|9>>
-    <associate|lemma: Vector Fields|<tuple|4|7>>
-    <associate|theorem: Fokker-Planck|<tuple|3|2>>
-    <associate|theorem: Stochastic Dynamics|<tuple|4|3>>
+    <associate|auto-2|<tuple|A|1>>
+    <associate|auto-3|<tuple|A.1|2>>
+    <associate|auto-4|<tuple|B|2>>
+    <associate|auto-5|<tuple|B.1|3>>
+    <associate|auto-6|<tuple|B.2|3>>
+    <associate|auto-7|<tuple|B.2|4>>
+    <associate|definition: SDE|<tuple|7|?>>
+    <associate|definition: Stochastic Dynamics|<tuple|6|4>>
+    <associate|footnote-1|<tuple|1|1>>
+    <associate|footnote-2|<tuple|2|1>>
+    <associate|footnote-3|<tuple|3|1>>
+    <associate|footnr-1|<tuple|1|1>>
+    <associate|footnr-2|<tuple|2|1>>
+    <associate|footnr-3|<tuple|3|1>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|5|3>>
+    <associate|lemma: Macroscopic Landscape|<tuple|8|4>>
   </collection>
 </references>
 
@@ -550,49 +613,29 @@
       Function> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-1><vspace|1fn>
 
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|1<space|2spc>Relaxation>
-      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-2><vspace|0.5fn>
-
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|2<space|2spc>Lyapunov
+      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|1<space|2spc>Lyapunov
       Function> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-3><vspace|0.5fn>
-
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|3<space|2spc>Ambient
-      & Latent Variables> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-4><vspace|0.5fn>
-
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|4<space|2spc>Minimize
-      Free Energy Principle> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-5><vspace|0.5fn>
-
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|5<space|2spc>Example:
-      Continuous Hopfield Network> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-6><vspace|0.5fn>
+      <no-break><pageref|auto-2><vspace|0.5fn>
 
       <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|Appendix
       A<space|2spc>Useful Lemmas> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-7><vspace|0.5fn>
+      <no-break><pageref|auto-3><vspace|0.5fn>
 
-      <with|par-left|<quote|1tab>|A.1<space|2spc>Vector Fields
+      <with|par-left|<quote|1tab>|A.1<space|2spc>Kramers\UMoyal Expansion
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-8>>
-
-      <with|par-left|<quote|1tab>|A.2<space|2spc>Kramers\UMoyal Expansion
-      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-9>>
+      <no-break><pageref|auto-4>>
 
       <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|Appendix
       B<space|2spc>Stochastic Dynamics> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-10><vspace|0.5fn>
+      <no-break><pageref|auto-5><vspace|0.5fn>
 
       <with|par-left|<quote|1tab>|B.1<space|2spc>Random Walk
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-11>>
+      <no-break><pageref|auto-6>>
 
       <with|par-left|<quote|1tab>|B.2<space|2spc>Stochastic Dynamics
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-12>>
+      <no-break><pageref|auto-7>>
     </associate>
   </collection>
 </auxiliary>
