@@ -4,61 +4,55 @@ Define stochastic differentital equation
 
     dx = f(x,t) dt + g(x,t) dW, <dW, dW> = Σ(x,t) dt
 
-Methods
--------
-f : function of x and t
-g : function of x and t
-normal : sample from Normal(0, Σ(x,t))
-"""
-abstract type SDE{T} end
+Abstract Methods
+----------------
+- Defines the f:
 
-"""
-The f(x,t) function in the SDE.
+        f(::AbstractSDE{T}, ::AbstractArray{T, N}, ::T)::AbstractArray{T, N}
 
-Parameters
-----------
-sde : The SDE.
-x : The state.
-t : The time.
-"""
-function f(::SDE{T}, ::AbstractArray{T, N}, ::T)::AbstractArray{T, N} where {T, N} end
+    sde : The SDE.
+    x : The state.
+    t : The time.
 
-"""
-The g(x,t) dW in the SDE.
+- Deinfes the g:
 
-Parameters
-----------
-sde : The SDE.
-x : The state.
-t : The time.
-dW : The Wiener process.
-"""
-function g(::SDE{T}, ::AbstractArray{T, N}, ::T, ::AbstractArray{T, M})::AbstractArray{T, N} where {T, M, N} end
+        g(::AbstractSDE{T}, ::AbstractArray{T, N}, ::T, ::AbstractArray{T, M})::AbstractArray{T, N}
 
-"""
-Compute the dW/√dt.
+    sde : The SDE.
+    x : The state.
+    t : The time.
+    dW : The Wiener process.
 
-Parameters
-----------
-sde : The SDE.
-x : The state.
-t : The time.
+- Compute the dW/√dt:
+
+        normal(::AbstractSDE{T}, ::AbstractArray{T, N}, ::T)::AbstractArray{T, M}
+
+    sde : The SDE.
+    x : The state.
+    t : The time.
 """
-function normal(::SDE{T}, ::AbstractArray{T, N}, ::T)::AbstractArray{T, M} where {T, M, N} end
+abstract type AbstractSDE{T} end
 
 
 """
 Define the solver for the SDE.
 
-Methods
--------
-solve : Solve the SDE.
+Abstract Methods
+----------------
+- Solve the SDE:
+
+        solve(::AbstractSDE{T}, ::AbstractArray{T, N}, ::T, ::T; method::AbstractSolver{T})::AbstractArray{T, N}
+
+    sde : The SDE.
+    x0 : The initial state.
+    t0 : The initial time.
+    t1 : The final time.
+    method : The method to solve the SDE.
 """
-abstract type Solver{T} end
-function solve(::SDE{T}, ::AbstractArray{T, N}, ::T, ::T; method::Solver{T})::AbstractArray{T, N} where {T, N} end
+abstract type AbstractSolver{T} end
 
 
-struct EulerMethod{T} <: Solver{T}
+struct EulerMethod{T} <: AbstractSolver{T}
     dt::T
 end
 

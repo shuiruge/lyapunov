@@ -593,9 +593,7 @@
     <associate|auto-4|<tuple|B|4>>
     <associate|auto-5|<tuple|B.1|4>>
     <associate|auto-6|<tuple|B.2|5>>
-    <associate|auto-7|<tuple|B.2|4>>
     <associate|definition: SDE|<tuple|7|5>>
-    <associate|definition: Stochastic Dynamics|<tuple|6|4>>
     <associate|footnote-1|<tuple|1|1>>
     <associate|footnote-2|<tuple|2|1>>
     <associate|footnote-3|<tuple|3|1>>
