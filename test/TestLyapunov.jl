@@ -60,7 +60,7 @@ m = Lyapunov(E, (2, batch))
 opt = Flux.Optimise.RMSProp(1E-3)
 dt = 1E-1
 T = 1E-2
-train_steps = 20000
+train_steps = 50000
 warmup_steps = 1000
 
 xc = copy(m.xD)
