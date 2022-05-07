@@ -1,4 +1,6 @@
 include("$(pwd())/src/Lyapunov.jl")
+
+using Flux
 using Plots
 
 
@@ -23,37 +25,60 @@ function vanilla_test(x)
 end
 
 
-function damped_pendulum(x)
-    dx = zero.(x)  # initialize.
+function damped_pendulum(g, μ)
 
-    (dx₁, dx₂) = split!(dx, 1)
-    (x₁, x₂) = split!(x, 1)
+    function f(x)
+        dx = zero.(x)  # initialize.
 
-    @. dx₁ = tanh(x₂)
-    @. dx₂ = -sin(tanh(x₁)) - tanh(x₂)
+        (dx₁, dx₂) = split!(dx, 1)
+        (x₁, x₂) = split!(x, 1)
 
-    dx
+        # Originally, it's
+        # @. dx₁ = x₂
+        # @. dx₂ = -g * sin(x₁) - μ * x₂
+        # But for limiting the range of x, we transform x -> atanh(x).
+        # With some additional modification, it becomes:
+        @. dx₁ = tanh(x₂)
+        @. dx₂ = -g * sin(tanh(x₁)) - μ * tanh(x₂)
+
+        dx
+    end
+
+    f
 end
 
 
+function damped_oscillator(k, μ)
+    # Determine the criticality of the damped oscillator.
+    criticality = μ^2 - 4 * k
+    if criticality > 0
+        println("Overdamped oscillator.")
+    elseif criticality < 0
+        println("Underdamped oscillator.")
+    else
+        println("Critical damping oscillator.")
+    end
 
-function damped_oscillator(x)
-    dx = zero.(x)  # initialize.
+    function f(x)
+        dx = zero.(x)  # initialize.
 
-    (dx₁, dx₂) = split!(dx, 1)
-    (x₁, x₂) = split!(x, 1)
+        (dx₁, dx₂) = split!(dx, 1)
+        (x₁, x₂) = split!(x, 1)
 
-    # Let x₁ the position of an oscillator, and x₂ the velocity.
-    @. dx₁ = x₂
-    @. dx₂ = -0.2 * x₁ - x₂
+        # Let x₁ the position of an oscillator, and x₂ the velocity.
+        @. dx₁ = x₂
+        @. dx₂ = -k * x₁ - μ * x₂
 
-    dx
+        dx
+    end
+
+    f
 end
 
 
 # Initialize
 
-f = damped_oscillator
+f = damped_oscillator(0.5, 1.0)
 E = Chain(Dense(2, 256, relu), Dense(256, 1, bias=false))
 batch = 128
 m = Lyapunov(E, (2, batch))
@@ -97,7 +122,7 @@ using MCMCDiagnosticTools
 
 x = randu((2, batch))
 for i = 1:10
-    chains, x = getchains(f, x, 2E+2, dt, T)
+    chains, x = getchains(f, x, 1E+3, dt, T)
     psrfmultivariate = gelmandiag_multivariate(chains).psrfmultivariate
     @show i, psrfmultivariate
 end
