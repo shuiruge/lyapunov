@@ -192,16 +192,14 @@ function getchains(f, x, t, dt, T)
 
     # Initialize.
     x = copy(x)
-    trajectory = [flatten_dims(x)]
+    chains = flatten_dims(x)
     τ = zero(t)
 
     while τ < t
         x .= simulate(x, f, dt, T)
-        push!(trajectory, flatten_dims(x))
+        chains = cat(chains, flatten_dims(x); dims=1)
         τ += dt
     end
 
-    # Each element has shape (dimensions, number_of_chains).
-    chains = cat(trajectory...; dims=1)
     chains, x
 end
