@@ -272,6 +272,67 @@
   Thus, <math|E<around*|(|x|)>> is a Lyapunov function of
   <math|\<mathd\>x<rsup|a>/\<mathd\>t=f<rsup|a><around*|(|x|)>>.
 
+  <section|Minimize Free Energy Principle>
+
+  <\definition>
+    [Free Energy]
+
+    Given <math|E:<with|font|cal|M>\<rightarrow\>\<bbb-R\>> and
+    <math|T\<gtr\>0>, free energy is a functional of distribution, defined as
+
+    <\equation*>
+      F<rsub|E><around*|[|p|]>\<assign\><around*|\<langle\>|E|\<rangle\>><rsub|p>-T
+      H<around*|[|p|]>.
+    </equation*>
+  </definition>
+
+  Free energy is a balanced result. Indeed, on one hand, we want to minimize
+  the expectation of energy; and on the other hand, we want to minimize the
+  prior knowledge on <math|p>. The parameter <math|T> weighs this balance.
+
+  <\lemma>
+    Let
+
+    <\equation*>
+      q<rsub|E><around*|(|x|)>\<assign\><frac|exp<around*|(|-E<around*|(|x|)>/T|)>|Z<rsub|E>>,
+    </equation*>
+
+    where <math|Z<rsub|E>\<assign\><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+    exp<around*|(|-E<around*|(|x|)>/T|)>>, then we have
+
+    <\equation*>
+      F<around*|[|q<rsub|E>|]>=-T ln Z<rsub|E>.
+    </equation*>
+  </lemma>
+
+  <small|<\proof>
+    Since
+
+    <\equation*>
+      q<rsub|E><around*|(|x|)>=<frac|exp<around*|(|-E<around*|(|x|)>/T|)>|Z<rsub|E>>,
+    </equation*>
+
+    we have
+
+    <\align>
+      <tformat|<table|<row|<cell|T H<around*|[|q<rsub|E>|]>=>|<cell|-T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      q<rsub|E><around*|(|x|)> ln q<rsub|E><around*|(|x|)>>>|<row|<cell|=>|<cell|-T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      q<rsub|E><around*|(|x|)> <around*|[|-E<around*|(|x|)>/T-ln
+      Z<rsub|E>|]>>>|<row|<cell|=>|<cell|<around*|\<langle\>|E|\<rangle\>><rsub|q<rsub|E>>+T
+      ln Z<rsub|E>.>>>>
+    </align>
+
+    Then,
+
+    <\align>
+      <tformat|<table|<row|<cell|F<around*|[|q<rsub|E>|]>\<assign\>>|<cell|<around*|\<langle\>|E|\<rangle\>><rsub|q<rsub|E>>-T
+      H<around*|[|q<rsub|E>|]>>>|<row|<cell|=>|<cell|<around*|\<langle\>|E|\<rangle\>><rsub|q<rsub|E>>-<around*|\<langle\>|E|\<rangle\>><rsub|q<rsub|E>>-T
+      ln Z<rsub|E>>>|<row|<cell|=>|<cell|-T ln Z<rsub|E>.>>>>
+    </align>
+
+    Thus proof ends.
+  </proof>>
+
   <appendix|Useful Lemmas>
 
   <subsection|Kramers\UMoyal Expansion>
@@ -588,20 +649,21 @@
   <\collection>
     <associate|appendix: Stochastic Dynamics|<tuple|B.2|5>>
     <associate|auto-1|<tuple|1|1>>
-    <associate|auto-2|<tuple|A|3>>
-    <associate|auto-3|<tuple|A.1|3>>
-    <associate|auto-4|<tuple|B|4>>
-    <associate|auto-5|<tuple|B.1|4>>
-    <associate|auto-6|<tuple|B.2|5>>
-    <associate|definition: SDE|<tuple|7|5>>
+    <associate|auto-2|<tuple|2|3>>
+    <associate|auto-3|<tuple|A|3>>
+    <associate|auto-4|<tuple|A.1|4>>
+    <associate|auto-5|<tuple|B|4>>
+    <associate|auto-6|<tuple|B.1|5>>
+    <associate|auto-7|<tuple|B.2|?>>
+    <associate|definition: SDE|<tuple|9|5>>
     <associate|footnote-1|<tuple|1|1>>
     <associate|footnote-2|<tuple|2|1>>
     <associate|footnote-3|<tuple|3|1>>
     <associate|footnr-1|<tuple|1|1>>
     <associate|footnr-2|<tuple|2|1>>
     <associate|footnr-3|<tuple|3|1>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|5|3>>
-    <associate|lemma: Macroscopic Landscape|<tuple|8|5>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|7|3>>
+    <associate|lemma: Macroscopic Landscape|<tuple|10|5>>
   </collection>
 </references>
 
