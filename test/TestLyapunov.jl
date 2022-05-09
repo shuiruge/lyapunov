@@ -1,4 +1,6 @@
-include("$(pwd())/src/Lyapunov.jl")
+src = "$(pwd())/src"
+include("$(src)/Lyapunov.jl")
+include("$(src)/Utils.jl")
 
 using Flux
 using Plots
@@ -122,7 +124,7 @@ using MCMCDiagnosticTools
 
 x = randu((2, batch))
 for i = 1:10
-    chains, x = getchains(f, x, 1E+3, dt, T)
+    chains, x = getchains(f, x, (warmup_steps * dt), dt, T)
     psrfmultivariate = gelmandiag_multivariate(chains).psrfmultivariate
     @show i, psrfmultivariate
 end
