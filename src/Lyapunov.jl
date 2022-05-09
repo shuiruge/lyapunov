@@ -1,4 +1,4 @@
-include("./Utils.jl")
+include("Utils.jl")
 
 using Flux
 
