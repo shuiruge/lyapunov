@@ -7,7 +7,7 @@ Compute x + dx, where
     dx = f(x) dt + √(2T) dW, dW ~ Normal(0, δ dt).
 
 """
-function randwalk(x, f, dt, T)
+function randwalk(f, x, dt, T)
     dW = randn(size(x)) * sqrt(dt)
     dx = f(x) * dt .+ sqrt(2T) * dW
     x .+ dx
@@ -78,7 +78,7 @@ function getchains(f, x, t, dt, T)
     τ = zero(t)
 
     while τ < t
-        x .= randwalk(x, f, dt, T)
+        x .= randwalk(f, x, dt, T)
         chains = cat(chains, flatten_dims(x); dims=1)
         τ += dt
     end

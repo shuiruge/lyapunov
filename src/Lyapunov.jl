@@ -94,11 +94,11 @@ function update!(
     cb=nothing,
 )
     # Update m.xD.
-    m.xD .= randwalk(m.xD, f, dt, T)
+    m.xD .= randwalk(f, m.xD, dt, T)
 
     # Update m.xE.
     ∇E = ∇(m.E)
-    m.xE .= randwalk(m.xE, x -> -∇E(x), dt, T)
+    m.xE .= randwalk(x -> -∇E(x), m.xE, dt, T)
 
     # If not a warmup step, then update m.θ.
     if warmup == false
