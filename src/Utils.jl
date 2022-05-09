@@ -14,6 +14,17 @@ function randwalk(f, x, dt, T)
 end
 
 
+function randwalk(f, x, t, dt, T)
+    τ = zero(t)
+    while τ < t
+        x = randwalk(f, x, dt, T)
+        τ += dt
+    end
+    x
+end
+
+
+
 """
 Returns the function ∇f, where
 

@@ -1,18 +1,17 @@
 include("Utils.jl")
 
 
-mutable struct Hopfield{T}
-    U::AbstractMatrix{T}
-    I::AbstractVector{T}
+mutable struct Hopfield
+    U
+    I
 end
 
-
-function activate(::Hopfield{T}, x::AbstractArray{T}) where {T<:Real}
+function activate(::Hopfield, x)
     @. tanh(x)
 end
 
 
-function (h::Hopfield{T})(x::AbstractArray{T}) where {T<:Real}
+function (h::Hopfield)(x)
     f(x) = activate(h, x)
     ∇f = ∇(f)
     ∇f(x) .* (h.U * f(x) .- x .+ h.I)
@@ -20,6 +19,10 @@ end
 
 
 # Test:
-h = Hopfield(randu((10, 10)), randu(10))
-x = randu((10, 100))
-h(x)
+U = randu((1000, 1000))
+U = (U' .+ U) ./ 2
+I = randu(1000)
+h = Hopfield(U, I)
+x = randu((1000, 200))
+xr = randwalk(h, x, 10.0, 0.1, 1.0)
+1
