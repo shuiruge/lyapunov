@@ -104,3 +104,19 @@ Split the array along the axis.
 function split!(array, axis)
     [selectdim(array, axis, i) for i in 1:size(array, axis)]
 end
+
+
+"""
+f(0) = 0, f'(0₋) = -1, f'(0₊) = 1. min(f) = 0, max(f) =  1, and period 2.
+"""
+function period_linear(x)
+    if 0 <= x <= 1
+        x
+    elseif 1 < x <= 2
+        2 - x
+    elseif x < 0
+        period_linear(x + 2)
+    else  # x > 2
+        period_linear(x - 2)
+    end
+end

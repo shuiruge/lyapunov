@@ -96,18 +96,6 @@ dim : the phase space dimension.
 """
 function param_damped_oscillator(kmin, kmax, μ)
 
-    function period_linear(x)
-        if 0 <= x <= 1
-            x
-        elseif 1 < x <= 2
-            2 - x
-        elseif x < 0
-            period_linear(x + 2)
-        else  # x > 2
-            period_linear(x - 2)
-        end
-    end
-
     function k(z)
         (kmax - kmin) * period_linear(z) + kmin
     end
