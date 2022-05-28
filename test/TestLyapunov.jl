@@ -79,9 +79,9 @@ end
 """
 Damped oscillator with a free stiffness factor between kmin and kmax.
 
-Remark:
-    Using period linear function for k furnishes a much better results than
-    non-linear function, e.g. sigmoid function.
+The stiffness factor is induced by a dynamical variables which runs on a
+circular boundary, such that the value of it always ranges from -1 to 1.
+This setting is for ensuring the convergence of the induced Markov chain.
 
 Parameters
 ----------
@@ -96,15 +96,29 @@ dim : the phase space dimension.
 """
 function param_damped_oscillator(kmin, kmax, μ)
 
-    function k(z)
-        (kmax - kmin) * period_linear(z) + kmin
+    # Continuously re-map the z to the range [-1, 1].
+    function remap(z)
+        if z < -1
+            z = -z - 2
+        elseif z > 1
+            z = -z + 2
+        else
+            z
+        end
     end
 
-    function f(x)
+    function k(z)
+        (kmax - kmin) * (z + 1) / 2 + kmin
+    end
+
+    # Will inplace re-map the z to the range [-1, 1].
+    function f!(x)
         dx = zero.(x)  # initialize.
 
         (dx₁, dx₂, dz) = split!(dx, 1)
         (x₁, x₂, z) = split!(x, 1)
+
+        @. z = remap(z)
 
         # Let x₁ the position of an oscillator, and x₂ the velocity.
         @. dx₁ = x₂
@@ -114,7 +128,7 @@ function param_damped_oscillator(kmin, kmax, μ)
         dx
     end
 
-    f, 3
+    f!, 3
 end
 
 
@@ -147,13 +161,13 @@ t = 10.
 x = randu((dim, batch))
 full_chains = Float64[]
 rs = Float64[]
-for i = 1:100
+@showprogress for i = 1:100
     global x, full_chains, rs
     chains, x = getchains(f, x, t, dt, T)
     full_chains = cat(full_chains, chains; dims=1)
     push!(rs, gelmandiag_multivariate(full_chains).psrfmultivariate)
 end
-plot(rs, title="MCMC Convergence", ylims=(0, max(rs...)))
+plot(rs, title="MCMC Convergence", ylims=(1, max(rs...)))
 
 
 # Training
