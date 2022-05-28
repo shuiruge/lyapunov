@@ -92,8 +92,8 @@ function update!(
     m::Lyapunov,
     f,
     dt,
-    T,
-    warmup::Bool;
+    T;
+    warmup=false,
     cb=nothing,
 )
     # Update m.x.
