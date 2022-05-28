@@ -96,3 +96,11 @@ function getchains(f, x, t, dt, T)
 
     chains, x
 end
+
+
+"""
+Split the array along the axis.
+"""
+function split!(array, axis)
+    [selectdim(array, axis, i) for i in 1:size(array, axis)]
+end

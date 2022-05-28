@@ -1,13 +1,15 @@
 include("Utils.jl")
 
-using Flux
+using Flux: sum, mean, params, Optimise
 
 
 mutable struct Lyapunov
-    E  # the parameterized function
-    θ  # the parameter
-    xD  # x ~ p_D, the last axis is batch.
-    xE  # x ~ q_E, the last axis is batch.
+    E  # the parameterized function.
+    θ  # the parameter.
+    x  # x ~ p_D, the last axis is batch.
+    x̂  # x ~ q_E, the last axis is batch.
+
+    ∇E  # ∂E/∂x. For avoiding redundant calculation.
 end
 
 
@@ -15,16 +17,17 @@ end
 Parameters
 ----------
 E : the parameterized function.
-xD : the initial state of p_D.
-xE : the initial state of q_E.
+x : the initial state of p_D.
+x̂ : the initial state of q_E.
 
 Returns
 -------
 Lyapunov : the Lyapunov object.
 """
-function Lyapunov(E, xD, xE)
-    θ = Flux.params(E)
-    Lyapunov(E, θ, xD, xE)
+function Lyapunov(E, x, x̂)
+    θ = params(E)
+    ∇E = ∇(E)
+    Lyapunov(E, θ, x, x̂, ∇E)
 end
 
 
@@ -39,21 +42,21 @@ Returns
 Lyapunov : the Lyapunov object.
 """
 function Lyapunov(E, datasize)
-    xD = randu(datasize)
-    xE = randu(datasize)
-    Lyapunov(E, xD, xE)
+    x = randu(datasize)
+    x̂ = randu(datasize)
+    Lyapunov(E, x, x̂)
 end
 
 
 """
 Compute ∂L/∂θ.
 """
-function ∂L∂θ(E, θ, xD, xE)
+function ∂L∂θ(E, θ, x, x̂)
     # E_{p_D}[ ∂E/∂θ ]
-    ∂θpD = gradient(() -> Flux.mean(E(xD)), θ)
+    ∂θpD = gradient(() -> mean(E(x)), θ)
 
     # E_{p_E}[ ∂E/∂θ ]
-    ∂θpE = gradient(() -> Flux.mean(E(xE)), θ)
+    ∂θpE = gradient(() -> mean(E(x̂)), θ)
 
     # ∂L/∂θ
     ∂θpD .- ∂θpE
@@ -64,7 +67,7 @@ end
 Compute ∂L/∂θ.
 """
 function ∂L∂θ(m::Lyapunov)
-    ∂L∂θ(m.E, m.θ, m.xD, m.xE)
+    ∂L∂θ(m.E, m.θ, m.x, m.x̂)
 end
 
 
@@ -75,35 +78,34 @@ Inplace update the `m` and the `opt`.
 
 Parameters
 ----------
+opt : the optimizer.
 m : Lyapunov
 f : the function that describes the dynamics.
 dt : the time step.
 T : the T parameter.
 warmup : if it's a warmup step.
-opt : the optimizer.
 cb : the callback function. It's called after each iteration. Inputs are the
      current `m` and the gradients of `m.θ`.
 """
 function update!(
+    opt::Optimise.AbstractOptimiser,
     m::Lyapunov,
     f,
     dt,
     T,
-    warmup::Bool,
-    opt::Flux.Optimise.AbstractOptimiser;
+    warmup::Bool;
     cb=nothing,
 )
-    # Update m.xD.
-    m.xD .= randwalk(f, m.xD, dt, T)
+    # Update m.x.
+    m.x .= randwalk(f, m.x, dt, T)
 
-    # Update m.xE.
-    ∇E = ∇(m.E)
-    m.xE .= randwalk(x -> -∇E(x), m.xE, dt, T)
+    # Update m.x̂.
+    m.x̂ .= randwalk(x -> -m.∇E(x), m.x̂, dt, T)
 
     # If not a warmup step, then update m.θ.
     if warmup == false
         gs = ∂L∂θ(m)
-        Flux.Optimise.update!(opt, m.θ, gs)
+        Optimise.update!(opt, m.θ, gs)
 
         if cb !== nothing
             cb(m, gs)
@@ -116,6 +118,14 @@ end
 Compute ∇E ⋅ f for each sample.
 """
 function criterion(m::Lyapunov, f, x)
-    ∇E = ∇(m.E)
-    Flux.sum(∇E(x) .* f(x); dims=1)[1,:]
+    sum(m.∇E(x) .* f(x); dims=1)[1,:]
+end
+
+
+"""
+Compute ∇E ⋅ f for each sample.
+"""
+function criterion(m::Lyapunov, f)
+    x = randu(size(m.x))
+    criterion(m, f, x)
 end
