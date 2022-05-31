@@ -136,7 +136,7 @@ end
 
 # f, dim = damped_oscillator(0.5, 1.0)
 f, dim = param_damped_oscillator(0.1, 0.5, 1.0)
-hdim = 512
+hdim = 128
 E = Chain(
     Dense(dim, hdim, relu),
     Dense(hdim, 1, bias=false),
@@ -190,6 +190,10 @@ end
 # Results
 
 plot(grad_norm_history; alpha=0.5)
-histogram(criterion(m, f), bins=100, title="Final Criterion")
+
+xc = randu(size(m.x))
+histogram(criterion(m, f, xc), bins=100, title="Final Criterion")
+histogram(flatten(f(xc) ./ (m.∇E(xc) .+ 1E-10)), bins=100, title="f(x) / (∇E(x) + ϵ)")
+histogram(flatten(m.∇E(xc) ./ (f(xc) .+ 1E-10)), bins=100, title="∇E(x) / (f(x) + ϵ)")
 
 histogram(criterion(m, f, m.x), bins=100, title="Criterion on Samples")
