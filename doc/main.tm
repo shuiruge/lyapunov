@@ -123,11 +123,12 @@
   exp<around*|(|-E<around*|(|x;\<theta\>|)>/T|)>>. Then, we construct the
   loss as
 
-  <\equation*>
-    L<around*|(|\<theta\>|)>\<assign\>T D<rsub|KL><around*|(|p<rsub|D>\<\|\|\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>|)>=T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+  <\align>
+    <tformat|<table|<row|<cell|L<around*|(|\<theta\>|)>\<assign\>>|<cell|T
+    D<rsub|KL><around*|(|p<rsub|D>\<\|\|\>q<rsub|E><around*|(|\<cdummy\>;\<theta\>|)>|)>>>|<row|<cell|=>|<cell|T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
     p<rsub|D><around*|(|x|)> ln p<rsub|D><around*|(|x|)>-T<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-    p<rsub|D><around*|(|x|)> ln q<rsub|E><around*|(|x;\<theta\>|)>.
-  </equation*>
+    p<rsub|D><around*|(|x|)> ln q<rsub|E><around*|(|x;\<theta\>|)>.>>>>
+  </align>
 
   The first term is independent of <math|\<theta\>>, thus omitable. Thus, the
   loss becomes
@@ -256,11 +257,26 @@
   </equation*>
 
   In the end, <math|p\<rightarrow\>p<rsub|D>\<approx\>q<rsub|E>> where
-  <math|\<partial\>p/\<partial\>t\<rightarrow\>0>. Here, it becomes
+  <math|\<partial\>p/\<partial\>t\<rightarrow\>0>, we have
+
+  <\align>
+    <tformat|<table|<row|<cell|0=>|<cell|-\<nabla\><rsub|a><around*|[|q<rsub|E><around*|(|x|)>
+    f<rsup|a><around*|(|x|)>|]>+T \<Delta\>q<rsub|E><around*|(|x|)>>>|<row|<cell|<around*|{|q<rsub|E>=\<cdots\>|}>=>|<cell|-\<nabla\><rsub|a><around*|[|\<mathe\><rsup|-E<around*|(|x|)>/T>
+    f<rsup|a><around*|(|x|)>|]>+T \<Delta\>\<mathe\><rsup|-E<around*|(|x|)>/T>>>|<row|<cell|=>|<cell|<frac|1|T>\<mathe\><rsup|-E<around*|(|x|)>/T>
+    \<nabla\><rsub|a>E<around*|(|x|)>f<rsup|a><around*|(|x|)>-\<mathe\><rsup|-E<around*|(|x|)>/T>\<nabla\><rsub|a>f<rsup|a><around*|(|x|)>>>|<row|<cell|+>|<cell|<frac|1|T>
+    \<mathe\><rsup|-E<around*|(|x|)>/T> \<delta\><rsup|a b>
+    \<nabla\><rsub|b>E<around*|(|x|)>\<nabla\><rsub|a>E<around*|(|x|)>-\<mathe\><rsup|-E<around*|(|x|)>/T>
+    \<delta\><rsup|a b> \<nabla\><rsub|a>\<nabla\><rsub|b>E<around*|(|x|)>>>|<row|<cell|=>|<cell|<frac|1|T>\<mathe\><rsup|-E<around*|(|x|)>/T>\<times\><around*|{|\<nabla\><rsub|a>E<around*|(|x|)>f<rsup|a><around*|(|x|)>+\<delta\><rsup|a
+    b> \<nabla\><rsub|b>E<around*|(|x|)>\<nabla\><rsub|a>E<around*|(|x|)>-T
+    <around*|[|\<nabla\><rsub|a>f<rsup|a><around*|(|x|)>+\<delta\><rsup|a b>
+    \<nabla\><rsub|a>\<nabla\><rsub|b>E<around*|(|x|)>|]>|}>>>>>
+  </align>
+
+  Thus,
 
   <\equation*>
-    0=-\<nabla\><rsub|a>E<around*|(|x|)> f<rsup|a><around*|(|x|)>-\<delta\><rsup|a
-    b> \<nabla\><rsub|a>E <around*|(|x|)>\<nabla\><rsub|b>E<around*|(|x|)>+T
+    \<nabla\><rsub|a>E<around*|(|x|)> f<rsup|a><around*|(|x|)>+\<delta\><rsup|a
+    b> \<nabla\><rsub|a>E <around*|(|x|)>\<nabla\><rsub|b>E<around*|(|x|)>=T
     <around*|[|\<nabla\><rsub|a>f<rsup|a><around*|(|x|)>+\<Delta\>E<around*|(|x|)>|]>.
   </equation*>
 
@@ -275,6 +291,150 @@
   where equality holds if and only if <math|\<nabla\><rsub|a>E<around*|(|x|)>=0>.
   Thus, <math|E<around*|(|x|)>> is a Lyapunov function of
   <math|\<mathd\>x<rsup|a>/\<mathd\>t=f<rsup|a><around*|(|x|)>>.
+
+  <with|color|red|TODO: Proof that <math|\<nabla\><rsub|a>E<around*|(|x|)>=0\<Rightarrow\>f<rsup|a><around*|(|x|)>=0>.>
+
+  We summarize this method as three steps:
+
+  <\enumerate-numeric>
+    <item>generate stationary empirical distribution <math|p<rsub|D>> by the
+    SDE of <math|f<rsup|a><around*|(|x|)>>;
+
+    <item>fit <math|>the empirical distribution <math|p<rsub|D>> by an
+    analytic distribution <math|q<rsub|E>> induced by a paremeterized
+    function <math|E>, until <math|q<rsub|E>\<approx\>p<rsub|D>>;
+
+    <item>claim: let <math|T\<rightarrow\>0> and go back to the original
+    <math|ODE>, we find <math|\<nabla\><rsub|a>E<around*|(|x|)>
+    f<rsup|a><around*|(|x|)>=-\<delta\><rsup|a b> \<nabla\><rsub|a>E
+    <around*|(|x|)>\<nabla\><rsub|b>E<around*|(|x|)>\<leqslant\>0>.
+  </enumerate-numeric>
+
+  <subsection|Parameterized ODE>
+
+  Next, we consider parameterized ODE, that is,
+  <math|f<around*|(|x|)>\<rightarrow\>f<around*|(|x;\<varphi\>|)>>, where
+  <math|\<varphi\>> denotes collection of parameters. For instance, in the
+  case of oscillator, <math|\<varphi\>> can be the stiffness factor. In this
+  situation, we want to construct a Lyapunov function, not only as a function
+  of <math|x>, but also of <math|\<varphi\>>, that is,
+  <math|E<around*|(|x,\<varphi\>|)>>, such that for
+  <math|\<forall\><around*|(|x,\<varphi\>|)>> in the domain, we have
+
+  <\equation*>
+    <frac|\<partial\>E|\<partial\>x<rsup|a>><around*|(|x,\<varphi\>|)>
+    f<rsup|a><around*|(|x;\<varphi\>|)>\<leqslant\>0,
+  </equation*>
+
+  where the equality holds if and only <math|f<rsup|a><around*|(|x;\<varphi\>|)>=0>.
+
+  Even though a completely new question, with some trick, it can be reduced
+  to the one we have solved.
+
+  <\example>
+    Consider the one-dimensional ODE with a parameter <math|r>,
+
+    <\equation*>
+      <frac|\<mathd\>x|\<mathd\>t>=r-x.
+    </equation*>
+
+    It is equivalent to an augmented ODE
+
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>x|\<mathd\>t>=>|<cell|r-x;>>|<row|<cell|<frac|\<mathd\>r|\<mathd\>t>=>|<cell|0.>>>>
+    </align>
+
+    And, it has a Lyapunov function
+
+    <\equation*>
+      E<around*|(|x,r|)>=<frac|1|2><around*|(|r-x|)><rsup|2>.
+    </equation*>
+
+    Indeed, since <math|<around*|(|\<partial\>E/\<partial\>x|)><around*|(|x,r|)>=x-r>,
+    <math|<around*|(|\<partial\>E/\<partial\>x|)><around*|(|x,r|)>
+    f<around*|(|x|)>=-<around*|(|r-x|)><rsup|2>\<leqslant\>0>. Given
+    <math|r>, it's a valley centered at <math|r> along <math|x>-aixs. By the
+    way, <math|<around*|(|\<partial\>E/\<partial\>r|)><around*|(|x,r|)>=r-x>.
+    We find that the place where <math|<around*|(|\<partial\>E/\<partial\>x|)><around*|(|x,r|)>=0>
+    has <math|<around*|(|\<partial\>E/\<partial\>r|)><around*|(|x,r|)>=0>.
+
+    Obviously, as a function of <math|<around*|(|x,r|)>>, the Markov chain
+    constructed via <math|E<around*|(|x,r|)>> cannot relax. However, since
+    the SDE along <math|r>-axis is a pure Brownian motion, particles obey a
+    normal distribution with the standard derivative
+    <math|\<sigma\><rsub|\<varphi\>>\<sim\><sqrt|t>>. Thus
+    <math|\<mathd\>\<sigma\><rsub|\<varphi\>>/\<mathd\>t\<sim\>1/<sqrt|t>\<rightarrow\>0>,
+    as <math|t\<rightarrow\>+\<infty\>>, indicating that the
+    <math|p<rsub|D><around*|(|x,t|)>> becomes slow varying as <math|t> large
+    enough. In other word, the <math|p<rsub|D>> will approximately relaxes
+    along <math|r>-axis, and finally this approximation becomes \Pgood
+    enough\Q. With this consideration, we can say
+    <math|q<rsub|E><around*|(|x|)>=lim<rsub|t\<rightarrow\>+\<infty\>>p<rsub|D><around*|(|x,t|)>>
+    again.
+  </example>
+
+  The parameterized ODE
+
+  <\equation*>
+    <frac|\<mathd\>x<rsup|a>|\<mathd\>t>=f<rsup|a><around*|(|x;\<varphi\>|)>
+  </equation*>
+
+  is equivalent to the augmented ODE without
+  parameter<math|<frac|\<mathd\>y<rsup|a>|\<mathd\>t>=F<rsup|a><around*|(|y|)>>,
+  where <math|y=<around*|(|x,\<varphi\>|)>> and
+  <math|F\<assign\><around*|(|f,0|)>>. Now, to solve the problem with the
+  parameterized ODE, we simply solve the equivalent one with the augmented
+  ODE, using the same method we have proposed. Following the previous
+  process, again, we find the distribution <math|p<around*|(|x,t|)>> of the
+  Markov chains generated by the SDE to <math|p<rsub|D>> obeys
+
+  <\equation*>
+    <frac|\<partial\>p|\<partial\>t><around*|(|y,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|y,t|)>
+    F<rsup|a><around*|(|y|)>|]>+T \<Delta\>p<around*|(|y,t|)>.
+  </equation*>
+
+  Since the <math|\<varphi\>> components of <math|F> vanish, it becomes
+
+  <\equation*>
+    <frac|\<partial\>p|\<partial\>t><around*|(|x,\<varphi\>,t|)>=-<frac|\<partial\>|\<partial\>x<rsup|\<alpha\>>><around*|[|p<around*|(|x,\<varphi\>,t|)>
+    f<rsup|\<alpha\>><around*|(|x;\<varphi\>|)>|]>+T
+    \<Delta\><rsub|x>p<around*|(|x,\<varphi\>,t|)>+T
+    \<Delta\><rsub|\<varphi\>>p<around*|(|x,\<varphi\>,t|)>.
+  </equation*>
+
+  Thus, as <math|\<partial\>p/\<partial\>t\<rightarrow\>0> and
+  <math|p\<rightarrow\>q<rsub|E>>, and as <math|T\<rightarrow\>0>,
+
+  <\equation*>
+    <frac|\<partial\>E|\<partial\>x<rsup|\<alpha\>>><around*|(|x,\<varphi\>|)>
+    f<rsup|\<alpha\>><around*|(|x;\<varphi\>|)>+\<delta\><rsup|\<alpha\>\<beta\>>
+    <frac|\<partial\>E|\<partial\>x<rsup|\<alpha\>>>
+    <around*|(|x,\<varphi\>|)> <frac|\<partial\>E|\<partial\>x<rsup|\<beta\>>><around*|(|x,\<varphi\>|)>+\<delta\><rsup|\<alpha\>\<beta\>>
+    <frac|\<partial\>E|\<partial\>\<varphi\><rsup|\<alpha\>>>
+    <around*|(|x,\<varphi\>|)> <frac|\<partial\>E|\<partial\>\<varphi\><rsup|\<beta\>>><around*|(|x,\<varphi\>|)>=0.
+  </equation*>
+
+  We arrive at
+
+  <\equation*>
+    <frac|\<partial\>E|\<partial\>x<rsup|\<alpha\>>><around*|(|x,\<varphi\>|)>
+    f<rsup|\<alpha\>><around*|(|x;\<varphi\>|)>=-<around*|[|\<delta\><rsup|\<alpha\>\<beta\>>
+    <frac|\<partial\>E|\<partial\>x<rsup|\<alpha\>>>
+    <around*|(|x,\<varphi\>|)> <frac|\<partial\>E|\<partial\>x<rsup|\<beta\>>><around*|(|x,\<varphi\>|)>+\<delta\><rsup|\<alpha\>\<beta\>>
+    <frac|\<partial\>E|\<partial\>\<varphi\><rsup|\<alpha\>>>
+    <around*|(|x,\<varphi\>|)> <frac|\<partial\>E|\<partial\>\<varphi\><rsup|\<beta\>>><around*|(|x,\<varphi\>|)>|]>\<leqslant\>0,
+  </equation*>
+
+  and equality holds if and only <math|<around*|(|\<partial\>E/\<partial\>x<rsup|a>|)><around*|(|x,\<varphi\>|)>=0>
+  and <math|<around*|(|\<partial\>E/\<partial\>\<varphi\><rsup|a>|)><around*|(|x,\<varphi\>|)>=0>.
+
+  <subsection|Implementation>
+
+  Implementation can be found in <shell|src/Lyapunov.jl> in <julia|julia>.
+  And tested, found in <shell|test/TestLyapunov.jl>, on damped oscillators
+  with and without fixed stiffness factor. Both underdamped and overdamped
+  cases are considered. This method, as the results manifestly show, is
+  surprisingly effective.
 
   <appendix|Useful Lemmas>
 
@@ -592,21 +752,21 @@
     <associate|auto-10|<tuple|B.2|6>>
     <associate|auto-2|<tuple|1.1|1>>
     <associate|auto-3|<tuple|1.2|1>>
-    <associate|auto-4|<tuple|A|3>>
-    <associate|auto-5|<tuple|A.1|3>>
-    <associate|auto-6|<tuple|B|4>>
-    <associate|auto-7|<tuple|B.1|4>>
-    <associate|auto-8|<tuple|B.2|5>>
+    <associate|auto-4|<tuple|1.3|3>>
+    <associate|auto-5|<tuple|1.4|4>>
+    <associate|auto-6|<tuple|A|4>>
+    <associate|auto-7|<tuple|A.1|4>>
+    <associate|auto-8|<tuple|B|5>>
     <associate|auto-9|<tuple|B.1|5>>
-    <associate|definition: SDE|<tuple|7|6>>
+    <associate|definition: SDE|<tuple|8|6>>
     <associate|footnote-1|<tuple|1|1>>
     <associate|footnote-2|<tuple|2|1>>
     <associate|footnote-3|<tuple|3|1>>
     <associate|footnr-1|<tuple|1|1>>
     <associate|footnr-2|<tuple|2|1>>
     <associate|footnr-3|<tuple|3|1>>
-    <associate|lemma: Kramers\UMoyal Expansion|<tuple|5|4>>
-    <associate|lemma: Macroscopic Landscape|<tuple|8|6>>
+    <associate|lemma: Kramers\UMoyal Expansion|<tuple|6|4>>
+    <associate|lemma: Macroscopic Landscape|<tuple|9|6>>
   </collection>
 </references>
 
@@ -625,11 +785,11 @@
       Function <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-3>>
 
-      <vspace*|1fn><with|font-series|<quote|bold>|math-font-series|<quote|bold>|2<space|2spc>Minimize
-      Free Energy Principle> <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-4><vspace|0.5fn>
+      <with|par-left|<quote|1tab>|1.3<space|2spc>Parameterized ODE
+      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <no-break><pageref|auto-4>>
 
-      <with|par-left|<quote|1tab>|2.1<space|2spc>Definition
+      <with|par-left|<quote|1tab>|1.4<space|2spc>Implementation
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-5>>
 
