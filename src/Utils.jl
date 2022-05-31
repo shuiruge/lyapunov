@@ -120,3 +120,9 @@ function period_linear(x)
         period_linear(x - 2)
     end
 end
+
+
+function flatten(x)
+    shape = prod(size(x))
+    reshape(x, shape)
+end
