@@ -1,9 +1,10 @@
-using Statistics: var
+using Statistics: mean, var
 using Plots
 
 
 """
-Computes the variance of the confined Brownian motion with boundary (-1, 1).
+Computes the mean and variance of the confined Brownian motion with boundary
+(-1, 1).
 
 Parameters
 ----------
@@ -13,9 +14,10 @@ n : the number of samples.
 
 Returns
 -------
+mean : the mean of the δx, divided by dt.
 variance : the variance of the δx, divided by dt.
 """
-function simulate_variance(x, dt, n)
+function simulate(x, dt, n)
 
     # Continuously re-map the z to the range [-1, 1].
     function remap(z)
@@ -31,16 +33,22 @@ function simulate_variance(x, dt, n)
     z = x .+ randn((n,)) * sqrt(dt)
     @. z = remap(z)
 
-    var(z) / dt
+    δx = z .- x
+    mean(δx), var(δx)
 end
 
 
-dt = 1E-1
+dt = 1E-2
 n = 2^12
 x = Float64[]
-y = Float64[]
+means = Float64[]
+vars = Float64[]
 for xi = -0.99:0.002:0.99
     push!(x, xi)
-    push!(y, simulate_variance(xi, dt, n))
+    (mean_, var_) = simulate(xi, dt, n)
+    push!(means, mean_)
+    push!(vars, var_/dt)
 end
-plot(x, y)
+
+plot(x, means, title="mean")
+plot(x, vars, title="variance / dt")
