@@ -193,7 +193,9 @@ plot(grad_norm_history; alpha=0.5)
 
 xc = randu(size(m.x))
 histogram(criterion(m, f, xc), bins=100, title="Final Criterion")
-histogram(flatten(f(xc) ./ (m.∇E(xc) .+ 1E-10)), bins=100, title="f(x) / (∇E(x) + ϵ)")
-histogram(flatten(m.∇E(xc) ./ (f(xc) .+ 1E-10)), bins=100, title="∇E(x) / (f(x) + ϵ)")
+
+norm(x) = mean(abs.(x), dims=1)[1, :]
+histogram(norm(f(xc)) ./ (norm(m.∇E(xc)) .+ 1E-10), bins=100, title="|f(x)| / (|∇E(x)| + ϵ)")
+histogram(norm(m.∇E(xc)) ./ (norm(f(xc)) .+ 1E-10), bins=100, title="|∇E(x)| / (|f(x)| + ϵ)")
 
 histogram(criterion(m, f, m.x), bins=100, title="Criterion on Samples")
