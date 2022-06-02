@@ -73,7 +73,7 @@ Parameters
 
 Returns
 -------
-- chains: The input of `MCMCDiagnosticTools.gelmandiag_multivariate`.
+- chains: (iterations, dimensions, number_of_chains)
 - x: Final samples.
 """
 function getchains(f, x, t, dt, T)
@@ -125,4 +125,51 @@ end
 function flatten(x)
     shape = prod(size(x))
     reshape(x, shape)
+end
+
+
+"""
+Returns an animation that display the distribution of Markov chain induced by
+the SDE dx = f(x) dt + dW.
+
+Parameters
+----------
+f : the vector field function.
+x : the initial state.
+dt : the time step.
+T : the temperature.
+anim_steps : the animation steps
+mc_steps : the length of the Markov chain
+bins : the number of bins in histogram.
+title : the main part of the title of the plot.
+xlims : the x-axis limits.
+
+Returns
+-------
+anim : the animation.
+"""
+function animate_dist(
+    f, x, dt, T, anim_steps, mc_steps;
+    bins=20, title="MC Distribution", xlims=nothing,
+    layout=nothing,
+)
+    dims = size(x, 1)
+
+    x = copy(x)
+    anim = @animate for i = 1:anim_steps
+        chains, x = getchains(f, x, mc_steps * dt, dt, T)
+
+        subplots = []
+        for j = 1:dims
+            yⱼ = flatten(chains[:, j, :])
+            _title = "$(title) (dim = $j, step = $i)"
+            pⱼ = histogram(yⱼ, bins=bins, title=_title, xlims=xlims)
+            push!(subplots, pⱼ)
+        end
+
+        _layout = (layout === nothing) ? (dims, 1) : layout
+        plot(subplots..., layout=_layout)
+    end
+
+    anim
 end

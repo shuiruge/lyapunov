@@ -4,9 +4,7 @@ include("$(src)/Utils.jl")
 
 using Plots
 using Flux: mean, Optimise
-using MCMCDiagnosticTools: gelmandiag_multivariate
 using ProgressMeter: @showprogress
-
 
 
 """
@@ -15,7 +13,7 @@ Vanilla test dynamics.
 Returns
 -------
 f : the vector field function.
-dim : the phase space dimension.
+dims : the phase space dimensions.
 """
 function vanilla()
 
@@ -46,7 +44,7 @@ k : the spring constant.
 Returns
 -------
 f : the vector field function.
-dim : the phase space dimension.
+dims : the phase space dimensions.
 """
 function damped_oscillator(k, μ)
     # Determine the criticality of the damped oscillator.
@@ -92,7 +90,7 @@ kmax : the maximum of spring constant.
 Returns
 -------
 f : the vector field function.
-dim : the phase space dimension.
+dims : the phase space dimensions.
 """
 function param_damped_oscillator(kmin, kmax, μ)
 
@@ -134,15 +132,16 @@ end
 
 # Initialize
 
-# f, dim = damped_oscillator(0.5, 1.0)
-f, dim = param_damped_oscillator(0.1, 0.5, 1.0)
-hdim = 128
+f, dims = damped_oscillator(0.5, 1.0)
+# f, dims = param_damped_oscillator(0.1, 0.5, 1.0)
+# f, dims = damped_oscillator(0.5, 0.0)
+hdims = 128
 E = Chain(
-    Dense(dim, hdim, relu),
-    Dense(hdim, 1, bias=false),
+    Dense(dims, hdims, relu),
+    Dense(hdims, 1, bias=false),
 )
 batch = 128
-m = Lyapunov(E, (dim, batch))
+m = Lyapunov(E, (dims, batch))
 dt = 1E-1
 T = 1E-2
 train_steps = 100000
@@ -155,19 +154,10 @@ opt = Optimise.Optimiser(
 histogram(criterion(m, f), bins=100, title="Initial Criterion")
 
 
-# MCMC Convergence
+# Markov Chain Convergence
 
-t = 10.
-x = randu((dim, batch))
-full_chains = Float64[]
-rs = Float64[]
-@showprogress for i = 1:100
-    global x, full_chains, rs
-    chains, x = getchains(f, x, t, dt, T)
-    full_chains = cat(full_chains, chains; dims=1)
-    push!(rs, gelmandiag_multivariate(full_chains).psrfmultivariate)
-end
-plot(rs, title="MCMC Convergence", ylims=(1, max(rs...)))
+anim = animate_dist(f, randu((dims, batch)), dt, T, 100, 100; xlims=(-1, 1))
+gif(anim, fps=10)
 
 
 # Training
