@@ -9,8 +9,12 @@ Compute x + dx, where
 
 """
 function randwalk(f, x, dt, T)
-    dW = randn(size(x)) * sqrt(dt)
-    dx = f(x) * dt .+ sqrt(2T) * dW
+    @assert T >= 0
+    dx = f(x) * dt
+    if T > 0
+        dW = randn(size(x)) * sqrt(dt)
+        dx .+= sqrt(2T) * dW
+    end
     x .+ dx
 end
 
@@ -32,7 +36,7 @@ function mixin(x, y, ratio)
     if ratio == 0
         x
     else
-        mask = rand(size(x)...) .|> x -> (x < 0.1) ? one(x) : zero(x)
+        mask = rand(size(x)...) .|> x -> (x < ratio) ? one(x) : zero(x)
         x .+ (y .- x) .* mask
     end
 end
@@ -177,7 +181,7 @@ function animate_dist(
         for j = 1:dims
             yⱼ = flatten(chains[:, j, :])
             _title = "$(title) (dim = $j, step = $i)"
-            pⱼ = histogram(yⱼ, bins=bins, title=_title, xlims=xlims)
+            pⱼ = histogram(yⱼ, bins=bins, title=_title, xlims=xlims, legends=false)
             push!(subplots, pⱼ)
         end
 
