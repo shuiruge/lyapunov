@@ -5,6 +5,7 @@ include("$(src)/Utils.jl")
 using Plots
 using Flux: mean, Optimise
 using ProgressMeter: @showprogress
+using LinearAlgebra: eigvals
 
 
 """
@@ -130,11 +131,18 @@ function param_damped_oscillator(kmin, kmax, μ)
 end
 
 
+function linear(A)
+    @show eigvals(A)
+    x -> A*x, size(A, 1)
+end
+
+
 # Initialize
 
 f, dims = damped_oscillator(0.5, 1.0)
 # f, dims = param_damped_oscillator(0.1, 0.5, 1.0)
 # f, dims = damped_oscillator(0.5, 0.0)
+# A = randu((2, 2)); f, dims = linear(A)
 hdims = 128
 E = Chain(
     Dense(dims, hdims, relu),
@@ -142,9 +150,12 @@ E = Chain(
 )
 batch = 128
 m = Lyapunov(E, (dims, batch))
+t = 1E-0
 dt = 1E-1
-T = 1E-2
-train_steps = 100000
+maxT = 1E-2
+minT = 1E-4
+resample_ratio = 0.9
+train_steps = 50000
 # Optimise.ADAM is utterly unstable, should be avoided.
 opt = Optimise.Optimiser(
     Optimise.ClipValue(1E-1),
@@ -156,8 +167,8 @@ histogram(criterion(m, f), bins=100, title="Initial Criterion")
 
 # Markov Chain Convergence
 
-anim = animate_dist(f, randu((dims, batch)), dt, T, 100, 100; xlims=(-1, 1))
-gif(anim, fps=10)
+anim = animate_dist(f, randu((dims, batch)), dt, maxT, 50, 100)
+gif(anim, fps=3)
 
 
 # Training
@@ -171,9 +182,10 @@ function history_callback(m, gs)
     end
 end
 
+T = expdecay(maxT, minT, train_steps)
 @showprogress for step = 1:train_steps
     cb = (step % 20 == 0) ? history_callback : nothing
-    update!(opt, m, f, dt, T; cb=cb)
+    update!(opt, m, f, t, dt, T[step], resample_ratio; cb=cb)
 end
 
 
@@ -184,8 +196,9 @@ plot(grad_norm_history; alpha=0.5)
 xc = randu(size(m.x))
 histogram(criterion(m, f, xc), bins=100, title="Final Criterion")
 
-norm(x) = mean(abs.(x), dims=1)[1, :]
+norm(x) = maximum(abs, x, dims=1)[1, :]
 histogram(norm(f(xc)) ./ (norm(m.∇E(xc)) .+ 1E-10), bins=100, title="|f(x)| / (|∇E(x)| + ϵ)")
 histogram(norm(m.∇E(xc)) ./ (norm(f(xc)) .+ 1E-10), bins=100, title="|∇E(x)| / (|f(x)| + ϵ)")
 
-histogram(criterion(m, f, m.x), bins=100, title="Criterion on Samples")
+histogram(criterion(m, f, m.x), bins=100, title="Criterion on pD")
+histogram(criterion(m, f, m.x̂), bins=100, title="Criterion on pE")

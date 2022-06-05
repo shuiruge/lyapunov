@@ -1,4 +1,5 @@
 using Flux
+using Plots
 
 
 """
@@ -21,6 +22,19 @@ function randwalk(f, x, t, dt, T)
         τ += dt
     end
     x
+end
+
+
+"""
+Randomly mix `ratio` ratio of the y components into x.
+"""
+function mixin(x, y, ratio)
+    if ratio == 0
+        x
+    else
+        mask = rand(size(x)...) .|> x -> (x < 0.1) ? one(x) : zero(x)
+        x .+ (y .- x) .* mask
+    end
 end
 
 
@@ -129,7 +143,7 @@ end
 
 
 """
-Returns an animation that display the distribution of Markov chain induced by
+Returns an animation that displays the distribution of Markov chain induced by
 the SDE dx = f(x) dt + dW.
 
 Parameters
@@ -172,4 +186,10 @@ function animate_dist(
     end
 
     anim
+end
+
+
+function expdecay(initx, finalx, steps)
+    rate = (log(finalx) - log(initx)) / steps
+    [initx * exp(rate * (i-1)) for i in 1:steps]
 end

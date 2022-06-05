@@ -81,9 +81,10 @@ Parameters
 opt : the optimizer.
 m : Lyapunov
 f : the function that describes the dynamics.
+t : the integration time.
 dt : the time step.
 T : the T parameter.
-warmup : if it's a warmup step.
+resample_ratio : the ratio of resampling from Uniform(-1, 1) before simulation.
 cb : the callback function. It's called after each iteration. Inputs are the
      current `m` and the gradients of `m.θ`.
 """
@@ -91,25 +92,26 @@ function update!(
     opt::Optimise.AbstractOptimiser,
     m::Lyapunov,
     f,
+    t,
     dt,
-    T;
-    warmup=false,
+    T,
+    resample_ratio;
     cb=nothing,
 )
     # Update m.x.
-    m.x .= randwalk(f, m.x, dt, T)
+    m.x .= mixin(m.x, randu(size(m.x)), resample_ratio)
+    m.x .= randwalk(f, m.x, t, dt, T)
 
     # Update m.x̂.
-    m.x̂ .= randwalk(x -> -m.∇E(x), m.x̂, dt, T)
+    m.x̂ .= mixin(m.x̂, randu(size(m.x̂)), resample_ratio)
+    m.x̂ .= randwalk(x -> -m.∇E(x), m.x̂, t, dt, T)
 
-    # If not a warmup step, then update m.θ.
-    if warmup == false
-        gs = ∂L∂θ(m)
-        Optimise.update!(opt, m.θ, gs)
+    # Update m.θ.
+    gs = ∂L∂θ(m)
+    Optimise.update!(opt, m.θ, gs)
 
-        if cb !== nothing
-            cb(m, gs)
-        end
+    if cb !== nothing
+        cb(m, gs)
     end
 end
 
