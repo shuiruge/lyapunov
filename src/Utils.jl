@@ -197,3 +197,9 @@ function expdecay(initx, finalx, steps)
     rate = (log(finalx) - log(initx)) / steps
     [initx * exp(rate * (i-1)) for i in 1:steps]
 end
+
+
+function lineardecay(initx, finalx, steps)
+    rate = (finalx - initx) / steps
+    [initx + rate * (i-1) for i in 1:steps]
+end
