@@ -140,34 +140,33 @@ end
 # Initialize
 
 # f, dims = damped_oscillator(0.5, 1.0)
-f, dims = param_damped_oscillator(0.1, 0.5, 1.0)
+# f, dims = param_damped_oscillator(0.1, 0.5, 1.0)
 # f, dims = damped_oscillator(0.5, 0.0)
-# A = randu((2, 2)); f, dims = linear(A)
+A = randu((2, 2)); f, dims = linear(A)
 hdims = 128
 E = Chain(
     Dense(dims, hdims, relu),
     Dense(hdims, 1, bias=false),
 )
 batch = 128
-m = Lyapunov(E, (dims, batch))
+m0 = Lyapunov(E, (dims, batch))
 t = 1E-0
 dt = 1E-1
-maxT = 1E-2
-minT = 1E-4
-resample_ratio = 0.1
-train_steps = 50000
+train_steps = 100000
 # Optimise.ADAM is utterly unstable, should be avoided.
-opt = Optimise.Optimiser(
+opt0 = Optimise.Optimiser(
     Optimise.ClipValue(1E-1),
     Optimise.RMSProp(1E-3),
 )
 
+m = deepcopy(m0)
+opt = deepcopy(opt0)
 histogram(criterion(m, f), bins=100, title="Initial Criterion", legends=false)
 
 
 # Markov Chain Convergence
 
-anim = animate_dist(f, randu((dims, batch)), dt, maxT, 50, 100)
+anim = animate_dist(f, randu((dims, batch)), dt, 1E-2, 50, 100; xlims=(-1.5, 1.5))
 gif(anim, fps=3)
 
 
@@ -182,10 +181,15 @@ function history_callback(m, gs)
     end
 end
 
-T = expdecay(maxT, minT, train_steps)
+T = lineardecay(1E-2, 1E-3, train_steps)
 @showprogress for step = 1:train_steps
-    cb = (step % 20 == 0) ? history_callback : nothing
-    update!(opt, m, f, t, dt, T[step], resample_ratio; cb=cb)
+    cb = (step % 100 == 0) ? history_callback : nothing
+    update!(opt, m, f, t, dt, T[step], 0.1; cb=cb)
+end
+
+@showprogress for step = 1:train_steps
+    cb = (step % 100 == 0) ? history_callback : nothing
+    update!(opt, m, f, t, dt, 1E-4, 0.1; cb=cb)
 end
 
 
