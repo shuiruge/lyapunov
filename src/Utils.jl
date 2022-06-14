@@ -33,7 +33,7 @@ end
 Randomly mix `ratio` ratio of the y components into x.
 """
 function mixin(x, y, ratio)
-    if ratio == 0
+    if iszero(ratio)
         x
     else
         mask = rand(size(x)...) .|> x -> (x < ratio) ? one(x) : zero(x)

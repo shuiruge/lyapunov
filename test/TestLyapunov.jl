@@ -39,15 +39,16 @@ Damped oscillator.
 
 Parameters
 ----------
-k : the spring constant.
+τ : the time scale.
 μ : the damping coefficient.
+k : the spring constant.
 
 Returns
 -------
 f : the vector field function.
 dims : the phase space dimensions.
 """
-function damped_oscillator(k, μ)
+function damped_oscillator(τ, μ, k, higher_order_ks...)
     # Determine the criticality of the damped oscillator.
     criticality = μ^2 - 4 * k
     if criticality > 0
@@ -65,8 +66,12 @@ function damped_oscillator(k, μ)
         (x₁, x₂) = split!(x, 1)
 
         # Let x₁ the position of an oscillator, and x₂ the velocity.
-        @. dx₁ = x₂
-        @. dx₂ = -k * x₁ - μ * x₂
+        @. dx₁ = x₂ / τ
+        @. dx₂ = (-k * x₁ - μ * x₂) / τ
+
+        for (i, kᵢ) in enumerate(higher_order_ks)
+            @. dx₂ += (-kᵢ * x₁^i) / τ
+        end
 
         dx
     end
@@ -84,16 +89,17 @@ This setting is for ensuring the convergence of the induced Markov chain.
 
 Parameters
 ----------
+τ : the time scale.
+μ : the damping coefficient.
 kmin : the minimum of spring constant.
 kmax : the maximum of spring constant.
-μ : the damping coefficient.
 
 Returns
 -------
 f : the vector field function.
 dims : the phase space dimensions.
 """
-function param_damped_oscillator(kmin, kmax, μ)
+function param_damped_oscillator(τ, μ, kmin, kmax)
 
     # Continuously re-map the z to the range [-1, 1].
     function remap(z)
@@ -120,8 +126,8 @@ function param_damped_oscillator(kmin, kmax, μ)
         @. z = remap(z)
 
         # Let x₁ the position of an oscillator, and x₂ the velocity.
-        @. dx₁ = x₂
-        @. dx₂ = -k(z) * x₁ - μ * x₂
+        @. dx₁ = x₂ / τ
+        @. dx₂ = (-k(z) * x₁ - μ * x₂) / τ
         @. dz = 0
 
         dx
@@ -139,10 +145,10 @@ end
 
 # Initialize
 
-# f, dims = damped_oscillator(0.5, 1.0)
-# f, dims = param_damped_oscillator(0.1, 0.5, 1.0)
-# f, dims = damped_oscillator(0.5, 0.0)
-A = randu((2, 2)); f, dims = linear(A)
+# f, dims = damped_oscillator(1.0, 1.0, 0.5)
+f, dims = damped_oscillator(0.3, 1.0, 0.3, 0.6)
+# f, dims = param_damped_oscillator(1.0, 1.0, 0.1, 0.5)
+# A = randu((2, 2)); f, dims = linear(A)
 hdims = 128
 E = Chain(
     Dense(dims, hdims, relu),
@@ -150,7 +156,6 @@ E = Chain(
 )
 batch = 128
 m0 = Lyapunov(E, (dims, batch))
-t = 1E-0
 dt = 1E-1
 train_steps = 100000
 # Optimise.ADAM is utterly unstable, should be avoided.
@@ -166,7 +171,7 @@ histogram(criterion(m, f), bins=100, title="Initial Criterion", legends=false)
 
 # Markov Chain Convergence
 
-anim = animate_dist(f, randu((dims, batch)), dt, 1E-2, 50, 100; xlims=(-1.5, 1.5))
+anim = animate_dist(f, randu((dims, batch)), dt, 1E-2, 100, 100; xlims=(-2.0, 2.0))
 gif(anim, fps=3)
 
 
@@ -181,16 +186,17 @@ function history_callback(m, gs)
     end
 end
 
-T = lineardecay(1E-2, 1E-3, train_steps)
+T = lineardecay(1E-2, 1E-4, train_steps)
 @showprogress for step = 1:train_steps
     cb = (step % 100 == 0) ? history_callback : nothing
-    update!(opt, m, f, t, dt, T[step], 0.1; cb=cb)
+    update!(opt, m, f, 10*dt, dt, T[step], 0.1; cb=cb)
 end
 
-@showprogress for step = 1:train_steps
-    cb = (step % 100 == 0) ? history_callback : nothing
-    update!(opt, m, f, t, dt, 1E-4, 0.1; cb=cb)
-end
+# XXX: This way is unstable.
+# @showprogress for step = 1:train_steps
+#     cb = (step % 100 == 0) ? history_callback : nothing
+#     update!(opt, m, f, 10*dt, dt, 1E-4, 0.1; cb=cb)
+# end
 
 
 # Results

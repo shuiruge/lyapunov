@@ -625,9 +625,10 @@
   random walk. Precisely,
 
   <\definition>
-    <label|definition: SDE>Given <math|f<rsup|a><around*|(|x,t|)>>,
+    <label|definition: SDE>[SDE] Given <math|f<rsup|a><around*|(|x,t|)>>,
     <math|g<rsup|a b><around*|(|x,t|)>>, and <math|\<Sigma\><rsup|a
-    b><around*|(|x,t|)>> on <math|<with|font|cal|M>\<times\>\<bbb-R\>>,
+    b><around*|(|x,t|)>> on <math|<with|font|cal|M>\<times\>\<bbb-R\>>, with
+    <math|g<rsup|a b>> and <math|\<Sigma\><rsup|a b>> positive definite,
     stochastic differential equations is defined as
 
     <\equation*>
@@ -660,76 +661,87 @@
     d><around*|(|x,t|)>>.
   </theorem>
 
-  <small|<\proof>
-    From the difference of the SDE,
+  <\small>
+    <with|color|red|<\proof>
+      From the difference of the SDE,
 
-    <\equation*>
-      \<Delta\>x<rsup|a>=f<rsup|a><around*|(|x,t|)> \<Delta\>t+
-      g<rsup|a><rsub|b><around*|(|x,t|)> \<Delta\>W<rsup|a><around*|(|x,t|)>,
-    </equation*>
+      <\equation*>
+        \<Delta\>x<rsup|a>=f<rsup|a><around*|(|x,t|)> \<Delta\>t+
+        g<rsup|a><rsub|b><around*|(|x,t|)>
+        \<Delta\>W<rsup|a><around*|(|x,t|)>,
+      </equation*>
 
-    by Kramers\UMoyal expansion <reference|lemma: Kramers\UMoyal Expansion>,
-    we have
+      by Kramers\UMoyal expansion <reference|lemma: Kramers\UMoyal
+      Expansion>, we have
 
-    <\equation*>
-      p<around*|(|x,t+\<Delta\>t|)>-p<around*|(|x,t|)>=<big|sum><rsub|n=1><rsup|+\<infty\>><frac|<around*|(|-1|)><rsup|n>|n!>\<nabla\><rsub|a<rsub|1>>\<cdots\>\<nabla\><rsub|a<rsub|n>><around*|[|p<around*|(|x,t|)><around*|\<langle\>|\<Delta\>x<rsup|a<rsub|1>>\<cdots\>\<Delta\>x<rsup|a<rsub|n>>|\<rangle\>><rsub|\<Delta\>x>|]>.
-    </equation*>
+      <\equation*>
+        p<around*|(|x,t+\<Delta\>t|)>-p<around*|(|x,t|)>=<big|sum><rsub|n=1><rsup|+\<infty\>><frac|<around*|(|-1|)><rsup|n>|n!>\<nabla\><rsub|a<rsub|1>>\<cdots\>\<nabla\><rsub|a<rsub|n>><around*|[|p<around*|(|x,t|)><around*|\<langle\>|\<Delta\>x<rsup|a<rsub|1>>\<cdots\>\<Delta\>x<rsup|a<rsub|n>>|\<rangle\>><rsub|\<Delta\>x>|]>.
+      </equation*>
 
-    For <math|n=1>, since <math|\<mathd\>W<rsup|a><around*|(|x,t|)>> is a
-    random walk, <math|<around*|\<langle\>|\<Delta\>W<rsup|a><around*|(|x,t|)>|\<rangle\>><rsub|\<Delta\>W<around*|(|x,t|)>>=0>.
-    Then the term is
+      For <math|n=1>, since <math|\<mathd\>W<rsup|a><around*|(|x,t|)>> is a
+      random walk, <math|<around*|\<langle\>|\<Delta\>W<rsup|a><around*|(|x,t|)>|\<rangle\>><rsub|\<Delta\>W<around*|(|x,t|)>>=0>.
+      Then the term is
 
-    <\equation*>
-      -\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)><around*|\<langle\>|\<Delta\>x<rsup|a>|\<rangle\>><rsub|\<Delta\>x>|]>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
-      f<rsup|a><around*|(|x,t|)>|]>\<Delta\>t.
-    </equation*>
+      <\equation*>
+        -\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)><around*|\<langle\>|\<Delta\>x<rsup|a>|\<rangle\>><rsub|\<Delta\>x>|]>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+        f<rsup|a><around*|(|x,t|)>|]>\<Delta\>t.
+      </equation*>
 
-    And for <math|n=2>, by noticing that, as a random walk,
-    <math|<around*|\<langle\>|\<Delta\>W<rsup|a><around*|(|x,t|)>
-    \<Delta\>W<rsup|b><around*|(|x,t|)>|\<rangle\>><rsub|\<Delta\>W<around*|(|x,t|)>>=<with|font|cal|O><around*|(|\<Delta\>t|)>>,
-    we have,
+      And for <math|n=2>, by noticing that, as a random walk,
+      <math|<around*|\<langle\>|\<Delta\>W<rsup|a><around*|(|x,t|)>
+      \<Delta\>W<rsup|b><around*|(|x,t|)>|\<rangle\>><rsub|\<Delta\>W<around*|(|x,t|)>>=<with|font|cal|O><around*|(|\<Delta\>t|)>>,
+      we have,
 
-    <\equation*>
-      <frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
-      <around*|\<langle\>|\<Delta\>x<rsup|a>
-      \<Delta\>x<rsup|b>|\<rangle\>><rsub|\<Delta\>x>|]>=<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
-      g<rsup|a><rsub|c><around*|(|x,t|)> g<rsup|b><rsub|d><around*|(|x,t|)>
-      \<Sigma\><rsup|c d><around*|(|x,t|)>|]>
-      \<Delta\>t+\<omicron\><around*|(|\<Delta\>t|)>.
-    </equation*>
+      <\equation*>
+        <frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
+        <around*|\<langle\>|\<Delta\>x<rsup|a>
+        \<Delta\>x<rsup|b>|\<rangle\>><rsub|\<Delta\>x>|]>=<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
+        g<rsup|a><rsub|c><around*|(|x,t|)> g<rsup|b><rsub|d><around*|(|x,t|)>
+        \<Sigma\><rsup|c d><around*|(|x,t|)>|]>
+        \<Delta\>t+\<omicron\><around*|(|\<Delta\>t|)>.
+      </equation*>
 
-    \;
+      \;
 
-    For <math|n\<geqslant\>3>, all are <math|o<around*|(|\<Delta\>t|)>>. So,
-    we have
+      For <math|n\<geqslant\>3>, all are <math|o<around*|(|\<Delta\>t|)>>.
+      So, we have
 
-    <\equation*>
-      p<around*|(|x,t+\<Delta\>t|)>-p<around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
-      f<rsup|a><around*|(|x,t|)>|]>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
-      g<rsup|a><rsub|c><around*|(|x,t|)> g<rsup|b><rsub|d><around*|(|x,t|)>
-      \<Sigma\><rsup|c d><around*|(|x,t|)>|]>
-      \<Delta\>t+o<around*|(|\<Delta\>t|)>.
-    </equation*>
+      <\equation*>
+        p<around*|(|x,t+\<Delta\>t|)>-p<around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+        f<rsup|a><around*|(|x,t|)>|]>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
+        g<rsup|a><rsub|c><around*|(|x,t|)> g<rsup|b><rsub|d><around*|(|x,t|)>
+        \<Sigma\><rsup|c d><around*|(|x,t|)>|]>
+        \<Delta\>t+o<around*|(|\<Delta\>t|)>.
+      </equation*>
 
-    Letting <math|\<Delta\>t\<rightarrow\>0>, we find
+      Letting <math|\<Delta\>t\<rightarrow\>0>, we find
 
-    <\equation*>
-      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
-      \<mu\><rsup|a><around*|(|x,t|)>|]>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
-      g<rsup|a><rsub|c><around*|(|x,t|)> g<rsup|b><rsub|d><around*|(|x,t|)>
-      \<Sigma\><rsup|c d><around*|(|x,t|)>|]>.
-    </equation*>
+      <\equation*>
+        <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=-\<nabla\><rsub|a><around*|[|p<around*|(|x,t|)>
+        f<rsup|a><around*|(|x,t|)>|]>+<frac|1|2>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|p<around*|(|x,t|)>
+        g<rsup|a><rsub|c><around*|(|x,t|)> g<rsup|b><rsub|d><around*|(|x,t|)>
+        \<Sigma\><rsup|c d><around*|(|x,t|)>|]>.
+      </equation*>
 
-    Thus proof ends.
-  </proof>>
+      Thus proof ends.
+    </proof>>
+  </small>
 
-  <subsection|Fokker-Planck Equation in Detail>
+  <subsection|Relaxation>
 
-  Here, we discuss the Fokker-Planck in detail. As a result, some useful
-  lemmas are claimed.
+  <\lemma>
+    Given the Fokker-Planck equation <reference|theorem: Fokker-Planck
+    Equation> and any initial distribution <math|p<around*|(|x,t|)>>, as
+    <math|t> increases, the support of <math|p<around*|(|x,t|)>> will be
+    <with|font|cal|M>.
+  </lemma>
 
-  First, notice that Fokker-Planck is linear, thus it can be re-written by
-  linear operator
+  <\proof>
+    TODO
+  </proof>
+
+  First, we notice that Fokker-Planck <reference|theorem: Fokker-Planck
+  Equation> is linear, thus it can be re-written by linear operator
 
   <\equation*>
     <frac|\<partial\>|\<partial\>t>p<around*|(|x,t|)>=<wide|L|^><rsub|FP><around*|(|x,t|)>
@@ -755,14 +767,13 @@
     <\align>
       <tformat|<table|<row|<cell|<around*|\<langle\>|h<around*|\||<wide|L|^><rsub|FP>|\|>g|\<rangle\>>=>|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
       h<around*|(|x|)> <wide|L|^><rsub|FP><around*|(|x,t|)>
-      g<around*|(|x|)>>>|<row|<cell|=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      g<around*|(|x|)>>>|<row|<cell|<around*|{|<wide|L|^><rsub|FP>=\<cdots\>|}>=>|<cell|-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
       h<around*|(|x|)> \<nabla\><rsub|\<alpha\>><around*|[|f<rsup|a><around*|(|x,t|)>g<around*|(|x|)>|]>+<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
       h<around*|(|x|)>\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|K<rsup|a
       b><around*|(|x,t|)>g<around*|(|x|)>|]>>>|<row|<cell|<around*|{|Integral
       by part|}>=>|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
-      g<around*|(|x|)> f<rsup|a><around*|(|x,t|)>\<nabla\><rsub|a>h<around*|(|x|)>+<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>K<rsup|a
-      b><around*|(|x,t|)>g<around*|(|x|)>
-      \<nabla\><rsub|a>\<nabla\><rsub|b>h<around*|(|x|)>>>|<row|<cell|<around*|{|By
+      g<around*|(|x|)> f<rsup|a><around*|(|x,t|)>\<nabla\><rsub|a>h<around*|(|x|)>+<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>g<around*|(|x|)>
+      K<rsup|a b><around*|(|x,t|)> \<nabla\><rsub|a>\<nabla\><rsub|b>h<around*|(|x|)>>>|<row|<cell|<around*|{|By
       definition|}>=>|<cell|<around*|\<langle\>|g<around*|\||<wide|L|^><rsub|FP><rsup|\<dagger\>>|\|>h|\<rangle\>>.>>>>
     </align>
 
@@ -774,7 +785,116 @@
     </equation*>
   </proof>>
 
-  Another useful lemma comes from a general formula.
+  Given the Fokker-Planck equation, we claim that any two initial
+  distributions will evolve into one final distribution as time
+  <math|t\<rightarrow\>+\<infty\>>. To prove this, we simply have to show
+  that, for any two initial distributions, the distance between them
+  decreases as time increasing, and finally vanishes in the limit. That is,
+  relaxation happens.
+
+  <\theorem>
+    <label|theorem: Relaxation>[Relaxation]
+
+    For <math|\<forall\>p<around*|(|x,t|)>,q<around*|(|x,t|)>\<in\><with|font|cal|C><rsup|2><around*|(|<with|font|cal|M>\<times\>\<bbb-R\>|)>>
+    as time-dependent distributions obeying the Fokker-Planck equation
+    <reference|theorem: Fokker-Planck Equation>, we have
+
+    <\equation*>
+      <frac|\<mathd\>|\<mathd\>t> D<rsub|KL><around*|(|p<around*|(|\<cdummy\>,t|)>\|q<around*|(|\<cdummy\>,t|)>|)>\<leqslant\>0,
+    </equation*>
+
+    and the equality holds if and only if
+    <math|p<around*|(|\<cdummy\>,t|)>=q<around*|(|\<cdummy\>,t|)>> for some
+    <math|t>.
+  </theorem>
+
+  <small|<\proof>
+    Let <math|r<around*|(|x,t|)>\<assign\>p<around*|(|x,t|)>/q<around*|(|x,t|)>>.
+    Then,
+
+    <\align>
+      <tformat|<table|<row|<cell|<frac|\<mathd\>|\<mathd\>t>D<rsub|KL><around*|(|p<around*|(|\<cdummy\>,t|)>\|q<around*|(|\<cdummy\>,t|)>|)>=>|<cell|<frac|\<mathd\>|\<mathd\>t><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      p<around*|(|x,t|)> ln r<around*|(|x,t|)>>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)> ln
+      r<around*|(|x,t|)>+<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>-<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)><frac|\<partial\>q|\<partial\>t><around*|(|x,t|)>
+      r<around*|(|x,t|)>.>>>>
+    </align>
+
+    The second term vanishes since
+
+    <\align>
+      <tformat|<table|<row|<cell|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      <frac|\<partial\>p|\<partial\>t><around*|(|x,t|)>=>|<cell|<frac|\<mathd\>|\<mathd\>t><big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      p<around*|(|x,t|)>>>|<row|<cell|<around*|{|<big|int><rsub|<with|font|cal|M>>\<mathd\>\<mu\><around*|(|x|)>
+      p<around*|(|x,t|)>=1|}>=>|<cell|0.>>>>
+    </align>
+
+    <\with|color|red>
+      And the first term (we omit the <math|<around*|(|x,t|)>> for
+      simplification)
+
+      <\align>
+        <tformat|<table|<row|<cell|<big|int><rsub|<with|font|cal|M>>
+        <frac|\<partial\>p|\<partial\>t> ln
+        r=>|<cell|<big|int><rsub|<with|font|cal|M>> ln r <wide|L|^><rsub|FP>
+        p>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>> p
+        <wide|L|^><rsup|\<dagger\>><rsub|FP>ln
+        r>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>p<around*|[|f<rsup|a>\<nabla\><rsub|a>ln
+        r+K<rsup|a b>\<nabla\><rsub|a>\<nabla\><rsub|b>ln
+        r|]>>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>
+        p<around*|[|f<rsup|a><frac|\<nabla\><rsub|a>r|r>+<frac|K<rsup|a
+        b>\<nabla\><rsub|a>\<nabla\><rsub|b>r|r>-<frac|K<rsup|a
+        b>\<nabla\><rsub|a>r\<nabla\><rsub|b>r|r<rsup|2>>|]>>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>
+        q<around*|[|f<rsup|a>\<nabla\><rsub|a>r+K<rsup|a
+        b>\<nabla\><rsub|a>\<nabla\><rsub|b>r|]>-<big|int><rsub|<with|font|cal|M>>
+        q<frac|K<rsup|a b>\<nabla\><rsub|a>r\<nabla\><rsub|b>r|r>>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>
+        q<wide|L|^><rsup|\<dagger\>><rsub|FP>r-<big|int><rsub|<with|font|cal|M>>
+        <frac|q<rsup|2>|p>K<rsup|a b>\<nabla\><rsub|a>r\<nabla\><rsub|b>r>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>
+        r<wide|L|^><rsub|FP>q-<big|int><rsub|<with|font|cal|M>>
+        <frac|q<rsup|2>|p>K<rsup|a b>\<nabla\><rsub|a>r\<nabla\><rsub|b>r>>|<row|<cell|=>|<cell|<big|int><rsub|<with|font|cal|M>>
+        r<frac|\<partial\>q|\<partial\>t>-<big|int><rsub|<with|font|cal|M>>
+        <frac|q<rsup|2>|p>K<rsup|a b>\<nabla\><rsub|a>r\<nabla\><rsub|b>r.>>>>
+      </align>
+    </with>
+
+    Herein, the first term cancels the third term in
+    <math|<around*|(|\<mathd\>D<rsub|KL>/\<mathd\>t|)><around*|(|p<around*|(|\<cdummy\>,t|)>\|q<around*|(|\<cdummy\>,t|)>|)>>.
+    Thus, we arrive at
+
+    <\equation*>
+      <frac|\<mathd\>|\<mathd\>t>D<rsub|KL><around*|(|p<around*|(|\<cdummy\>,t|)>\|q<around*|(|\<cdummy\>,t|)>|)>=-<big|int><rsub|<with|font|cal|M>>
+      <frac|q<rsup|2><around*|(|x,t|)>|p<around*|(|x,t|)>>K<rsup|a
+      b><around*|(|x,t|)>\<nabla\><rsub|a>r<around*|(|x,t|)>\<nabla\><rsub|b>r<around*|(|x,t|)>\<leqslant\>0,
+    </equation*>
+
+    since <math|K<rsup|a b><around*|(|x,t|)>> is positive definite, and the
+    equality holds if and only if <math|\<nabla\><rsub|a>r<around*|(|\<cdummy\>,t|)>=0>
+    on <math|<with|font|cal|M>>, that is <math|p<around*|(|\<cdummy\>,t|)>\<propto\>q<around*|(|\<cdummy\>,t|)>>.
+    Since both <math|p> and <math|q> are normalized distributions, we find
+    <math|p<around*|(|\<cdummy\>,t|)>=q<around*|(|\<cdummy\>,t|)>>.
+  </proof>>
+
+  <subsection|Stationary Solution>
+
+  When the <math|f<rsup|a>> and <math|K<rsup|a b>> of the Fokker-Planck
+  equation <reference|theorem: Fokker-Planck Equation> are independent of
+  <math|t>, we can consider the stationary solution <math|p<around*|(|x,t|)>>
+  such that <math|\<partial\>p/\<partial\>t=0> for
+  <math|\<forall\><around*|(|x,t|)>>. In this case, the Fokker-Planck
+  equation reduces to
+
+  <\equation*>
+    <wide|L|^><rsub|FP><around*|(|x|)> p<around*|(|x|)>=-\<nabla\><rsub|a><around*|[|f<rsup|a><around*|(|x|)>
+    p<around*|(|x|)>|]>+\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|K<rsup|a
+    b><around*|(|x|)> p<around*|(|x|)>|]>=0.
+  </equation*>
+
+  Notice that, by theorem <reference|theorem: Relaxation>, if there exists
+  such a stationary distribution (i.e. a normalized stationary solution),
+  then any initial distribution will finally relax to it.
+
+  First, we claim an useful lemma.
 
   <\lemma>
     <label|lemma: Decomposition>[Decompostion] Given
@@ -820,60 +940,14 @@
     Thus proof ends.
   </proof>>
 
-  <subsection|Relaxation>
-
-  Given Fokker-Planck equation <reference|theorem: Fokker-Planck Equation>,
-  we claim that any two initial distributions will evolve into one final
-  distribution as time <math|t\<rightarrow\>+\<infty\>>. To prove this, we
-  simply have to show that, for any two initial distributions, the distance
-  between them decreases as time increasing, and finally vanishes in the
-  limit. That is, relaxation happens.
-
-  <\theorem>
-    <label|theorem: Relaxation>[Relaxation]
-
-    For <math|\<forall\>p<around*|(|x,t|)>,q<around*|(|x,t|)>\<in\><with|font|cal|C><rsup|2><around*|(|<with|font|cal|M>\<times\>\<bbb-R\>|)>>
-    as time-dependent distributions obeying the Fokker-Planck equation
-    <reference|theorem: Fokker-Planck Equation>, we have
-
-    <\equation*>
-      <frac|\<mathd\>|\<mathd\>t> D<rsub|KL><around*|(|p<around*|(|\<cdummy\>,t|)>\|q<around*|(|\<cdummy\>,t|)>|)>\<leqslant\>0,
-    </equation*>
-
-    and the equality holds if and only if
-    <math|p<around*|(|\<cdummy\>,t|)>=q<around*|(|\<cdummy\>,t|)>> for some
-    <math|t>.
-  </theorem>
-
-  <\proof>
-    TODO
-  </proof>
-
-  <subsection|Stationary Solution>
-
-  When the <math|f<rsup|a>> and <math|K<rsup|a b>> of the Fokker-Planck
-  equation <reference|theorem: Fokker-Planck Equation> are independent of
-  <math|t>, we can consider the stationary solution <math|p<around*|(|x,t|)>>
-  such that <math|\<partial\>p/\<partial\>t=0> for
-  <math|\<forall\><around*|(|x,t|)>>. In this case, the Fokker-Planck
-  equation reduces to
-
-  <\equation*>
-    <wide|L|^><rsub|FP><around*|(|x|)> p<around*|(|x|)>=-\<nabla\><rsub|a><around*|[|f<rsup|a><around*|(|x|)>
-    p<around*|(|x|)>|]>+\<nabla\><rsub|a>\<nabla\><rsub|b><around*|[|K<rsup|a
-    b><around*|(|x|)> p<around*|(|x|)>|]>=0.
-  </equation*>
-
-  Notice that, by theorem <reference|theorem: Relaxation>, if there exists
-  such a stationary distribution (i.e. a normalized stationary solution),
-  then any initial distribution will finally relax to it.
+  With the aid of this lemma, we claim the result on stationary solution.
 
   <\theorem>
     <label|theorem: Stationary Solution>[Stationary Solution]
 
     For <math|\<forall\>\<varphi\>\<in\><with|font|cal|C><rsup|1><around*|(|<with|font|cal|M>|)>>,
-    <math|T\<in\>\<bbb-R\><rsub|+>>, <math|exp<around*|(|-\<varphi\><around*|(|x|)>|)>>
-    is a stationary solution of Fokker-Planck if and only if the
+    <math|exp<around*|(|-\<varphi\><around*|(|x|)>|)>> is a stationary
+    solution of Fokker-Planck if and only if the
 
     <\equation*>
       h<rsup|a><around*|(|x|)>\<assign\>f<rsup|a><around*|(|x|)>+K<rsup|a
@@ -891,7 +965,7 @@
   <small|<\proof>
     Directly from the lemma <reference|lemma: Decomposition>,
     <math|\<nabla\><rsub|a><around*|(|h<rsup|a><around*|(|x|)>
-    \<mathe\><rsup|-\<varphi\><around*|(|x|)>>|)>=<wide|L|^><rsub|FP><around*|(|x|)>
+    \<mathe\><rsup|-\<varphi\><around*|(|x|)>>|)>=-<wide|L|^><rsub|FP><around*|(|x|)>
     \<mathe\><rsup|-\<varphi\><around*|(|x|)>>>.
   </proof>>
 
@@ -905,6 +979,57 @@
   divergence-free, then the Lie derivative of <math|\<varphi\>> along
   direction <math|h<rsup|a>> vanishes, that is, <math|h<rsup|a>> goes along
   the counterline of <math|\<varphi\>>.
+
+  From <math|\<nabla\><rsub|a><around*|(|h<rsup|a><around*|(|x|)>
+  \<mathe\><rsup|-\<varphi\><around*|(|x|)>>|)>=0>, we get
+
+  <\align>
+    <tformat|<table|<row|<cell|0=>|<cell|\<nabla\><rsub|a><around*|(|h<rsup|a>
+    \<mathe\><rsup|-\<varphi\>>|)>>>|<row|<cell|=>|<cell|\<nabla\><rsub|a><around*|(|f<rsup|a>\<mathe\><rsup|-\<varphi\>>+K<rsup|a
+    b> \<nabla\><rsub|b>\<varphi\>\<mathe\><rsup|-\<varphi\>>-\<nabla\><rsub|b>K<rsup|a
+    b> \<mathe\><rsup|-\<varphi\>>|)>>>|<row|<cell|=>|<cell|\<mathe\><rsup|-\<varphi\>><around*|[|\<nabla\><rsub|a>f<rsup|a>-f<rsup|a>\<nabla\><rsub|a>\<varphi\>+\<nabla\><rsub|a>K<rsup|a
+    b>\<nabla\><rsub|b>\<varphi\>+K<rsup|a
+    b>\<nabla\><rsub|a>\<nabla\><rsub|b>\<varphi\>-K<rsup|a
+    b>\<nabla\><rsub|a>\<varphi\>\<nabla\><rsub|b>\<varphi\>-\<nabla\><rsub|a>\<nabla\><rsub|b>K<rsup|a
+    b>+\<nabla\><rsub|a>K<rsup|a b>\<nabla\><rsub|b>\<varphi\>|]>>>>>
+  </align>
+
+  Thus,
+
+  <\equation*>
+    <with|font|cal|D><rsub|f> \<varphi\>=-K<rsup|a
+    b>\<nabla\><rsub|a>\<varphi\>\<nabla\><rsub|b>\<varphi\>+\<nabla\><rsub|a>K<rsup|a
+    b>\<nabla\><rsub|b>\<varphi\>-\<nabla\><rsub|a>\<nabla\><rsub|b>K<rsup|a
+    b>+\<nabla\><rsub|a>K<rsup|a b>\<nabla\><rsub|b>\<varphi\>+\<nabla\><rsub|a>f<rsup|a>+K<rsup|a
+    b>\<nabla\><rsub|a>\<nabla\><rsub|b>\<varphi\>.
+  </equation*>
+
+  Let <math|\<varphi\>=E/T>, <math|K<rsup|a b>=g<rsup|a b> T>, we get
+
+  <\equation*>
+    <with|font|cal|D><rsub|f> E=-\<nabla\><rsup|a>E\<nabla\><rsub|a>E+T\<nabla\><rsub|a><around*|[|f<rsup|a>+\<nabla\><rsup|a>E|]>=-\<nabla\><rsup|a>E\<nabla\><rsub|a>E+T\<nabla\><rsub|a>h<rsup|a>.
+  </equation*>
+
+  \;
+
+  Let Helmholtz decomposition <math|f<rsup|a>=-\<nabla\><rsup|a>\<varphi\>+h<rsup|a>>.
+  How to prove that the relation <math|<with|font|cal|D><rsub|h>\<varphi\>=0>.
+  That is, <math|h<rsup|a>\<nabla\><rsub|a>\<varphi\>=0>.
+
+  \;
+
+  <\equation*>
+    <with|font|cal|D><rsub|h>E<around*|(|x|)>=T
+    \<nabla\><rsub|a>h<rsup|a><around*|(|x|)>.
+  </equation*>
+
+  As <math|T\<rightarrow\>0<rsub|+>>, <math|<with|font|cal|D><rsub|h>E<around*|(|x|)>=0>.
+  At <math|\<nabla\><rsub|a>E<around*|(|x<rsub|\<star\>>|)>=0>,
+  <math|h<rsup|a><around*|(|x|)>\<nabla\><rsub|a>E<around*|(|x|)>=h<rsup|a><around*|(|x<rsub|\<star\>>|)>
+  \<nabla\><rsub|a>\<nabla\><rsub|b>E<around*|(|x<rsub|\<star\>>|)>\<Delta\>x<rsup|b>+<with|font|cal|O><around*|(|\<Delta\>x<rsup|2>|)>>,
+  held for any tiny <math|\<Delta\>x>. Once
+  <math|\<nabla\><rsub|a>\<nabla\><rsub|b>E<around*|(|x<rsub|\<star\>>|)>> is
+  irreducible, we have <math|h<rsup|a><around*|(|x<rsub|\<star\>>|)>=0>.
 </body>
 
 <\initial>
@@ -921,8 +1046,7 @@
     <associate|auto-1|<tuple|1|1>>
     <associate|auto-10|<tuple|B.2|6>>
     <associate|auto-11|<tuple|B.3|7>>
-    <associate|auto-12|<tuple|B.4|7>>
-    <associate|auto-13|<tuple|B.5|7>>
+    <associate|auto-12|<tuple|B.4|8>>
     <associate|auto-2|<tuple|1.1|1>>
     <associate|auto-3|<tuple|1.2|1>>
     <associate|auto-4|<tuple|1.3|3>>
@@ -934,17 +1058,17 @@
     <associate|definition: SDE|<tuple|8|6>>
     <associate|footnote-1|<tuple|1|1>>
     <associate|footnote-2|<tuple|2|1>>
-    <associate|footnote-3|<tuple|3|1>>
+    <associate|footnote-3|<tuple|3|2>>
     <associate|footnr-1|<tuple|1|1>>
     <associate|footnr-2|<tuple|2|1>>
-    <associate|footnr-3|<tuple|3|1>>
-    <associate|lemma: Adjoint Operator|<tuple|10|?>>
-    <associate|lemma: Decomposition|<tuple|11|?>>
+    <associate|footnr-3|<tuple|3|2>>
+    <associate|lemma: Adjoint Operator|<tuple|11|7>>
+    <associate|lemma: Decomposition|<tuple|13|8>>
     <associate|lemma: Kramers\UMoyal Expansion|<tuple|6|4>>
     <associate|theorem: Brownian Motion|<tuple|7|5>>
     <associate|theorem: Fokker-Planck Equation|<tuple|9|6>>
-    <associate|theorem: Relaxation|<tuple|12|?>>
-    <associate|theorem: Stationary Solution|<tuple|13|?>>
+    <associate|theorem: Relaxation|<tuple|12|7>>
+    <associate|theorem: Stationary Solution|<tuple|14|8>>
   </collection>
 </references>
 
@@ -991,17 +1115,13 @@
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-10>>
 
-      <with|par-left|<quote|1tab>|B.3<space|2spc>Fokker-Planck Equation in
-      Detail <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
+      <with|par-left|<quote|1tab>|B.3<space|2spc>Relaxation
+      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-11>>
 
-      <with|par-left|<quote|1tab>|B.4<space|2spc>Relaxation
+      <with|par-left|<quote|1tab>|B.4<space|2spc>Stationary Solution
       <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
       <no-break><pageref|auto-12>>
-
-      <with|par-left|<quote|1tab>|B.5<space|2spc>Stationary Distribution
-      <datoms|<macro|x|<repeat|<arg|x>|<with|font-series|medium|<with|font-size|1|<space|0.2fn>.<space|0.2fn>>>>>|<htab|5mm>>
-      <no-break><pageref|auto-13>>
     </associate>
   </collection>
 </auxiliary>
