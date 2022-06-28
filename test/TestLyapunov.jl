@@ -1,4 +1,4 @@
-src = "$(pwd())/src"
+src = "$(pwd())/src/julia"
 include("$(src)/Lyapunov.jl")
 include("$(src)/Utils.jl")
 
@@ -48,7 +48,7 @@ Returns
 f : the vector field function.
 dims : the phase space dimensions.
 """
-function damped_oscillator(τ, μ, k, higher_order_ks...)
+function damped_oscillator(τ, μ, k)
     # Determine the criticality of the damped oscillator.
     criticality = μ^2 - 4 * k
     if criticality > 0
@@ -68,10 +68,6 @@ function damped_oscillator(τ, μ, k, higher_order_ks...)
         # Let x₁ the position of an oscillator, and x₂ the velocity.
         @. dx₁ = x₂ / τ
         @. dx₂ = (-k * x₁ - μ * x₂) / τ
-
-        for (i, kᵢ) in enumerate(higher_order_ks)
-            @. dx₂ += (-kᵢ * x₁^i) / τ
-        end
 
         dx
     end
@@ -146,8 +142,7 @@ end
 # Initialize
 
 # f, dims = damped_oscillator(1.0, 1.0, 0.5)
-f, dims = damped_oscillator(0.3, 1.0, 0.3, 0.6)
-# f, dims = param_damped_oscillator(1.0, 1.0, 0.1, 0.5)
+f, dims = param_damped_oscillator(1.0, 1.0, 0.1, 0.5)
 # A = randu((2, 2)); f, dims = linear(A)
 hdims = 128
 E = Chain(
@@ -157,6 +152,8 @@ E = Chain(
 batch = 128
 m0 = Lyapunov(E, (dims, batch))
 dt = 1E-1
+t = 12dt
+T = 1E-2
 train_steps = 100000
 # Optimise.ADAM is utterly unstable, should be avoided.
 opt0 = Optimise.Optimiser(
@@ -186,17 +183,10 @@ function history_callback(m, gs)
     end
 end
 
-T = lineardecay(1E-2, 1E-4, train_steps)
 @showprogress for step = 1:train_steps
     cb = (step % 100 == 0) ? history_callback : nothing
-    update!(opt, m, f, 10*dt, dt, T[step], 0.1; cb=cb)
+    update!(opt, m, f, t, dt, T; cb=cb)
 end
-
-# XXX: This way is unstable.
-# @showprogress for step = 1:train_steps
-#     cb = (step % 100 == 0) ? history_callback : nothing
-#     update!(opt, m, f, 10*dt, dt, 1E-4, 0.1; cb=cb)
-# end
 
 
 # Results
@@ -205,6 +195,9 @@ plot(grad_norm_history; alpha=0.5, legends=false)
 
 xc = randu(size(m.x))
 histogram(criterion(m, f, xc), bins=100, title="Final Criterion", legends=false)
+max(criterion(m, f, xc)...)
+max(criterion(m, f, m.x)...)
+max(criterion(m, f, m.x̂)...)
 
 norm(x) = maximum(abs, x, dims=1)[1, :]
 histogram(norm(f(xc)) ./ (norm(m.∇E(xc)) .+ 1E-10), bins=100, title="|f(x)| / (|∇E(x)| + ϵ)", legends=false)

@@ -81,7 +81,7 @@ Parameters
 opt : the optimizer.
 m : Lyapunov
 f : the function that describes the dynamics.
-t : the integration time.
+t : the integration time. Emperically, t ~ 10 dt is prefered.
 dt : the time step.
 T : the T parameter.
 resample_ratio : the ratio of resampling from Uniform(-1, 1) before simulation.
@@ -94,16 +94,13 @@ function update!(
     f,
     t,
     dt,
-    T,
-    resample_ratio;
+    T;
     cb=nothing,
 )
     # Update m.x.
-    m.x .= mixin(m.x, randu(size(m.x)), resample_ratio)
     m.x .= randwalk(f, m.x, t, dt, T)
 
     # Update m.x̂.
-    m.x̂ .= mixin(m.x̂, randu(size(m.x̂)), resample_ratio)
     m.x̂ .= randwalk(x -> -m.∇E(x), m.x̂, t, dt, T)
 
     # Update m.θ.
