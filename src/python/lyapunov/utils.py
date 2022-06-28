@@ -38,6 +38,7 @@ class MultiLayerPerceptron:
     Returns:
       Tensor with shape `batch_shape + [output_size]`.
     """
+    hiddens = inputs
     with tf.variable_scope(self.name, reuse=reuse):
       for i, hidden_layer in enumerate(self.hidden_layers):
         with tf.name_scope(f'hidden_layer_{i}'):
@@ -52,3 +53,8 @@ class MultiLayerPerceptron:
                                 activation=self.output_activation,
                                 name='output_layer')
       return outputs
+
+
+class RandomWalk:
+  # TODO: Implement this.
+  pass
