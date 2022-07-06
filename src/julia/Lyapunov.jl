@@ -84,7 +84,6 @@ f : the function that describes the dynamics.
 t : the integration time. Emperically, t ~ 10 dt is prefered.
 dt : the time step.
 T : the T parameter.
-resample_ratio : the ratio of resampling from Uniform(-1, 1) before simulation.
 cb : the callback function. It's called after each iteration. Inputs are the
      current `m` and the gradients of `m.θ`.
 """
@@ -127,4 +126,38 @@ Compute ∇E ⋅ f for each sample.
 function criterion(m::Lyapunov, f)
     x = randu(size(m.x))
     criterion(m, f, x)
+end
+
+
+mutable struct EnergyModel
+    E  # the parameterized energy function.
+    θ  # the parameter.
+    x̂  # x ~ q_E, the last axis is batch.
+
+    ∇E  # ∂E/∂x. For avoiding redundant calculation.
+end
+
+
+function update_with_data!(
+    opt::Optimise.AbstractOptimiser,
+    m::Lyapunov,
+    x,
+    t,
+    dt,
+    T;
+    cb=nothing,
+)
+    # Update m.x.
+    m.x .= x
+
+    # Update m.x̂.
+    m.x̂ .= randwalk(x -> -m.∇E(x), m.x̂, t, dt, T)
+
+    # Update m.θ.
+    gs = ∂L∂θ(m)
+    Optimise.update!(opt, m.θ, gs)
+
+    if cb !== nothing
+        cb(m, gs)
+    end
 end
