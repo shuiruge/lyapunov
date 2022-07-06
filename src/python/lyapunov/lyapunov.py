@@ -1,78 +1,87 @@
+from operator import ne
+from random import Random
 import tensorflow as tf
-from collections import namedtuple
+from typing import Callable, List
+from .utils import get_param_gradients, nabla, RandomWalkParams, random_walk, negate
 
 
-def random_uniform(size):
-  return tf.random.uniform(shape=size, minval=-1.0, maxval=1.0)
-
-
-
-def nabla(f):
-  unconnected_gradients = tf.UnconnectedGradients.ZERO
-
-  tf.function
-  def grad_f(x):
-    with tf.GradientTape() as tape:
-      y = f(x)
-      return tape.gradient(y, x, unconnected_gradients=unconnected_gradients)
-
-  return f
-
-
-RandomWalkParams = namedtuple('RandomWalkParams', 't, dt, T')
- 
-
-def random_walk(f, x0, params):
-  sqrt_T = tf.sqrt(params.T)
-
-  s = params.t
-  x = x0
-  while s < params.t:
-    dW = tf.random.truncated_normal(shape=tf.shape(x), stddev=sqrt_T)
-    x = f(x) * params.dt + dW
-  return x
-
-
-def get_loss_gradients(E:tf.Module, xD, xE):
-  with tf.GradientTape() as tape:
-    yD = tf.reduce_mean(E(xD))
-    grad_D = tape.gradient(yD, E.trainable_variables)
-
-  with tf.GradientTape() as tape:
-    yE = tf.reduce_mean(E(xE))
-    grad_E = tape.gradient(yE, E.trainable_variables)
-
-  return [gD - gE for gD, gE in zip(grad_D, grad_E)]
-
-
-def negate(f):
-  
-  def negated(x):
-    return -f(x)
-  
-  return negated
-
-
-# TODO: Implement this.
 class EnergyModel:
 
-  def __init__(self, E: tf.Module, init_xE: tf.Tensor):
-    self.E = E
-    self.xE = init_xE
-    self.gradE = nabla(E)
+  def __init__(self, network: tf.Module, fantasy_particles: tf.Tensor):
+    self.network = network
+    self.fantasy_particles = tf.Variable(fantasy_particles, trainable=False)
 
-  def get_gradients(self, xD: tf.Tensor, params: RandomWalkParams):
-    self.xE = random_walk(negate(self.gradE), self.xE, params)
-    return get_loss_gradients(self.E, xD, self.xE)
+    self.params = self.network.trainable_variables
+    self.particle_gradient = nabla(self.network)
+    self.param_gradients = lambda x: get_param_gradients(self.network, x)
+  
+  def __call__(self, x: tf.Tensor, params: RandomWalkParams):
+    return random_walk(negate(self.particle_gradient), x, params)
+
+  def get_loss_gradients(
+        self,
+        real_particles: tf.Tensor,
+        params: RandomWalkParams,
+        warmup: bool
+    ):
+    if not warmup:
+      self.fantasy_particles.assign(
+          random_walk(
+              negate(self.particle_gradient),
+              self.fantasy_particles,
+              params)
+      )
+    real_grads = get_param_gradients(self.network, real_particles)
+    fantasy_grads = get_param_gradients(self.network, self.fantasy_particles)
+    return [r - f for r, f in zip(real_grads, fantasy_grads)]
+  
+  def get_optimize_fn(
+        self,
+        optimizer: tf.keras.optimizers.Optimizer,
+        params: RandomWalkParams,
+        callbacks: List[Callable] = None,
+    ):
+    callbacks = [] if callbacks is None else callbacks
+    step = tf.Variable(0, trainable=False, dtype='int32')
+
+    def train_step(batch):
+      vars = self.params
+      grads = self.get_loss_gradients(batch, params, warmup=False)
+      optimizer.apply_gradients(zip(grads, vars))
+
+      step.assign_add(1)
+      for callback in callbacks:
+        callback(self, step, batch, grads)
+      
+      return step
+
+    return train_step
 
 
 class Lyapunov:
   
-  def __init__(self, f, E: tf.Module, init_xD: tf.Tensor, init_xE: tf.Tensor):
+  def __init__(
+        self,
+        f: Callable,
+        network: tf.Module,
+        real_particles: tf.Tensor,
+        fantasy_particles: tf.Tensor,
+    ):
     self.f = f
-    self.xD = init_xD
-    self.E = EnergyModel(E, init_xE)
+    self.real_particles = tf.Variable(real_particles, trainable=False)
+    self.energy_model = EnergyModel(network, fantasy_particles)
 
-  def get_gradients(self, params: RandomWalkParams):
-    self.xD = random_walk(f, self.xD, params)
-    return self.E.get_gradient(self.xD, params)
+  def get_loss_gradients(
+        self,
+        params: RandomWalkParams,
+        warmup: bool
+    ):
+    if not warmup:
+      self.real_particles.assign(
+          random_walk(
+              self.f,
+              self.real_particles,
+              params)
+      )
+    return self.energy_model.get_loss_gradients(
+        self.real_particles, params, warmup)

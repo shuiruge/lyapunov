@@ -1,2 +1,4 @@
-numpy
 tensorflow
+tensorflow_datasets
+matplotlib
+tqdm
