@@ -29,6 +29,31 @@ function randwalk(f, x, t, dt, T)
 end
 
 
+mutable struct RandomWalkParams{A<:AbstractFloat}
+    t::A
+    dt::A
+    T::A
+end
+
+
+function random_walk(
+    vector_field,
+    x::AbstractArray{T},
+    params::RandomWalkParams{T}
+) where {T<:AbstractFloat}
+    τ = zero(params.t)
+    σ = √(2 * params.T * params.dt)
+    while τ < params.t
+        x += vector_field(x, τ) * params.dt
+        if σ > 0
+            x += σ .* randn(eltype(x), size(x))
+        end
+        τ += params.dt
+    end
+    x
+end
+
+
 """
 Randomly mix `ratio` ratio of the y components into x.
 """
